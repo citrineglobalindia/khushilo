@@ -3,9 +3,12 @@ import { getConcerns, getProducts, getSettings } from '@/lib/data';
 import { getPromotions } from '@/lib/growth';
 import { PromoBanner } from '@/components/PromoBanner';
 import { ProductCard } from '@/components/ProductCard';
-import { Hero } from '@/components/Hero';
+import { BannerHero, type Banner } from '@/components/BannerHero';
 import { LeadForm } from '@/components/LeadForm';
 import { Bottle, Sprig } from '@/components/Bottle';
+
+// Photos for the "Shop by dish" tiles (public/dishes).
+const DISH_IMG: Record<string, string> = { 'south-indian': '/dishes/south-indian.webp', 'biryani-non-veg': '/dishes/biryani-non-veg.webp', everyday: '/dishes/everyday.webp', 'snacks-chaat': '/dishes/snacks-chaat.webp' };
 
 export default async function Home() {
   const [products, concerns, settings, promos] = await Promise.all([getProducts(), getConcerns(), getSettings(), getPromotions()]);
@@ -15,21 +18,20 @@ export default async function Home() {
   const fresh = [...products].filter(p => p.is_new).sort((a, b) => (b.created_at ?? '').localeCompare(a.created_at ?? '')).slice(0, 4);
   // Lifestyle shots: any product whose second image is a scene photo (biryani first for the big tile).
   const spots = [...products].filter(p => p.images[1]).sort((a, b) => Number(b.slug.includes('biryani')) - Number(a.slug.includes('biryani'))).slice(0, 3);
-  const bySlug = (s: string) => products.find(p => p.slug === s) ?? products[0];
-  const slides = [
-    { id: 'hero-main', heading: settings.hero?.heading || 'Pure Spices, Perfect Taste', copy: settings.hero?.subheading || 'Masalas and spice powders for everyday Indian cooking — from Sunday sambar to Bengaluru donne biryani.', cta: settings.hero?.cta || 'Shop all spices', href: settings.hero?.href || '/shop', ...pick(bySlug('donne-biryani-masala')) },
-    { id: 'hero-south', heading: 'South Indian classics', copy: 'Sambar, rasam and bisi bele bath powders for the comfort food you grew up with.', cta: 'Shop South Indian', href: '/concern/south-indian', ...pick(bySlug('bisi-bele-bath-powder')) },
-    { id: 'hero-biryani', heading: 'Biryani & chicken masalas', copy: 'Donne biryani, chicken masala and kabab powder for weekend feasts.', cta: 'Shop Biryani & Non-Veg', href: '/concern/biryani-non-veg', ...pick(bySlug('chicken-masala')) },
-    { id: 'hero-daily', heading: 'The everyday four', copy: 'Turmeric, coriander, red chilli and cumin — the powders you reach for every day.', cta: 'Shop spice powders', href: '/shop?category=spice-powders', ...pick(bySlug('turmeric-powder')) },
+  const banners: Banner[] = [
+    { id: 'bn-donne', desktop: '/banners/donne-biryani.webp', mobile: '/banners/donne-biryani-m.webp', href: '/product/donne-biryani-masala', alt: 'Donne Biryani, now at home — Khushilo Donne Biryani Masala, ₹98 for 100 g. Shop now.' },
+    { id: 'bn-chaat', desktop: '/banners/chaat-masala.webp', mobile: '/banners/chaat-masala-m.webp', href: '/product/chaat-masala', alt: 'Chaat time, every time — Khushilo Chaat Masala. 10% off your first order with code WELCOME10.' },
+    { id: 'bn-turmeric', desktop: '/banners/turmeric.webp', mobile: '/banners/turmeric-m.webp', href: '/shop?category=spice-powders', alt: 'Pure spices, perfect taste — turmeric, coriander, red chilli and cumin powders in 100 g packs. Free delivery above ₹999.' },
   ];
   return <>
-    <Hero slides={slides} />
+    <BannerHero banners={banners} title="Khushilo — Pure Spices, Perfect Taste" />
+    <div className="trustbar"><div className="wrap"><span>FSSAI licensed</span><span>100 g packs</span><span>UPI · Cards · COD</span><span>Free delivery above ₹999</span></div></div>
     {banner && <PromoBanner p={banner} />}
 
     {on('concerns') && <section className="section wrap" aria-labelledby="concern-h">
       <div className="section-head"><div><h2 id="concern-h">Shop by Dish</h2><p className="muted">Find the right masala for what you’re cooking today.</p></div><Link className="btn btn-ghost btn-pill" href="/shop">View all</Link></div>
       <div className="concerns">
-        {concerns.map(c => <Link key={c.slug} href={`/concern/${c.slug}`} className="concern"><div className="art"><Sprig color={c.color} /></div><span>{c.name}</span></Link>)}
+        {concerns.map(c => <Link key={c.slug} href={`/concern/${c.slug}`} className="concern"><div className="art">{DISH_IMG[c.slug] ? <img src={DISH_IMG[c.slug]} alt="" loading="lazy" /> : <Sprig color={c.color} />}</div><span>{c.name}</span></Link>)}
       </div>
     </section>}
 
@@ -62,5 +64,3 @@ export default async function Home() {
     {on('newsletter') && <div className="wrap section" style={{ paddingTop: 0 }}><LeadForm /></div>}
   </>;
 }
-// Works with an empty catalogue (fresh store): falls back to the brand colour and no image.
-function pick(p?: { color: string; name: string; images?: string[] }) { return { color: p?.color ?? '#e53624', name: p?.name ?? 'Khushilo', image: p?.images?.[0] }; }
