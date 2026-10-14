@@ -52,4 +52,5 @@ export default async function Home() {
     {on('newsletter') && <div className="wrap section" style={{ paddingTop: 0 }}><LeadForm /></div>}
   </>;
 }
-function pick(p: { color: string; name: string; images?: string[] }) { return { color: p.color, name: p.name, image: p.images?.[0] }; }
+// Works with an empty catalogue (fresh store): falls back to the brand colour and no image.
+function pick(p?: { color: string; name: string; images?: string[] }) { return { color: p?.color ?? '#e53624', name: p?.name ?? 'Khushilo', image: p?.images?.[0] }; }
