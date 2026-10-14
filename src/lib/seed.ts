@@ -61,6 +61,9 @@ const rows: Seed[] = [
     uses: ['Stir into raita, buttermilk and chaat', 'Add to curries and dals towards the end of cooking', 'Dry-roast lightly for a deeper flavour'], pairs: ['Coriander Powder', 'Chaat Masala'] },
 ];
 
+// Products with real photography in /public/products (square card shot + lifestyle scene).
+const PHOTOS = ['chaat-masala', 'turmeric-powder', 'donne-biryani-masala'];
+
 export const hsnFor = (slug: string) => rows.find(r => r.slug === slug)?.hsn ?? '0910';
 
 export const products: Product[] = rows.map((r, i) => {
@@ -70,7 +73,7 @@ export const products: Product[] = rows.map((r, i) => {
     id: `p${i + 1}`, slug: r.slug, name: r.name, botanical_name: null, tagline: r.tagline,
     description: `Khushilo ${r.name}, packed in a 100 g pack. ${r.tagline}.`,
     category: r.category, concerns: r.concerns, aroma: r.taste, extraction: null, origin: 'India',
-    uses: r.uses, suggested_blends: r.pairs, safety: STORAGE, purity: null, color: r.color, images: [],
+    uses: r.uses, suggested_blends: r.pairs, safety: STORAGE, purity: null, color: r.color, images: PHOTOS.includes(r.slug) ? [`/products/${r.slug}.webp`, `/products/${r.slug}-scene.webp`] : [],
     is_bestseller: !!r.signature, is_new: false, rating: 0, review_count: 0,
     seo_title: `${r.name} 100 g | Khushilo`, seo_description: `${r.tagline}. Buy Khushilo ${r.name.toLowerCase()} online — 100 g pack, MRP ₹${r.price}.`,
     created_at: new Date(Date.UTC(2026, 9, 1 + i)).toISOString(),

@@ -1,28 +1,46 @@
-// Khushilo stand-up spice pack — stands in for product photography until real images are uploaded.
-// `color` is the spice colour shown in the window (turmeric yellow, chilli red…). Kept as `Bottle` so existing imports work.
+// Khushilo carton — matches the real 100 g box style (logo badge, product name, spice window, side panel).
+// Used wherever a product has no photo yet. `color` is the spice colour; the box face is a deep shade of it.
+// Kept as `Bottle` so existing imports keep working.
+function shade(hex: string, f: number) {
+  const n = parseInt(hex.replace('#', '').padEnd(6, '0').slice(0, 6), 16);
+  const c = [n >> 16, (n >> 8) & 255, n & 255].map(v => Math.max(0, Math.min(255, Math.round(v * f))));
+  return `#${c.map(v => v.toString(16).padStart(2, '0')).join('')}`;
+}
+
+// Box colour per product, in the spirit of the real Khushilo range (black chaat, green turmeric, sage biryani…).
+const BOX: Record<string, string> = {
+  'Sambar Powder': '#6e1a12', 'Rasam Powder': '#123f3c', 'Bisi Bele Bath Powder': '#6b4512', 'Chicken Masala': '#1d1a18',
+  'Chicken Kabab Powder': '#7a1414', 'Garam Masala': '#3b2416', 'Coriander Powder': '#3d4a1f', 'Red Chilli Powder': '#8c1010',
+  'Cumin Powder': '#4a3220', 'Chaat Masala': '#151515', 'Turmeric Powder': '#1f4a2a', 'Donne Biryani Masala': '#4f5a2c',
+};
+
 export function Bottle({ color = '#c22a14', label, className = 'bottle', title }: { color?: string; label?: string; className?: string; title?: string }) {
+  const base = BOX[label ?? ''];
+  const face = base ?? shade(color, 0.42), side = base ? shade(base, 0.7) : shade(color, 0.3), top = base ? shade(base, 1.35) : shade(color, 0.55);
   const words = (label ?? '').split(' ');
-  const lines = label && label.length > 14 ? [words.slice(0, Math.ceil(words.length / 2)).join(' '), words.slice(Math.ceil(words.length / 2)).join(' ')] : [label ?? ''];
+  const lines = label && label.length > 13 ? [words.slice(0, Math.ceil(words.length / 2)).join(' '), words.slice(Math.ceil(words.length / 2)).join(' ')] : [label ?? ''];
+  const id = (label ?? 'x').replace(/\W/g, '');
+  const w = lines.length > 1 ? 104 : 94; // spice window top
   return (
-    <svg className={className} viewBox="0 0 140 200" role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
+    <svg className={className} viewBox="0 0 160 200" role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
       <defs>
-        <linearGradient id="kh-pack" x1="0" x2="1"><stop offset="0" stopColor="#c62d1c" /><stop offset=".5" stopColor="#e53624" /><stop offset="1" stopColor="#b8261a" /></linearGradient>
+        <linearGradient id={`f-${id}`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor={base ? shade(base, 1.25) : shade(color, 0.5)} /><stop offset="1" stopColor={face} /></linearGradient>
       </defs>
-      {/* pouch body with gusset curve at the bottom */}
-      <path d="M18 22h104l-4 156c0 8-6 14-14 14H36c-8 0-14-6-14-14z" fill="url(#kh-pack)" />
-      {/* zip seal + tear notch */}
-      <rect x="18" y="14" width="104" height="12" rx="2" fill="#a8221a" />
-      <rect x="18" y="30" width="104" height="2" fill="#f0c36e" opacity=".8" />
-      {/* gold arch frame echoing the logo */}
-      <path d="M32 46h76v68a10 10 0 0 1-10 10H42a10 10 0 0 1-10-10z" fill="#f0c36e" />
-      <path d="M36 50h68v62a8 8 0 0 1-8 8H44a8 8 0 0 1-8-8z" fill="#fff8ee" />
-      {/* spice heap in the window */}
-      <path d="M44 112c6-18 18-30 26-30s20 12 26 30z" fill={color} />
-      <path d="M58 92c4-6 8-9 12-9" stroke="#fff" strokeOpacity=".35" strokeWidth="3" fill="none" strokeLinecap="round" />
-      <path d="M106 52c-6 2-9 7-8 12 5-1 8-6 8-12z" fill="#59b039" />
-      <text x="70" y="66" textAnchor="middle" fontFamily="'Trebuchet MS', system-ui, sans-serif" fontSize="11" fontWeight="700" fill="#b5261a">Khushilo</text>
-      {lines.map((l, i) => <text key={i} x="70" y={142 + i * 12} textAnchor="middle" fontFamily="'Trebuchet MS', system-ui, sans-serif" fontSize={l.length > 13 ? 9.5 : 11} fontWeight="700" fill="#fff">{l}</text>)}
-      <text x="70" y={lines.length > 1 ? 170 : 160} textAnchor="middle" fontFamily="system-ui, sans-serif" fontSize="6.5" fill="#fff" opacity=".9">NET WT 100 g</text>
+      <path d="M18 28 L38 14 H146 L126 28 Z" fill={top} />
+      <path d="M126 28 L146 14 V176 L126 192 Z" fill={side} />
+      <rect x="18" y="28" width="108" height="164" fill={`url(#f-${id})`} />
+      <rect x="22" y="32" width="100" height="156" fill="none" stroke="#f0c36e" strokeOpacity=".55" strokeWidth=".8" />
+      <path d="M36 40h72l6 9-6 9H36l-6-9z" fill="#f0c36e" />
+      <path d="M38 42.5h68l4.4 6.5-4.4 6.5H38l-4.4-6.5z" fill="#c3222f" />
+      <text x="72" y="52.2" textAnchor="middle" fontFamily="'Trebuchet MS', system-ui, sans-serif" fontSize="9.5" fontWeight="700" fill="#fff">Khushilo</text>
+      {lines.map((l, i) => <text key={i} x="72" y={78 + i * 13} textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontSize={l.length > 12 ? 10.5 : 12.5} fontWeight="700" fill="#fff6e6">{l}</text>)}
+      <rect x="30" y={w} width="84" height="58" rx="6" fill="#fff8ee" />
+      <ellipse cx="72" cy={w + 50} rx="32" ry="6" fill="#7a4a2a" opacity=".85" />
+      <path d={`M42 ${w + 49}c5-16 18-28 30-28s25 12 30 28z`} fill={color} />
+      <path d={`M60 ${w + 30}c3-4 7-6 11-7`} stroke="#fff" strokeOpacity=".4" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <path d={`M106 ${w + 6}c-6 2-9 7-8 12 5-1 8-6 8-12z`} fill="#59b039" />
+      <text x="72" y="180" textAnchor="middle" fontFamily="system-ui, sans-serif" fontSize="8" fontWeight="700" fill="#fff6e6" letterSpacing=".5">100GM</text>
+      <path d="M130 40 L142 31 V44 L130 53 Z" fill="#c3222f" opacity=".9" />
     </svg>
   );
 }
