@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { track } from '@/lib/attribution';
 
-// Full-width image banners (desktop 1920×720, mobile 1080×1350) in /public/banners.
+// Full-width image banners (desktop 2048×768, mobile 1080×1350) in /public/banners.
 export type Banner = { id: string; desktop: string; mobile: string; alt: string; href: string };
 
 export function BannerHero({ banners, title }: { banners: Banner[]; title: string }) {
@@ -25,7 +25,7 @@ export function BannerHero({ banners, title }: { banners: Banner[]; title: strin
             onClick={() => track('select_promotion', { promotion_id: b.id, promotion_name: b.alt })}>
             <picture>
               <source media="(max-width: 760px)" srcSet={b.mobile} />
-              <img src={b.desktop} alt={b.alt} width={1920} height={720} fetchPriority={j === 0 ? 'high' : 'auto'} loading={j === 0 ? 'eager' : 'lazy'} />
+              <img src={b.desktop} alt={b.alt} width={2048} height={768} fetchPriority={j === 0 ? 'high' : 'auto'} loading={j === 0 ? 'eager' : 'lazy'} />
             </picture>
           </Link>
         ))}

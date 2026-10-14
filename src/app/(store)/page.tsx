@@ -18,10 +18,11 @@ export default async function Home() {
   const fresh = [...products].filter(p => p.is_new).sort((a, b) => (b.created_at ?? '').localeCompare(a.created_at ?? '')).slice(0, 4);
   // Lifestyle shots: any product whose second image is a scene photo (biryani first for the big tile).
   const spots = [...products].filter(p => p.images[1]).sort((a, b) => Number(b.slug.includes('biryani')) - Number(a.slug.includes('biryani'))).slice(0, 3);
+  // Desktop banners supplied by Khushilo (2048×768); phones use the taller versions.
   const banners: Banner[] = [
-    { id: 'bn-donne', desktop: '/banners/donne-biryani.webp', mobile: '/banners/donne-biryani-m.webp', href: '/product/donne-biryani-masala', alt: 'Donne Biryani, now at home — Khushilo Donne Biryani Masala, ₹98 for 100 g. Shop now.' },
-    { id: 'bn-chaat', desktop: '/banners/chaat-masala.webp', mobile: '/banners/chaat-masala-m.webp', href: '/product/chaat-masala', alt: 'Chaat time, every time — Khushilo Chaat Masala. 10% off your first order with code WELCOME10.' },
-    { id: 'bn-turmeric', desktop: '/banners/turmeric.webp', mobile: '/banners/turmeric-m.webp', href: '/shop?category=spice-powders', alt: 'Pure spices, perfect taste — turmeric, coriander, red chilli and cumin powders in 100 g packs. Free delivery above ₹999.' },
+    { id: 'bn-donne', desktop: '/banners/donne-biryani-v2.webp', mobile: '/banners/donne-biryani-m.webp', href: '/product/donne-biryani-masala', alt: 'Donne Biryani, now at home — Khushilo Donne Biryani Masala, warm, peppery and aromatic. ₹98 for a 100 g pack. Shop now.' },
+    { id: 'bn-turmeric', desktop: '/banners/turmeric-v2.webp', mobile: '/banners/turmeric-m.webp', href: '/product/turmeric-powder', alt: 'Pure Turmeric, Golden Goodness — Khushilo Turmeric Powder, ₹45 for a 100 g pack. Shop now.' },
+    { id: 'bn-chaat', desktop: '/banners/chaat-masala-v2.webp', mobile: '/banners/chaat-masala-m.webp', href: '/product/chaat-masala', alt: 'Chaat time, every time — Khushilo Chaat Masala for snacks and street food, ₹89 for a 100 g pack. Shop now.' },
   ];
   return <>
     <BannerHero banners={banners} title="Khushilo — Pure Spices, Perfect Taste" />

@@ -951,7 +951,7 @@ tr:last-child td { border-bottom: 0; }
 .bhero { position: relative; overflow: hidden; background: #8f1a12; }
 .bhero-track { display: flex; transition: transform .7s cubic-bezier(.65,0,.35,1); }
 .bhero-slide { flex: 0 0 100%; display: block; }
-.bhero-slide img { display: block; width: 100%; height: auto; aspect-ratio: 1920 / 720; object-fit: cover; }
+.bhero-slide img { display: block; width: 100%; height: auto; aspect-ratio: 2048 / 768; object-fit: cover; }
 @media (max-width: 760px) { .bhero-slide img { aspect-ratio: 1080 / 1350; } }
 .bhero-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; border-radius: 50%; border: 0; background: rgba(255,255,255,.85); color: var(--forest); font-size: 30px; line-height: 1; cursor: pointer; display: grid; place-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
 .bhero-nav.prev { left: 18px; } .bhero-nav.next { right: 18px; }
