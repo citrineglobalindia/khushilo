@@ -6,7 +6,7 @@ import { ProductCard } from './ProductCard';
 import { CloseIcon } from './Icons';
 
 type Opt = { slug: string; name: string };
-const PRICES = [['0-500', 'Under ₹500'], ['500-800', '₹500 – ₹800'], ['800-99999', '₹800 and above']];
+const PRICES = [['0-60', 'Under ₹60'], ['60-90', '₹60 – ₹90'], ['90-99999', '₹90 and above']];
 
 export function Catalog({ products, concerns, categories, lockedConcern }: { products: Product[]; concerns: Opt[]; categories: Opt[]; lockedConcern?: string }) {
   const sp = useSearchParams(); const router = useRouter(); const path = usePathname();
@@ -47,7 +47,7 @@ export function Catalog({ products, concerns, categories, lockedConcern }: { pro
   const Filters = (
     <div className="filters">
       <div><h4>Category</h4>{categories.map(c => <label className="check" key={c.slug}><input type="checkbox" checked={cats.includes(c.slug)} onChange={() => toggle('category', c.slug)} />{c.name}</label>)}</div>
-      {!lockedConcern && <div><h4>Concern</h4>{concerns.map(c => <label className="check" key={c.slug}><input type="checkbox" checked={cons.includes(c.slug)} onChange={() => toggle('concern', c.slug)} />{c.name}</label>)}</div>}
+      {!lockedConcern && <div><h4>Dish</h4>{concerns.map(c => <label className="check" key={c.slug}><input type="checkbox" checked={cons.includes(c.slug)} onChange={() => toggle('concern', c.slug)} />{c.name}</label>)}</div>}
       <div><h4>Price</h4>{PRICES.map(([k, l]) => <label className="check" key={k}><input type="checkbox" checked={price.includes(k)} onChange={() => toggle('price', k)} />{l}</label>)}</div>
       <div><h4>Availability</h4>
         <label className="check"><input type="checkbox" checked={inStock} onChange={() => set('stock', inStock ? null : '1')} />In stock only</label>
@@ -67,12 +67,12 @@ export function Catalog({ products, concerns, categories, lockedConcern }: { pro
           </div>
           <label><span className="sr">Sort by</span>
             <select className="select" value={sort} onChange={e => set('sort', e.target.value === 'recommended' ? null : e.target.value)}>
-              <option value="recommended">Recommended</option><option value="best">Best selling</option><option value="new">Newest</option>
-              <option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="rating">Top rated</option>
+              <option value="recommended">Recommended</option><option value="best">Signature first</option><option value="new">Newest</option>
+              <option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option>
             </select></label>
         </div>
         {items.length ? <div className="grid g3">{items.map(p => <ProductCard key={p.id} p={p} list="plp" />)}</div> : (
-          <div className="empty"><h3>No products match these filters</h3><p className="muted">Remove a filter or search for a spice such as “turmeric” or a dish like “sleep”.</p>
+          <div className="empty"><h3>No products match these filters</h3><p className="muted">Remove a filter or search for a spice such as “turmeric” or a dish like “sambar”.</p>
             <button className="btn btn-primary" onClick={() => router.replace(path)}>Show all products</button></div>)}
       </div>
       {drawer && <>
