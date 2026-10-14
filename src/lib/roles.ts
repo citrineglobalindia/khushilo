@@ -10,7 +10,7 @@ const ACCESS: Record<Exclude<Role, 'customer'>, string[]> = {
   admin: ['*'],
   staff: ['/admin', '/admin/orders', '/admin/customers', '/admin/abandoned', '/admin/reviews', '/admin/invoice'],
   inventory: ['/admin', '/admin/orders', '/admin/products', '/admin/inventory', '/admin/invoice'],
-  marketing: ['/admin', '/admin/products', '/admin/coupons', '/admin/reviews', '/admin/leads', '/admin/abandoned', '/admin/campaigns', '/admin/loyalty', '/admin/promotions', '/admin/landing', '/admin/content', '/admin/pages', '/admin/encyclopedia', '/admin/claims', '/admin/seo'],
+  marketing: ['/admin', '/admin/products', '/admin/coupons', '/admin/reviews', '/admin/leads', '/admin/abandoned', '/admin/campaigns', '/admin/loyalty', '/admin/promotions', '/admin/landing', '/admin/content', '/admin/pages', '/admin/claims', '/admin/seo'],
 };
 export const isStaffRole = (r?: string | null) => !!r && r !== 'customer' && r in ACCESS;
 export function canOpen(role: string | null | undefined, path: string) {

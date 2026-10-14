@@ -13,7 +13,7 @@ const SELECT = `id, slug, name, botanical_name, tagline, description, aroma, ext
 function map(r: any): Product {
   return {
     ...r,
-    category: r.category?.slug ?? 'essential-oils',
+    category: r.category?.slug ?? 'masalas',
     concerns: (r.product_concerns ?? []).map((pc: any) => pc.concern?.slug).filter(Boolean),
     rating: Number(r.rating), 
     variants: (r.variants ?? []).sort((a: any, b: any) => a.sort - b.sort)
@@ -44,7 +44,7 @@ export const getCategories = cache(async (): Promise<Category[]> => {
 
 export type StoreSettings = { free_shipping_min: number; shipping_flat: number; cod_fee: number; announcement: string[]; hero?: { heading: string; subheading: string; cta: string; href: string }; sections: Record<string, boolean> };
 export const getSettings = cache(async (): Promise<StoreSettings> => {
-  const fallback: StoreSettings = { free_shipping_min: 999, shipping_flat: 79, cod_fee: 49, announcement: ['Free shipping on orders above ₹999', '10% off your first order with code WELCOME10', '100% pure essential oils · GC-MS tested', 'Made in India'], sections: {} };
+  const fallback: StoreSettings = { free_shipping_min: 999, shipping_flat: 79, cod_fee: 49, announcement: ['Free shipping on orders above ₹999', '10% off your first order with code WELCOME10', 'Masalas & spice powders · 100 g packs', 'From Bengaluru'], sections: {} };
   if (!hasSupabase) return fallback;
   const { data } = await publicClient().from('settings').select('value').eq('key', 'store').maybeSingle();
   return { ...fallback, ...(data?.value ?? {}) };

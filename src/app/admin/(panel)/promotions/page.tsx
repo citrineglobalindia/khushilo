@@ -24,7 +24,7 @@ export default function Promotions() {
     <div className="adm-2col">
       <form className="adm-card form-grid" onSubmit={create}><div className="adm-card-h"><div><h3>New promotion</h3></div></div>
         <div className="adm-seg">{(['banner', 'popup'] as const).map(k => <button type="button" key={k} aria-pressed={f.kind === k} onClick={() => setF({ ...f, kind: k })} style={{ textTransform: 'capitalize' }}>{k === 'banner' ? 'Homepage banner' : 'Visitor popup'}</button>)}</div>
-        {S('title', 'Headline', { required: true, placeholder: 'Diwali Glow Sale — 15% off' })}{S('body', 'Supporting text', { placeholder: 'On all essential oils till 10 Nov' })}
+        {S('title', 'Headline', { required: true, placeholder: 'Diwali Glow Sale — 15% off' })}{S('body', 'Supporting text', { placeholder: 'On all masalas till 10 Nov' })}
         <div className="form-grid two">{S('coupon_code', 'Coupon code (optional)', { placeholder: 'DIWALI15' })}{f.kind === 'banner' ? S('cta', 'Button text') : <div />}
           {f.kind === 'banner' && S('href', 'Button link')}
           {f.kind === 'banner' && <div className="field"><label htmlFor="p-theme">Colour</label><select id="p-theme" className="select" value={f.theme} onChange={e => setF({ ...f, theme: e.target.value })}><option value="forest">Forest green</option><option value="amber">Festive amber</option><option value="rose">Rose</option></select></div>}

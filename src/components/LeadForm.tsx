@@ -17,7 +17,7 @@ export function LeadForm() {
   const [consent, setConsent] = useState(false);
   return (
     <section className="lead" aria-labelledby="lead-h">
-      <div><h2 id="lead-h">Get 10% off your first order</h2><p style={{ marginTop: 8 }}>Monthly guides on safe dilution and blending, plus early access to new oils. No spam.</p></div>
+      <div><h2 id="lead-h">Get 10% off your first order</h2><p style={{ marginTop: 8 }}>Recipes, festive offers and first word on new masalas. No spam.</p></div>
       {state === 'done' ? <p className="notice ok">You’re in. Use code <b>WELCOME10</b> at checkout.</p> : (
         <form onSubmit={async e => {
           e.preventDefault(); const f = new FormData(e.currentTarget);

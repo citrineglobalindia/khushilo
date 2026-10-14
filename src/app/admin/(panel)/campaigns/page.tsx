@@ -32,7 +32,7 @@ export default function Campaigns() {
     && (!f.product || p.products.has(f.product)) && (!f.minSpend || p.spend >= Number(f.minSpend)) && (!f.minOrders || p.orders >= Number(f.minOrders))
     && (!f.city || p.city.toLowerCase().includes(f.city.toLowerCase())) && (!f.inactiveDays || (p.last && Date.now() - +new Date(p.last) > Number(f.inactiveDays) * 864e5)));
   const reachable = audience.filter(p => p.consent && (c.channel === 'whatsapp' ? p.phone : p.email));
-  const render = (p: Person) => c.message.replaceAll('{name}', p.name?.split(' ')[0] || 'there').replaceAll('{product}', f.product.replace(/ (Essential|Carrier) Oil/, '') || 'favourite oil').replaceAll('{code}', c.code || '');
+  const render = (p: Person) => c.message.replaceAll('{name}', p.name?.split(' ')[0] || 'there').replaceAll('{product}', f.product || 'favourite masala').replaceAll('{code}', c.code || '');
   const save = async () => { setMsg(null); if (!c.name) return setMsg({ t: 'error', m: 'Give the campaign a name.' }); if (!reachable.length) return setMsg({ t: 'error', m: 'No opted-in contacts match this segment.' });
     if (c.code) { const { data } = await db().from('coupons').select('code').eq('code', c.code.toUpperCase()).maybeSingle(); if (!data) return setMsg({ t: 'error', m: `Coupon ${c.code.toUpperCase()} doesn’t exist yet.` }); }
     const { error } = await db().from('campaigns').insert({ name: c.name, channel: c.channel, segment: f, message: c.message, coupon_code: c.code ? c.code.toUpperCase() : null, audience: reachable.length });

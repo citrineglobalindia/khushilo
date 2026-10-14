@@ -19,15 +19,15 @@ export function Hero({ slides }: { slides: Slide[] }) {
     <section className="hero" aria-roledescription="carousel" aria-label="Featured" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)}>
       <div className="wrap hero-inner">
         <div className="hero-copy">
-          <span className="hero-eyebrow">PURE BOTANICAL WELLNESS</span>
+          <span className="hero-eyebrow">PURE SPICES · PERFECT TASTE</span>
           {i === 0 ? <h1>{s.heading}</h1> : <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.6rem)' }}>{s.heading}</h2>}
           <p>{s.copy}</p>
           <Link className="btn btn-primary" href={s.href} style={{ justifySelf: 'start' }} onClick={() => track('select_promotion', { promotion_id: s.id, promotion_name: s.heading })}>{s.cta}</Link>
           <div className="trust">
-            <div><i><LeafIcon size={18} /></i>100% Pure<br />&amp; Natural</div>
-            <div><i><FlaskIcon size={18} /></i>GC-MS<br />Tested</div>
-            <div className="hide-sm"><i><DropIcon size={18} /></i>Zero synthetic<br />dilutions</div>
-            <div><i><PinIcon size={18} /></i>Made in<br />India</div>
+            <div><i><LeafIcon size={18} /></i>FSSAI<br />licensed</div>
+            <div><i><FlaskIcon size={18} /></i>100 g<br />packs</div>
+            <div className="hide-sm"><i><DropIcon size={18} /></i>UPI · Cards<br />· COD</div>
+            <div><i><PinIcon size={18} /></i>From<br />Bengaluru</div>
           </div>
         </div>
         <div className="hero-art" aria-hidden>{s.image ? <img key={s.id} className="hero-photo" src={s.image} alt="" fetchPriority={i === 0 ? 'high' : 'auto'} /> : <><div className="plinth" /><Bottle color={s.color} label={s.name} /></>}</div>

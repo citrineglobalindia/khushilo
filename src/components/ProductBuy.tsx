@@ -30,7 +30,6 @@ export function ProductBuy({ p, pairWith }: { p: Product; pairWith?: Product | n
   const router = useRouter();
   const [vid, setVid] = useState((p.variants.find(v => v.stock > 0) ?? p.variants[0]).id);
   const [qty, setQty] = useState(1);
-  const [pin, setPin] = useState(''); const [eta, setEta] = useState<string | null>(null);
   const [notify, setNotify] = useState<'idle' | 'done'>('idle');
   const [pair, setPair] = useState(false);
   const v = p.variants.find(x => x.id === vid)!;
@@ -46,13 +45,6 @@ export function ProductBuy({ p, pairWith }: { p: Product; pairWith?: Product | n
     if (pair && pairWith && pv) add({ variant_id: pv.id, product_slug: pairWith.slug, name: pairWith.name, label: pv.label, price: pv.price, color: pairWith.color });
   };
 
-  const checkPin = () => {
-    if (!/^[1-9][0-9]{5}$/.test(pin)) { setEta('Enter a valid 6-digit pincode.'); return; }
-    // Placeholder until courier serviceability API (Shiprocket/Delhivery) is connected — PDP-004 fallback.
-    const metro = /^(11|40|56|60|70|50)/.test(pin);
-    const d = new Date(); d.setDate(d.getDate() + (metro ? 3 : 6));
-    setEta(`Delivers to ${pin} by ${d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })} (estimate)`);
-  };
 
   return (
     <div className="pdp-info">
@@ -65,7 +57,7 @@ export function ProductBuy({ p, pairWith }: { p: Product; pairWith?: Product | n
       <div className="price-row" style={{ paddingTop: 0 }}>
         <span className="price" style={{ fontSize: 26 }}>{inr(v.price)}</span>
         {off > 0 && <><span className="cmp" style={{ fontSize: 16 }}>MRP {inr(v.compare_at!)}</span><span className="off">{off}% OFF</span></>}
-        <span className="muted" style={{ fontSize: 12, width: '100%' }}>Inclusive of all taxes</span>
+        <span className="muted" style={{ fontSize: 12, width: '100%' }}>MRP inclusive of all taxes · Net wt {v.label}</span>
       </div>
       {p.variants.length > 1 && <div><p style={{ fontWeight: 600, marginBottom: 6 }}>Size</p>
         <div className="variant-picker">{p.variants.map(x => <button key={x.id} aria-pressed={x.id === vid} onClick={() => { setVid(x.id); setQty(1); }}>{x.label}{x.stock <= 0 && !x.allow_backorder ? ' · sold out' : ''}</button>)}</div></div>}
@@ -87,16 +79,13 @@ export function ProductBuy({ p, pairWith }: { p: Product; pairWith?: Product | n
         </div>
         {pairWith && pairWith.variants[0] && <label className="check panel" style={{ padding: 12 }}>
           <input type="checkbox" checked={pair} onChange={e => setPair(e.target.checked)} />
-          <span>Add <b>{pairWith.name}</b> ({pairWith.variants[0].label}) for {inr(pairWith.variants[0].price)} — you’ll need a carrier oil to dilute before skin use.</span></label>}
+          <span>Add <b>{pairWith.name}</b> ({pairWith.variants[0].label}) for {inr(pairWith.variants[0].price)} — pairs well with this.</span></label>}
         <div className="buy-row">
           <button className="btn btn-primary" onClick={addAll}><CartIcon size={18} /> Add to Cart</button>
           <button className="btn btn-ghost" onClick={() => { addAll(); setOpen(false); router.push('/checkout'); }}>Buy Now</button>
         </div>
       </>}
 
-      <div className="field"><label htmlFor="pin">Check delivery</label>
-        <div className="pin"><input id="pin" className="input" inputMode="numeric" maxLength={6} placeholder="Pincode" value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, ''))} /><button className="btn btn-ghost" onClick={checkPin}>Check</button></div>
-        {eta && <p className="muted" style={{ fontSize: 13.5 }} aria-live="polite">{eta}</p>}</div>
 
       {!out && <div className="sticky-buy"><div><b>{inr(v.price * qty)}</b><div className="muted" style={{ fontSize: 12 }}>{v.label} × {qty}</div></div><button className="btn btn-primary" onClick={addAll}><CartIcon size={18} /> Add to Cart</button></div>}
     </div>

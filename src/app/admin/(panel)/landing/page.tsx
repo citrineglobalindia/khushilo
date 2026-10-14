@@ -7,11 +7,11 @@ import type { Block } from '@/lib/growth';
 type LP = { id: string; slug: string; title: string; status: string; blocks: Block[]; seo_title: string | null; seo_description: string | null; updated_at: string };
 type P = { slug: string; name: string };
 const NEW: Record<Block['type'], Block> = {
-  hero: { type: 'hero', heading: 'Sleep deeper, naturally', sub: 'Pure lavender & cedarwood, steam-distilled in India.', cta: 'Shop sleep oils', href: '/concern/sleep-calm' },
+  hero: { type: 'hero', heading: 'Sambar like home', sub: 'Khushilo sambar, rasam and bisi bele bath powders.', cta: 'Shop South Indian', href: '/concern/south-indian' },
   products: { type: 'products', title: 'Our picks', slugs: [] },
-  benefits: { type: 'benefits', title: 'Why Khushilo', items: [{ title: '100% pure', text: 'No fillers or synthetic fragrance.' }, { title: 'GC-MS tested', text: 'Every batch checked before bottling.' }, { title: 'Made in India', text: 'Bottled in amber glass in Mysuru.' }] },
-  text: { type: 'text', title: 'How to use', body: 'Add 4–6 drops to your diffuser 30 minutes before bed.' },
-  faq: { type: 'faq', title: 'Questions', items: [{ q: 'Is it safe on skin?', a: 'Always dilute 2–3 drops in 10 ml of a carrier oil and patch-test first.' }] },
+  benefits: { type: 'benefits', title: 'Why Khushilo', items: [{ title: 'FSSAI licensed', text: 'Licence no. 21225184000998.' }, { title: '100 g packs', text: 'Fresh in your masala dabba.' }, { title: 'From Bengaluru', text: 'Flavours of Karnataka kitchens.' }] },
+  text: { type: 'text', title: 'How to use', body: 'Add 2–3 teaspoons of sambar powder for 4 servings and simmer for 5 minutes.' },
+  faq: { type: 'faq', title: 'Questions', items: [{ q: 'How should I store it?', a: 'Keep the pack closed in a cool, dry place and use a dry spoon.' }] },
   offer: { type: 'offer', title: '10% off your first order', body: 'Use the code at checkout.', code: 'WELCOME10', cta: 'Shop now', href: '/shop' },
 };
 const LABEL: Record<string, string> = { hero: 'Hero', products: 'Products', benefits: 'Benefits', text: 'Text', faq: 'FAQ', offer: 'Offer' };

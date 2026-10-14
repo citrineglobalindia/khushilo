@@ -33,7 +33,7 @@ function Search({ index, concerns, autoFocus, onDone }: { index: SearchItem[]; c
     <div className="search-box" ref={box}>
       <form role="search" onSubmit={e => { e.preventDefault(); if (active >= 0 && links[active]) go(links[active]); else if (term) go(`/shop?q=${encodeURIComponent(q.trim())}`); }}>
         <SearchIcon size={18} />
-        <input type="search" aria-label="Search products" placeholder="Search oils, concerns, botanicals…" value={q} autoFocus={autoFocus}
+        <input type="search" aria-label="Search products" placeholder="Search sambar, biryani, chilli…" value={q} autoFocus={autoFocus}
           role="combobox" aria-expanded={open && links.length > 0} aria-controls="search-suggest" aria-autocomplete="list"
           onChange={e => { setQ(e.target.value); setOpen(true); setActive(-1); }} onFocus={() => setOpen(true)}
           onKeyDown={e => {
@@ -44,14 +44,14 @@ function Search({ index, concerns, autoFocus, onDone }: { index: SearchItem[]; c
       </form>
       {open && term.length >= 2 && (
         <div className="suggest" id="search-suggest" role="listbox">
-          {cons.length > 0 && <h5>Shop by concern</h5>}
+          {cons.length > 0 && <h5>Shop by dish</h5>}
           {cons.map((c, i) => <a key={c.slug} href={`/concern/${c.slug}`} role="option" aria-selected={active === i} onClick={e => { e.preventDefault(); go(`/concern/${c.slug}`); }}>{c.name}</a>)}
           {products.length > 0 && <h5>Products</h5>}
           {products.map((p, j) => (
             <a key={p.slug} href={`/product/${p.slug}`} role="option" aria-selected={active === cons.length + j} onClick={e => { e.preventDefault(); go(`/product/${p.slug}`); }}>
-              <span style={{ width: 22, flex: 'none', display: 'block' }}><Bottle color={p.color} /></span><span><b>{p.name}</b><br /><small className="muted">{p.botanical}</small></span>
+              <span style={{ width: 22, flex: 'none', display: 'block' }}><Bottle color={p.color} /></span><span><b>{p.name}</b><br /><small className="muted">{p.tagline}</small></span>
             </a>))}
-          {links.length === 0 && <p style={{ padding: 14 }} className="muted">No matches for “{q}”. Try “sleep”, “hair” or “lavender”.</p>}
+          {links.length === 0 && <p style={{ padding: 14 }} className="muted">No matches for “{q}”. Try “sambar”, “chicken” or “turmeric”.</p>}
           {links.length > 0 && <a href={`/shop?q=${encodeURIComponent(q.trim())}`} onClick={e => { e.preventDefault(); go(`/shop?q=${encodeURIComponent(q.trim())}`); }}><b>See all results for “{q}”</b></a>}
         </div>
       )}
@@ -70,14 +70,12 @@ export function Header({ index, nav }: { index: SearchItem[]; nav: Nav }) {
           <button className="icon-btn menu-toggle" aria-label="Open menu" onClick={() => setMenu(true)}><MenuIcon /></button>
           <Link href="/" className="logo" aria-label="Khushilo home"><img src={BRAND.logo} alt="Khushilo" width={141} height={40} /></Link>
           <ul className="nav">
-            <li><Link href="/shop?category=essential-oils">Essential Oils</Link>
-              <div className="mega"><div><h4>Shop by concern</h4>{nav.concerns.map(c => <Link key={c.slug} href={`/concern/${c.slug}`}>{c.name}</Link>)}</div>
-                <div><h4>Collections</h4><Link href="/shop?sort=best">Best sellers</Link><Link href="/shop?sort=new">New arrivals</Link><Link href="/shop">All products</Link></div></div></li>
-            {nav.categories.filter(c => c.slug !== 'essential-oils').map(c => <li key={c.slug}><Link href={`/shop?category=${c.slug}`}>{c.name}</Link></li>)}
-            <li><Link href="/concern/sleep-calm">Wellness</Link>
-              <div className="mega" style={{ gridTemplateColumns: '200px' }}><div>{nav.concerns.map(c => <Link key={c.slug} href={`/concern/${c.slug}`}>{c.name}</Link>)}</div></div></li>
-            <li><Link href="/categories">Learn</Link></li>
-            <li><Link href="/shop?offer=1">Offers</Link></li>
+            <li><Link href="/shop">Shop</Link>
+              <div className="mega"><div><h4>Shop by dish</h4>{nav.concerns.map(c => <Link key={c.slug} href={`/concern/${c.slug}`}>{c.name}</Link>)}</div>
+                <div><h4>Collections</h4><Link href="/shop?category=masalas">Masala blends</Link><Link href="/shop?category=spice-powders">Spice powders</Link><Link href="/shop">All products</Link></div></div></li>
+            {nav.categories.map(c => <li key={c.slug}><Link href={`/shop?category=${c.slug}`}>{c.name}</Link></li>)}
+            <li><Link href="/concern/south-indian">South Indian</Link></li>
+            <li><Link href="/about">Our story</Link></li>
           </ul>
           <div className="header-search"><Search index={index} concerns={nav.concerns} /></div>
           <div className="header-tools">

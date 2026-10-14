@@ -8,7 +8,7 @@ import { BRAND } from '@/lib/brand';
 
 const CLAIMED = 'kh_offer_claimed';
 const DELAY = 2000;
-const DEFAULT = { title: '10% off your first order', body: 'Join for safe-use guides, blending tips and early access to new oils.', code: 'WELCOME10' };
+const DEFAULT = { title: '10% off your first order', body: 'Join for recipes, festive offers and first word on new masalas.', code: 'WELCOME10' };
 const BLOCKED = ['/checkout', '/cart', '/order', '/admin', '/account'];
 
 // Welcome offer (HOME-011 / LEAD-004): never on cart/checkout/order/account/admin pages.
@@ -55,7 +55,7 @@ export function OfferPopup() {
     <div className="offer-wrap" onClick={e => e.target === e.currentTarget && setOpen(false)}>
       <div className="offer" role="dialog" aria-modal="true" aria-labelledby="offer-h">
         <button ref={closeBtn} className="icon-btn offer-x" aria-label="Close offer" onClick={() => setOpen(false)}><CloseIcon /></button>
-        <div className="offer-art" aria-hidden><img src={BRAND.promoWellness} alt="" /><span className="offer-badge"><b>10%</b>OFF</span></div>
+        <div className="offer-art" aria-hidden><img className="offer-logo" src={BRAND.logo} alt="" /><span className="offer-badge"><b>10%</b>OFF</span></div>
         <div className="offer-body">
           <span className="hero-eyebrow">WELCOME OFFER</span>
           <h2 id="offer-h">{cfg.title}</h2>

@@ -4,14 +4,12 @@ const nextConfig = {
   async redirects() {
     return [
       { source: '/pages/about', destination: '/about', permanent: true },
-      // Legacy essencekraft.in routes (SEO-001)
       { source: '/products', destination: '/shop', permanent: true },
-      // /essential-oils, /carrier-oils, /aromatherapy, /faq, /contact, policies, /essential-oils-for-* and /learn/* are migrated content pages (site_pages)
-      ...['/login', '/signup', '/profile', '/forgot-password', '/verify-email', '/verify-otp'].map(source => ({ source, destination: '/account', permanent: true })),
-      { source: '/wiki', destination: '/categories', permanent: true },
+      // The essential-oil encyclopedia from the template was removed for Khushilo.
+      { source: '/wiki/:path*', destination: '/shop', permanent: true },
+      { source: '/categories', destination: '/shop', permanent: true },
+      ...['/login', '/signup', '/profile'].map(source => ({ source, destination: '/account', permanent: true })),
       ...[['shipping', '/shipping'], ['returns', '/shipping'], ['refund', '/shipping'], ['contact', '/contact'], ['privacy', '/privacy'], ['terms', '/terms']].map(([s, d]) => ({ source: `/pages/${s}`, destination: d, permanent: true })),
-      ...[['1','rosemary'],['4','jojoba-carrier-oil'],['5','lemongrass'],['6','citronella'],['8','tulsi'],['9','lavender'],['11','geranium'],['12','tea-tree'],['13','cedarwood'],['14','clary-sage'],['15','eucalyptus'],['16','orange'],['17','peppermint']]
-        .map(([id, s]) => ({ source: `/products/${id}`, destination: `/product/${s.includes('-oil') ? s : s + '-essential-oil'}`, permanent: true })),
     ];
   },
   async headers() {

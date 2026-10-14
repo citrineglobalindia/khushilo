@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { getPage, listPages } from '@/lib/pages';
 import { SitePageView, pageMeta } from '@/components/SitePageView';
 
-// Top-level content pages migrated from essencekraft.in: /faq, /contact, /privacy, /terms, /shipping, /essential-oils-for-*, /aromatherapy …
+// Top-level content pages (FAQ, contact, shipping, policies) — edited in Admin → Site pages.
 export const revalidate = 600;
 export const dynamicParams = true;
 export async function generateStaticParams() { return (await listPages()).filter(p => p.path.split('/').length === 2 && p.path !== '/learn').map(p => ({ page: p.path.slice(1) })); }

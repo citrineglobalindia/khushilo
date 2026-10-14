@@ -27,7 +27,7 @@ export function computeTax(o: InvOrder, s: Seller) {
   const gross = o.items.reduce((t, i) => t + Number(i.unit_price) * i.qty, 0) || 1;
   const disc = Number(o.discount) || 0;
   const lines = o.items.map(i => {
-    const rate = Number(i.gst_rate ?? 18); const lineGross = Number(i.unit_price) * i.qty;
+    const rate = Number(i.gst_rate ?? 5); const lineGross = Number(i.unit_price) * i.qty;
     const value = lineGross - disc * (lineGross / gross);           // discount spread by value
     const taxable = r2(value / (1 + rate / 100)); const tax = r2(value - taxable);
     return { ...i, rate, gross: r2(lineGross), discount: r2(lineGross - value), taxable, tax, total: r2(value) };
@@ -52,7 +52,7 @@ export function Invoice({ o, seller }: { o: InvOrder; seller: Seller }) {
       <section className="inv-parties"><div><h3>Bill to / Ship to</h3><p><b>{o.full_name}</b><br />{o.address.line1}{o.address.line2 ? `, ${o.address.line2}` : ''}<br />{o.address.city}, {o.address.state} {o.address.pincode}<br />{o.phone} · {o.email}</p></div></section>
       <div className="inv-table"><table>
         <thead><tr><th>#</th><th>Item</th><th>HSN</th><th>Qty</th><th>Rate</th><th>Discount</th><th>Taxable</th><th>GST</th>{t.intra ? <><th>CGST</th><th>SGST</th></> : <th>IGST</th>}<th>Total</th></tr></thead>
-        <tbody>{t.lines.map((l, i) => <tr key={i}><td>{i + 1}</td><td>{l.product_name}<br /><small>{l.variant_label} · {l.sku}</small></td><td>{l.hsn ?? '3301'}</td><td>{l.qty}</td><td>{money(Number(l.unit_price))}</td><td>{l.discount ? money(l.discount) : '—'}</td><td>{money(l.taxable)}</td><td>{l.rate}%</td>
+        <tbody>{t.lines.map((l, i) => <tr key={i}><td>{i + 1}</td><td>{l.product_name}<br /><small>{l.variant_label} · {l.sku}</small></td><td>{l.hsn ?? '0910'}</td><td>{l.qty}</td><td>{money(Number(l.unit_price))}</td><td>{l.discount ? money(l.discount) : '—'}</td><td>{money(l.taxable)}</td><td>{l.rate}%</td>
           {t.intra ? <><td>{money(r2(l.tax / 2))}</td><td>{money(r2(l.tax - r2(l.tax / 2)))}</td></> : <td>{money(l.tax)}</td>}<td>{money(l.total)}</td></tr>)}
           {Number(o.shipping) > 0 && <tr><td>{t.lines.length + 1}</td><td>Shipping &amp; handling</td><td>9965</td><td>1</td><td>{money(Number(o.shipping))}</td><td>—</td><td>{money(t.shipTaxable)}</td><td>{t.maxRate}%</td>
             {t.intra ? <><td>{money(r2(t.shipTax / 2))}</td><td>{money(r2(t.shipTax - r2(t.shipTax / 2)))}</td></> : <td>{money(t.shipTax)}</td>}<td>{money(Number(o.shipping))}</td></tr>}</tbody>

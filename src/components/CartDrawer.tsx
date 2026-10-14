@@ -32,7 +32,7 @@ export function CartDrawer({ freeShip }: { freeShip: number }) {
       <div className="drawer-head"><h3>Your cart</h3><button className="icon-btn" aria-label="Close cart" onClick={() => setOpen(false)}><CloseIcon /></button></div>
       <div className="drawer-body">
         {lines.length === 0 ? (
-          <div className="empty"><p>Your cart is empty.</p><Link className="btn btn-primary" href="/shop" onClick={() => setOpen(false)}>Shop essential oils</Link></div>
+          <div className="empty"><p>Your cart is empty.</p><Link className="btn btn-primary" href="/shop" onClick={() => setOpen(false)}>Shop spices</Link></div>
         ) : <>
           <div style={{ display: 'grid', gap: 6, marginBottom: 8 }}>
             <p style={{ fontSize: 13.5 }}>{left > 0 ? <>Add <b>{inr(left)}</b> more for free shipping</> : <b>You’ve unlocked free shipping</b>}</p>

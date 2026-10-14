@@ -72,7 +72,7 @@ export function Catalog({ products, concerns, categories, lockedConcern }: { pro
             </select></label>
         </div>
         {items.length ? <div className="grid g3">{items.map(p => <ProductCard key={p.id} p={p} list="plp" />)}</div> : (
-          <div className="empty"><h3>No products match these filters</h3><p className="muted">Remove a filter or search for a botanical such as “lavender” or a concern like “sleep”.</p>
+          <div className="empty"><h3>No products match these filters</h3><p className="muted">Remove a filter or search for a spice such as “turmeric” or a dish like “sleep”.</p>
             <button className="btn btn-primary" onClick={() => router.replace(path)}>Show all products</button></div>)}
       </div>
       {drawer && <>

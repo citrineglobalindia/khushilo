@@ -1,40 +1,42 @@
-// Amber dropper bottle with botanical colour band — stands in for product photography until real images are uploaded.
-export function Bottle({ color = '#7a5a9e', label, className = 'bottle', title }: { color?: string; label?: string; className?: string; title?: string }) {
-  const short = label ? label.replace(/ (Essential|Carrier) Oil$/, '').replace(/\s*\(.*\)/, '') : '';
+// Khushilo stand-up spice pack — stands in for product photography until real images are uploaded.
+// `color` is the spice colour shown in the window (turmeric yellow, chilli red…). Kept as `Bottle` so existing imports work.
+export function Bottle({ color = '#c22a14', label, className = 'bottle', title }: { color?: string; label?: string; className?: string; title?: string }) {
+  const words = (label ?? '').split(' ');
+  const lines = label && label.length > 14 ? [words.slice(0, Math.ceil(words.length / 2)).join(' '), words.slice(Math.ceil(words.length / 2)).join(' ')] : [label ?? ''];
   return (
-    <svg className={className} viewBox="0 0 120 220" role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
+    <svg className={className} viewBox="0 0 140 200" role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : true}>
       <defs>
-        <linearGradient id="amber" x1="0" x2="1"><stop offset="0" stopColor="#3b1f0e" /><stop offset=".35" stopColor="#7a3f14" /><stop offset=".6" stopColor="#5a2c0e" /><stop offset="1" stopColor="#2a1408" /></linearGradient>
-        <linearGradient id="cap" x1="0" x2="1"><stop offset="0" stopColor="#111" /><stop offset=".4" stopColor="#3a3a3a" /><stop offset="1" stopColor="#0b0b0b" /></linearGradient>
+        <linearGradient id="kh-pack" x1="0" x2="1"><stop offset="0" stopColor="#c62d1c" /><stop offset=".5" stopColor="#e53624" /><stop offset="1" stopColor="#b8261a" /></linearGradient>
       </defs>
-      <rect x="34" y="6" width="52" height="44" rx="5" fill="url(#cap)" />
-      {Array.from({ length: 8 }).map((_, i) => <rect key={i} x={38 + i * 6} y="10" width="2" height="36" fill="#000" opacity=".35" />)}
-      <rect x="40" y="48" width="40" height="12" fill="#1a1a1a" />
-      <path d="M22 78c0-12 10-18 20-18h36c10 0 20 6 20 18v122c0 8-6 14-14 14H36c-8 0-14-6-14-14z" fill="url(#amber)" />
-      <rect x="30" y="96" width="60" height="92" rx="3" fill="#f6f1e6" />
-      <rect x="30" y="96" width="60" height="6" fill={color} />
-      <rect x="30" y="182" width="60" height="6" fill={color} opacity=".85" />
-      <path d="M60 108c-5 3-7 7-6 11 4-1 6-5 6-11zm0 0c5 3 7 7 6 11-4-1-6-5-6-11z" fill="#3e7b4f" />
-      <text x="60" y="130" textAnchor="middle" fontFamily="Georgia, serif" fontSize="7.5" fill="#0f3d2e">Khushilo</text>
-      {short && <text x="60" y="150" textAnchor="middle" fontFamily="Georgia, serif" fontSize={short.length > 10 ? 8 : 10} fontWeight="600" fill="#1d2a24">{short}</text>}
-      <text x="60" y="162" textAnchor="middle" fontFamily="system-ui, sans-serif" fontSize="5.5" fill="#5f6b64">Pure &amp; Natural</text>
-      <text x="60" y="175" textAnchor="middle" fontFamily="system-ui, sans-serif" fontSize="5.5" fill="#5f6b64">15 ml</text>
-      <path d="M30 78c2-8 8-12 14-12" stroke="#fff" strokeOpacity=".25" strokeWidth="4" fill="none" strokeLinecap="round" />
+      {/* pouch body with gusset curve at the bottom */}
+      <path d="M18 22h104l-4 156c0 8-6 14-14 14H36c-8 0-14-6-14-14z" fill="url(#kh-pack)" />
+      {/* zip seal + tear notch */}
+      <rect x="18" y="14" width="104" height="12" rx="2" fill="#a8221a" />
+      <rect x="18" y="30" width="104" height="2" fill="#f0c36e" opacity=".8" />
+      {/* gold arch frame echoing the logo */}
+      <path d="M32 46h76v68a10 10 0 0 1-10 10H42a10 10 0 0 1-10-10z" fill="#f0c36e" />
+      <path d="M36 50h68v62a8 8 0 0 1-8 8H44a8 8 0 0 1-8-8z" fill="#fff8ee" />
+      {/* spice heap in the window */}
+      <path d="M44 112c6-18 18-30 26-30s20 12 26 30z" fill={color} />
+      <path d="M58 92c4-6 8-9 12-9" stroke="#fff" strokeOpacity=".35" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M106 52c-6 2-9 7-8 12 5-1 8-6 8-12z" fill="#59b039" />
+      <text x="70" y="66" textAnchor="middle" fontFamily="'Trebuchet MS', system-ui, sans-serif" fontSize="11" fontWeight="700" fill="#b5261a">Khushilo</text>
+      {lines.map((l, i) => <text key={i} x="70" y={142 + i * 12} textAnchor="middle" fontFamily="'Trebuchet MS', system-ui, sans-serif" fontSize={l.length > 13 ? 9.5 : 11} fontWeight="700" fill="#fff">{l}</text>)}
+      <text x="70" y={lines.length > 1 ? 170 : 160} textAnchor="middle" fontFamily="system-ui, sans-serif" fontSize="6.5" fill="#fff" opacity=".9">NET WT 100 g</text>
     </svg>
   );
 }
 
-// Simple botanical sprig for concern tiles
+// Bowl of ground spice for the "shop by dish" tiles.
 export function Sprig({ color }: { color: string }) {
   return (
     <svg viewBox="0 0 120 90" width="100%" height="100%" aria-hidden>
-      <path d="M20 85 C50 60, 70 40, 100 8" stroke="#3e7b4f" strokeWidth="2.2" fill="none" />
-      {[0, 1, 2, 3, 4, 5].map(i => {
-        const t = i / 6; const x = 20 + t * 80; const y = 85 - t * 77;
-        return <g key={i}><ellipse cx={x - 8} cy={y - 3} rx="9" ry="4.5" transform={`rotate(-35 ${x - 8} ${y - 3})`} fill={color} opacity={.55 + t * .4} />
-          <ellipse cx={x + 6} cy={y + 4} rx="9" ry="4.5" transform={`rotate(-55 ${x + 6} ${y + 4})`} fill="#3e7b4f" opacity={.5 + t * .3} /></g>;
-      })}
-      <circle cx="100" cy="8" r="6" fill={color} />
+      <ellipse cx="60" cy="78" rx="44" ry="6" fill="#000" opacity=".08" />
+      <path d="M30 48c8-20 20-28 30-28s22 8 30 28z" fill={color} />
+      <path d="M48 32c4-5 8-7 12-8" stroke="#fff" strokeOpacity=".35" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M18 46h84c0 18-18 30-42 30S18 64 18 46z" fill="#7a4a2a" />
+      <path d="M18 46h84" stroke="#f0c36e" strokeWidth="3" strokeLinecap="round" />
+      <path d="M92 18c-7 2-11 8-10 14 6-1 10-7 10-14z" fill="#59b039" />
     </svg>
   );
 }

@@ -2,10 +2,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
-// Placeholder policy/content pages — migrate approved copy from the current site (MIG-001, SEO-008).
+// Fallback content pages under /pages/*. The main FAQ, shipping and policy pages live in Admin → Site pages.
 const PAGES: Record<string, { title: string; body: string[] }> = {
-  purity: { title: 'Purity & testing', body: ['Every batch is checked by GC-MS before bottling. Reports are available on request.'] },
-  'safe-use': { title: 'Safe-use guide', body: ['Essential oils are concentrated. Dilute 2–3 drops in 10 ml of a carrier oil such as jojoba before applying to skin.', 'Patch-test on the inner arm and wait 24 hours. Keep away from eyes, children and pets.', 'If you are pregnant, nursing or under medical care, speak to your doctor first. Essential oils are not a substitute for medical treatment.'] },
+  storage: { title: 'Storing your spices', body: ['Keep packs in a cool, dry place away from sunlight and the stove.', 'Close the pack tightly after every use, or move the powder to an airtight container.', 'Always use a dry spoon — moisture makes powders clump.'] },
   shipping: { title: 'Shipping', body: ['Free shipping on orders above ₹999. Orders below that ship for ₹79. Most metro deliveries arrive in 2–4 working days.'] },
   returns: { title: 'Returns', body: ['Unopened products can be returned within 7 days of delivery. Contact us with your order number to start a return.'] },
   refund: { title: 'Refund policy', body: ['Approved refunds are processed to the original payment method within 5–7 working days.'] },

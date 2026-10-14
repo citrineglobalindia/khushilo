@@ -1,63 +1,79 @@
-// Demo catalogue used when Supabase is not configured, and source for supabase/seed.sql.
-// Prices and copy are placeholders — replace with the approved live catalogue at migration (MIG-002).
+// Khushilo catalogue — used when Supabase is not configured, and the source for supabase/seed.sql (scripts/gen-seed.mjs).
+// Prices are the MRPs supplied by Khushilo (inclusive of GST). Opening stock is a placeholder: set real counts in Admin → Inventory.
+// Ingredients are intentionally left blank — fill them in Admin → Products exactly as printed on each pack (FSSAI labelling).
 import type { Product, Concern, Category } from './types';
 
 export const categories: Category[] = [
-  { slug: 'essential-oils', name: 'Essential Oils', intro: 'Single-origin, steam-distilled and cold-pressed essential oils.' },
-  { slug: 'carrier-oils', name: 'Carrier Oils', intro: 'Gentle base oils for diluting essential oils before use on skin and hair.' },
-  { slug: 'diffusers', name: 'Diffusers', intro: 'Ultrasonic diffusers for a room that smells the way you want it to.' },
+  { slug: 'masalas', name: 'Masala Blends', intro: 'Ready-to-use blends for sambar, rasam, biryani, chicken and more.' },
+  { slug: 'spice-powders', name: 'Spice Powders', intro: 'Single-spice powders for everyday cooking.' },
 ];
 
+// "Shop by dish" groups (stored in the concerns table).
 export const concerns: Concern[] = [
-  { slug: 'sleep-calm', name: 'Sleep & Calm', intro: 'Soft, floral and woody oils for winding down.', color: '#7a5a9e' },
-  { slug: 'focus-energy', name: 'Focus & Energy', intro: 'Bright citrus and mint for a clearer head.', color: '#d99a1e' },
-  { slug: 'stress-relief', name: 'Stress Relief', intro: 'Grounding aromas for heavier days.', color: '#5f8a7a' },
-  { slug: 'hair-scalp', name: 'Hair & Scalp', intro: 'Oils traditionally used in scalp and hair routines.', color: '#3f6b3a' },
-  { slug: 'skin-care', name: 'Skin Care', intro: 'Always dilute. Patch-test first.', color: '#c2566e' },
-  { slug: 'diffusers', name: 'Diffusers', intro: 'Diffuser-friendly oils and devices.', color: '#9a7b58' },
+  { slug: 'south-indian', name: 'South Indian Classics', intro: 'Sambar, rasam and bisi bele bath, the Karnataka way.', color: '#b5261a' },
+  { slug: 'biryani-non-veg', name: 'Biryani & Non-Veg', intro: 'Blends for biryani, chicken curry, fry and kababs.', color: '#7a3b1e' },
+  { slug: 'everyday', name: 'Everyday Essentials', intro: 'The powders every Indian kitchen reaches for daily.', color: '#d4a017' },
+  { slug: 'snacks-chaat', name: 'Snacks & Chaat', intro: 'Tangy, spicy finishing masalas for snacks and starters.', color: '#4f9a32' },
 ];
 
-const std = 'For external use only. Dilute before applying to skin (2–3 drops in 10 ml carrier oil). Patch-test first. Keep away from eyes and children. Consult a doctor if pregnant, nursing or under medical care.';
-const purity = '100% pure, undiluted. Batch GC-MS report available on request.';
+const STORAGE = 'Store in a cool, dry place away from sunlight. Close the pack tightly after use and always use a dry spoon.';
 
-type Seed = [slug: string, name: string, botanical: string, tagline: string, color: string, concerns: string[], aroma: string, extraction: string, best: boolean, isNew: boolean, rating: number, reviews: number, category?: string];
+type Seed = {
+  slug: string; name: string; price: number; category: 'masalas' | 'spice-powders'; concerns: string[]; color: string;
+  tagline: string; taste: string; uses: string[]; pairs: string[]; signature?: boolean; hsn: string;
+};
 const rows: Seed[] = [
-  ['lavender-essential-oil','Lavender Essential Oil','Lavandula angustifolia','Calms the mind and supports restful sleep','#7a5a9e',['sleep-calm','stress-relief','skin-care'],'Floral, herbaceous, sweet','Steam distillation',true,false,4.9,2100],
-  ['rosemary-essential-oil','Rosemary Essential Oil','Salvia rosmarinus','Supports hair and scalp routines','#3f6b3a',['hair-scalp','focus-energy'],'Herbal, camphoraceous, fresh','Steam distillation',true,false,4.8,1700],
-  ['tea-tree-essential-oil','Tea Tree Essential Oil','Melaleuca alternifolia','Purifying care for skin and scalp','#4f7a4a',['skin-care','hair-scalp'],'Fresh, medicinal, green','Steam distillation',true,true,4.7,960],
-  ['peppermint-essential-oil','Peppermint Essential Oil','Mentha × piperita','Cooling and refreshing','#3d8a68',['focus-energy'],'Minty, sharp, cooling','Steam distillation',true,true,4.8,1200],
-  ['lemongrass-essential-oil','Lemongrass Essential Oil','Cymbopogon flexuosus','Fresh, citrusy lift for any room','#9aa53a',['focus-energy','diffusers'],'Lemony, grassy, bright','Steam distillation',false,false,4.6,540],
-  ['citronella-essential-oil','Citronella Essential Oil','Cymbopogon winterianus','A classic outdoor-evening aroma','#b8a03a',['diffusers'],'Citrus, grassy, woody','Steam distillation',false,false,4.5,410],
-  ['cedarwood-essential-oil','Cedarwood Essential Oil','Cedrus deodara','Warm, woody and grounding','#8a5d3b',['sleep-calm','stress-relief','hair-scalp'],'Woody, warm, balsamic','Steam distillation',false,false,4.6,380],
-  ['eucalyptus-essential-oil','Eucalyptus Essential Oil','Eucalyptus globulus','Clear, open, refreshing','#5f8a7a',['stress-relief','diffusers'],'Camphoraceous, fresh, clean','Steam distillation',false,false,4.7,820],
-  ['orange-essential-oil','Sweet Orange Essential Oil','Citrus sinensis','Cheerful citrus for the everyday','#e0802a',['focus-energy','diffusers'],'Sweet, juicy, citrus','Cold pressed',false,true,4.7,450],
-  ['bergamot-essential-oil','Bergamot Essential Oil','Citrus bergamia','Bright citrus with a floral edge','#b3a23a',['stress-relief','sleep-calm'],'Citrus, floral, slightly spicy','Cold pressed',false,true,4.6,290],
-  ['clary-sage-essential-oil','Clary Sage Essential Oil','Salvia sclarea','Herbaceous and quietly relaxing','#8a7aa0',['stress-relief','sleep-calm'],'Herbal, musky, sweet','Steam distillation',false,false,4.5,210],
-  ['geranium-essential-oil','Geranium Essential Oil','Pelargonium graveolens','Rosy, balancing floral','#c2566e',['skin-care','stress-relief'],'Rosy, green, floral','Steam distillation',false,false,4.6,260],
-  ['tulsi-essential-oil','Holy Basil (Tulsi) Essential Oil','Ocimum tenuiflorum','A revered Indian herb, distilled','#4a7a3a',['stress-relief','focus-energy'],'Spicy, clove-like, herbal','Steam distillation',false,true,4.7,180],
-  ['jojoba-carrier-oil','Jojoba Carrier Oil','Simmondsia chinensis','Light, skin-friendly base for dilution','#c8a24a',['skin-care','hair-scalp'],'Near odourless','Cold pressed',false,false,4.8,640,'carrier-oils'],
+  { slug: 'sambar-powder', name: 'Sambar Powder', price: 79, category: 'masalas', concerns: ['south-indian'], color: '#a8431e', signature: true, hsn: '0910',
+    tagline: 'For a thick, aromatic Karnataka-style sambar', taste: 'Roasted, tangy, mildly spicy',
+    uses: ['Cook toor dal with vegetables and tamarind water', 'Add 2–3 teaspoons of sambar powder for 4 servings and simmer 5 minutes', 'Finish with a mustard, curry leaf and hing tadka'], pairs: ['Turmeric Powder', 'Red Chilli Powder'] },
+  { slug: 'donne-biryani-masala', name: 'Donne Biryani Masala', price: 98, category: 'masalas', concerns: ['biryani-non-veg'], color: '#5e3a1f', signature: true, hsn: '0910',
+    tagline: 'Bengaluru-style donne biryani at home', taste: 'Warm, peppery, aromatic',
+    uses: ['Sauté onions, ginger-garlic paste, mint and coriander', 'Add the meat with 2–3 tablespoons of masala per 500 g and cook through', 'Layer with jeera samba or basmati rice and cook on dum'], pairs: ['Garam Masala', 'Red Chilli Powder'] },
+  { slug: 'chaat-masala', name: 'Chaat Masala', price: 89, category: 'masalas', concerns: ['snacks-chaat'], color: '#8a6d3b', hsn: '0910',
+    tagline: 'Tangy finishing sprinkle for chaat, fruit and snacks', taste: 'Tangy, salty, zesty',
+    uses: ['Sprinkle over chaat, fruit salads or cut cucumber', 'Toss with fries, peanuts or makhana', 'Stir a pinch into buttermilk or lemonade'], pairs: ['Cumin Powder', 'Red Chilli Powder'] },
+  { slug: 'chicken-masala', name: 'Chicken Masala', price: 96, category: 'masalas', concerns: ['biryani-non-veg'], color: '#8b2a12', signature: true, hsn: '0910',
+    tagline: 'Rich, spicy masala for chicken curry and fry', taste: 'Bold, spicy, warm',
+    uses: ['Sauté onions and tomatoes until soft', 'Add 2 tablespoons of chicken masala per 500 g chicken with a little water', 'Simmer covered until the chicken is cooked and the gravy thickens'], pairs: ['Garam Masala', 'Turmeric Powder'] },
+  { slug: 'rasam-powder', name: 'Rasam Powder', price: 99, category: 'masalas', concerns: ['south-indian'], color: '#b04a1c', hsn: '0910',
+    tagline: 'Peppery, comforting rasam in minutes', taste: 'Peppery, tangy, aromatic',
+    uses: ['Boil tamarind water with tomatoes and salt', 'Add 1–2 teaspoons of rasam powder and a little cooked dal', 'Bring to a froth, then add a ghee and mustard tadka'], pairs: ['Turmeric Powder', 'Sambar Powder'] },
+  { slug: 'chicken-kabab-powder', name: 'Chicken Kabab Powder', price: 86, category: 'masalas', concerns: ['biryani-non-veg', 'snacks-chaat'], color: '#c0301a', hsn: '0910',
+    tagline: 'Crisp, red, restaurant-style chicken kababs', taste: 'Spicy, tangy, savoury',
+    uses: ['Mix the powder with ginger-garlic paste, lemon juice and a little water', 'Coat 500 g chicken and marinate for at least 30 minutes', 'Deep-fry, shallow-fry or air-fry until crisp'], pairs: ['Chaat Masala', 'Garam Masala'] },
+  { slug: 'bisi-bele-bath-powder', name: 'Bisi Bele Bath Powder', price: 89, category: 'masalas', concerns: ['south-indian'], color: '#9c4a22', signature: true, hsn: '0910',
+    tagline: 'Karnataka’s favourite one-pot rice, made easy', taste: 'Spiced, tangy, roasted',
+    uses: ['Pressure-cook rice and toor dal together until soft', 'Add vegetables, tamarind water and 3 tablespoons of powder for 4 servings', 'Simmer, then finish with a ghee tadka and cashews'], pairs: ['Sambar Powder', 'Red Chilli Powder'] },
+  { slug: 'garam-masala', name: 'Garam Masala', price: 105, category: 'masalas', concerns: ['biryani-non-veg', 'everyday'], color: '#5a3a22', hsn: '0910',
+    tagline: 'A warm whole-spice blend to finish curries and biryani', taste: 'Warm, sweet-spicy, fragrant',
+    uses: ['Add ½–1 teaspoon at the end of cooking curries and dals', 'Use in marinades for meat and paneer', 'Sprinkle into biryani layers before dum'], pairs: ['Chicken Masala', 'Cumin Powder'] },
+  { slug: 'turmeric-powder', name: 'Turmeric Powder', price: 45, category: 'spice-powders', concerns: ['everyday'], color: '#e0a10b', hsn: '0910',
+    tagline: 'Bright, earthy haldi for daily cooking', taste: 'Earthy, warm, slightly bitter',
+    uses: ['Add ¼ teaspoon to dals, sambar and curries while cooking', 'Use in marinades for colour and flavour', 'Stir a pinch into warm milk'], pairs: ['Coriander Powder', 'Red Chilli Powder'] },
+  { slug: 'coriander-powder', name: 'Coriander Powder', price: 46, category: 'spice-powders', concerns: ['everyday'], color: '#9a7b3c', hsn: '0909',
+    tagline: 'Ground dhania for curries, dals and gravies', taste: 'Citrusy, nutty, mild',
+    uses: ['Add 1–2 teaspoons to onion-tomato bases', 'Use in dry vegetable stir-fries (palya)', 'Combine with cumin powder for a quick curry base'], pairs: ['Cumin Powder', 'Turmeric Powder'] },
+  { slug: 'red-chilli-powder', name: 'Red Chilli Powder', price: 65, category: 'spice-powders', concerns: ['everyday'], color: '#c22a14', hsn: '0904',
+    tagline: 'Vibrant colour and clean heat', taste: 'Hot, sharp, fruity',
+    uses: ['Add to curries, chutneys and gravies to taste', 'Use in marinades for kababs and fries', 'Sprinkle on eggs, snacks and salads'], pairs: ['Turmeric Powder', 'Coriander Powder'] },
+  { slug: 'cumin-powder', name: 'Cumin Powder', price: 90, category: 'spice-powders', concerns: ['everyday'], color: '#7a5528', hsn: '0909',
+    tagline: 'Ground jeera for raita, curries and chaat', taste: 'Nutty, earthy, warm',
+    uses: ['Stir into raita, buttermilk and chaat', 'Add to curries and dals towards the end of cooking', 'Dry-roast lightly for a deeper flavour'], pairs: ['Coriander Powder', 'Chaat Masala'] },
 ];
+
+export const hsnFor = (slug: string) => rows.find(r => r.slug === slug)?.hsn ?? '0910';
 
 export const products: Product[] = rows.map((r, i) => {
-  const [slug, name, botanical, tagline, color, cons, aroma, extraction, best, isNew, rating, reviews, category = 'essential-oils'] = r;
-  const carrier = category === 'carrier-oils';
-  const base = slug.split('-')[0].toUpperCase().slice(0, 4);
+  const [first, ...rest] = r.slug.split('-');
+  const code = (first.slice(0, 4) + rest.map(w => w[0]).join('')).toUpperCase();
   return {
-    id: `p${i + 1}`, slug, name, botanical_name: botanical, tagline,
-    description: `${name.replace(/ (Essential|Carrier) Oil/, '')} oil, bottled undiluted in amber glass to protect it from light. ${tagline}.`,
-    category, concerns: cons, aroma, extraction, origin: 'India',
-    uses: carrier
-      ? ['Blend with essential oils for massage', 'Use a few drops as a hair and scalp oil', 'Base for DIY facial serums']
-      : ['Diffuse 4–6 drops in water', 'Dilute in a carrier oil for massage', 'Add 2 drops to a warm bath with carrier oil'],
-    suggested_blends: carrier ? ['Lavender', 'Tea Tree', 'Rosemary'] : ['Lavender', 'Cedarwood', 'Orange'].filter(b => !name.startsWith(b)),
-    safety: carrier ? 'For external use only. Patch-test before first use.' : std,
-    purity, color, images: [], is_bestseller: best, is_new: isNew, rating, review_count: reviews,
-    seo_title: `${name} | 100% Pure | Khushilo`, seo_description: `${tagline}. Buy pure ${name.toLowerCase()} online in India.`,
-    created_at: new Date(Date.UTC(2026, 0, 1 + (isNew ? 200 + i : i))).toISOString(),
-    variants: (carrier ? [['100 ml', 399, 549], ['200 ml', 699, 899]] : [['15 ml', 499, 699], ['30 ml', 849, 1199]]).map(([label, price, cmp], j) => ({
-      id: `p${i + 1}v${j + 1}`, sku: `KH-${base}-${String(label).replace(/\s/g, '')}`.toUpperCase(),
-      label: String(label), price: Number(price), compare_at: Number(cmp),
-      stock: (i * 7 + j * 13) % 60, low_stock_threshold: 10, allow_backorder: false,
-    })),
+    id: `p${i + 1}`, slug: r.slug, name: r.name, botanical_name: null, tagline: r.tagline,
+    description: `Khushilo ${r.name}, packed in a 100 g pack. ${r.tagline}.`,
+    category: r.category, concerns: r.concerns, aroma: r.taste, extraction: null, origin: 'India',
+    uses: r.uses, suggested_blends: r.pairs, safety: STORAGE, purity: null, color: r.color, images: [],
+    is_bestseller: !!r.signature, is_new: false, rating: 0, review_count: 0,
+    seo_title: `${r.name} 100 g | Khushilo`, seo_description: `${r.tagline}. Buy Khushilo ${r.name.toLowerCase()} online — 100 g pack, MRP ₹${r.price}.`,
+    created_at: new Date(Date.UTC(2026, 9, 1 + i)).toISOString(),
+    variants: [{ id: `p${i + 1}v1`, sku: `KH-${code}-100G`, label: '100 g', price: r.price, compare_at: null, stock: 50, low_stock_threshold: 10, allow_backorder: false }],
   };
 });

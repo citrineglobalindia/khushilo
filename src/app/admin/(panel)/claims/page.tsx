@@ -26,7 +26,7 @@ export default function Claims() {
   const link = (r: C) => r.kind === 'wiki' ? `/wiki/${r.ref}` : r.ref;
   const count = (k: string, v: string) => rows.filter(r => (r as unknown as Record<string, string>)[k] === v).length;
   return <>
-    <PageHead title="Claims review" sub="Every encyclopedia article and content page is scanned for medical or unverifiable claims before you use it in ads (Drugs & Magic Remedies Act, ASCI, Meta/Google health policies). Approve, or send for edits.">
+    <PageHead title="Claims review" sub="Every content page is scanned for medical or unverifiable claims before you use it in ads (Drugs & Magic Remedies Act, ASCI, Meta/Google health policies). Approve, or send for edits.">
       <button className="btn btn-ghost btn-sm" onClick={() => downloadCSV('ads-approved-urls.csv', rows.filter(r => r.status === 'approved').map(r => ({ url: `${SITE_URL}${link(r)}`, title: r.title, reviewed: r.reviewed_at, note: r.note })))}>Export ads-approved URLs</button>
     </PageHead>
     <Saved msg={msg} />
@@ -50,7 +50,7 @@ export default function Claims() {
         <button className="btn btn-primary btn-sm" onClick={() => set([r.key], 'approved')}>Approve for ads</button>
         <button className="btn btn-ghost btn-sm" onClick={() => { const n = prompt('What needs to change? (optional)', r.note ?? ''); if (n !== null) set([r.key], 'needs_changes', n); }}>Needs changes</button>
         <button className="btn btn-ghost btn-sm" onClick={() => set([r.key], 'not_for_ads')}>Site only</button>
-        {r.kind === 'wiki' ? <Link className="btn btn-ghost btn-sm" href={`/admin/encyclopedia?slug=${r.ref}`}>Edit article</Link> : <Link className="btn btn-ghost btn-sm" href={`/admin/pages?path=${encodeURIComponent(r.ref)}`}>Edit page</Link>}
+        {<Link className="btn btn-ghost btn-sm" href={`/admin/pages?path=${encodeURIComponent(r.ref)}`}>Edit page</Link>}
       </div>{r.note && <p className="muted" style={{ fontSize: 13, marginTop: 6 }}>Note: {r.note}</p>}
     </article>)}</div>
     {list.length > 50 && <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}><button className="btn btn-ghost btn-sm" disabled={!page} onClick={() => setPage(page - 1)}>← Prev</button><span className="muted">Page {page + 1} of {Math.ceil(list.length / 50)}</span><button className="btn btn-ghost btn-sm" disabled={(page + 1) * 50 >= list.length} onClick={() => setPage(page + 1)}>Next →</button></div>}

@@ -15,7 +15,6 @@ const GlobeIcon = ic('M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3.5 3 
 const SendIcon = ic('M22 2 11 13M22 2l-7 20-4-9-9-4z');
 const GiftIcon = ic('M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z');
 const MegaIcon = ic('M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1zM15 9a3 3 0 0 1 0 6M18 6a7 7 0 0 1 0 12');
-const BookIcon = ic('M2 5c3-1.5 7-1.5 10 1 3-2.5 7-2.5 10-1v14c-3-1.5-7-1.5-10 1-3-2.5-7-2.5-10-1zM12 6v14');
 const ShieldIcon = ic('M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z');
 const ClockIcon = ic('M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2');
 const GearIcon = ic('M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1-2 2-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21h-3v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1-2-2 .1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3v-3h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1 2-2 .1.1a1.7 1.7 0 0 0 1.8.3 1.7 1.7 0 0 0 1-1.5V3h3v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1 2 2-.1.1a1.7 1.7 0 0 0-.3 1.8 1.7 1.7 0 0 0 1.5 1h.2v3h-.2a1.7 1.7 0 0 0-1.5 1z');
@@ -25,7 +24,7 @@ const GROUPS: [string, Item[]][] = [
   ['Sales', [['/admin/orders', 'Orders', CartIcon], ['/admin/customers', 'Customers', UsersIcon], ['/admin/coupons', 'Coupons', TagIcon]]],
   ['Catalogue', [['/admin/products', 'Products', BoxIcon], ['/admin/inventory', 'Inventory', LayersIcon], ['/admin/reviews', 'Reviews', StarIcon]]],
   ['Marketing', [['/admin/leads', 'Leads', MailIcon], ['/admin/abandoned', 'Abandoned carts', CartIcon], ['/admin/campaigns', 'Segments & broadcasts', SendIcon], ['/admin/loyalty', 'Loyalty & referrals', GiftIcon], ['/admin/promotions', 'Banners & popups', MegaIcon], ['/admin/landing', 'Landing pages', PageIcon]]],
-  ['Content', [['/admin/content', 'Homepage & content', PageIcon], ['/admin/pages', 'Site pages', PageIcon], ['/admin/encyclopedia', 'Encyclopedia', BookIcon], ['/admin/claims', 'Claims review', ShieldIcon], ['/admin/seo', 'SEO & redirects', GlobeIcon]]],
+  ['Content', [['/admin/content', 'Homepage & content', PageIcon], ['/admin/pages', 'Site pages', PageIcon], ['/admin/claims', 'Claims review', ShieldIcon], ['/admin/seo', 'SEO & redirects', GlobeIcon]]],
   ['System', [['/admin/team', 'Team & roles', ShieldIcon], ['/admin/activity', 'Activity log', ClockIcon], ['/admin/settings', 'Settings', GearIcon]]],
 ];
 const ALL: Item[] = GROUPS.flatMap(([, l]) => l);

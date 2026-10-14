@@ -8,7 +8,7 @@ import { Bottle } from '@/components/Bottle';
 
 type Variant = { id?: string; sku: string; label: string; price: number; compare_at: number | null; stock: number; low_stock_threshold: number; allow_backorder: boolean; sort: number; _new?: boolean; _initial?: number };
 type Opt = { id: string; name: string; slug: string };
-const blank = { slug: '', name: '', botanical_name: '', tagline: '', description: '', category_id: '', aroma: '', extraction: '', origin: 'India', uses: '', suggested_blends: '', safety: '', purity: '', color: '#7a5a9e', images: [] as string[], is_bestseller: false, is_new: true, status: 'active', claim_status: 'pending', seo_title: '', seo_description: '' };
+const blank = { slug: '', name: '', botanical_name: '', tagline: '', description: '', category_id: '', aroma: '', extraction: '', origin: 'India', uses: '', suggested_blends: '', safety: '', purity: '', color: '#c22a14', images: [] as string[], is_bestseller: false, is_new: true, status: 'active', claim_status: 'pending', seo_title: '', seo_description: '', hsn: '0910', gst_rate: '5' as string | number };
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
 export default function EditProduct({ params }: { params: { id: string } }) {
@@ -20,7 +20,7 @@ export default function EditProduct({ params }: { params: { id: string } }) {
   useEffect(() => {
     db().from('categories').select('id,name,slug').order('sort').then(({ data }) => setCats(data ?? []));
     db().from('concerns').select('id,name,slug').order('sort').then(({ data }) => setCons(data ?? []));
-    if (isNew) { setVars([{ sku: '', label: '15 ml', price: 499, compare_at: 699, stock: 0, low_stock_threshold: 10, allow_backorder: false, sort: 0, _new: true, _initial: 0 }]); return; }
+    if (isNew) { setVars([{ sku: '', label: '100 g', price: 0, compare_at: null, stock: 0, low_stock_threshold: 10, allow_backorder: false, sort: 0, _new: true, _initial: 0 }]); return; }
     db().from('products').select('*, variants(*), product_concerns(concern_id)').eq('id', params.id).single().then(({ data }) => {
       if (!data) return;
       const { variants, product_concerns, ...rest } = data;
@@ -99,18 +99,18 @@ export default function EditProduct({ params }: { params: { id: string } }) {
     {msg && <p className={`notice ${msg.t}`} role="status">{msg.m}</p>}
     <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 440px), 1fr))', alignItems: 'start' }}>
       <section className="panel form-grid"><h2>Details</h2>
-        {T('name', 'Product name')}{T('slug', 'URL slug', false, `/product/${p.slug || '…'}`)}{T('botanical_name', 'Botanical name')}{T('tagline', 'Short description')}{T('description', 'Approved long description', true)}
+        {T('name', 'Product name')}{T('slug', 'URL slug', false, `/product/${p.slug || '…'}`)}{T('botanical_name', 'Sub-title (optional, e.g. local name)')}{T('tagline', 'Short description')}{T('description', 'Approved long description', true)}
         <div className="form-grid two">
           <div className="field"><label htmlFor="cat">Category</label><select id="cat" className="select" value={p.category_id} onChange={set('category_id')}><option value="">—</option>{cats.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></div>
           <div className="field"><label htmlFor="status">Status</label><select id="status" className="select" value={p.status} onChange={set('status')}><option value="active">Active (visible on store)</option><option value="draft">Draft (hidden)</option><option value="archived">Archived</option></select></div>
         </div>
-        <div className="field"><label>Concerns</label><div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>{cons.map(c => <label key={c.id} className="check"><input type="checkbox" checked={picked.includes(c.id)} onChange={() => setPicked(x => x.includes(c.id) ? x.filter(y => y !== c.id) : [...x, c.id])} />{c.name}</label>)}</div></div>
-        <div style={{ display: 'flex', gap: 18 }}><label className="check"><input type="checkbox" checked={p.is_bestseller} onChange={set('is_bestseller')} />Best seller</label><label className="check"><input type="checkbox" checked={p.is_new} onChange={set('is_new')} />New arrival</label></div>
+        <div className="field"><label>Shop by dish</label><div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>{cons.map(c => <label key={c.id} className="check"><input type="checkbox" checked={picked.includes(c.id)} onChange={() => setPicked(x => x.includes(c.id) ? x.filter(y => y !== c.id) : [...x, c.id])} />{c.name}</label>)}</div></div>
+        <div style={{ display: 'flex', gap: 18 }}><label className="check"><input type="checkbox" checked={p.is_bestseller} onChange={set('is_bestseller')} />Signature masala</label><label className="check"><input type="checkbox" checked={p.is_new} onChange={set('is_new')} />New arrival</label></div>
       </section>
-      <section className="panel form-grid"><h2>Oil profile &amp; safety</h2>
-        <div className="form-grid two">{T('aroma', 'Aroma profile')}{T('extraction', 'Extraction method')}{T('origin', 'Origin')}
-          <div className="field"><label htmlFor="color">Label colour</label><div style={{ display: 'flex', gap: 10, alignItems: 'center' }}><input id="color" type="color" value={p.color} onChange={set('color')} style={{ width: 48, height: 40, border: 0 }} /><div style={{ width: 26 }}><Bottle color={p.color} /></div></div></div></div>
-        {T('uses', 'How to use (one per line)', true)}{T('suggested_blends', 'Blends well with (comma separated)')}{T('safety', 'Safety & dilution', true, 'Always shown on the product page — cannot be collapsed.')}{T('purity', 'Purity & testing')}
+      <section className="panel form-grid"><h2>Spice details &amp; storage</h2>
+        <div className="form-grid two">{T('aroma', 'Taste')}{T('extraction', 'Ingredients (as printed on the pack)')}{T('origin', 'Country of origin')}{T('hsn', 'HSN code (invoice)')}{T('gst_rate', 'GST rate % (invoice)')}
+          <div className="field"><label htmlFor="color">Spice colour</label><div style={{ display: 'flex', gap: 10, alignItems: 'center' }}><input id="color" type="color" value={p.color} onChange={set('color')} style={{ width: 48, height: 40, border: 0 }} /><div style={{ width: 26 }}><Bottle color={p.color} /></div></div></div></div>
+        {T('uses', 'How to use (one per line)', true)}{T('suggested_blends', 'Pairs well with (comma separated)')}{T('safety', 'Storage instructions', true, 'Always shown on the product page.')}{T('purity', 'Quality note (optional)')}
         <div className="field"><label htmlFor="claim">Claims review</label><select id="claim" className="select" value={p.claim_status} onChange={set('claim_status')}><option value="pending">Pending review</option><option value="approved">Approved for ads</option><option value="rejected">Rejected</option></select><small className="muted">Only approved copy should be used in paid campaigns (COMP-001).</small></div>
       </section>
       <section className="panel form-grid"><h2>Images</h2>

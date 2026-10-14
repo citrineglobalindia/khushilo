@@ -9,7 +9,7 @@ import { ProductCard } from '@/components/ProductCard';
 export async function generateStaticParams() { return (await getConcerns()).map(c => ({ slug: c.slug })); }
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const c = (await getConcerns()).find(x => x.slug === params.slug);
-  return c ? { title: `Essential Oils for ${c.name}`, description: c.intro, alternates: { canonical: `/concern/${c.slug}` } } : {};
+  return c ? { title: `${c.name} Masalas & Spices`, description: c.intro, alternates: { canonical: `/concern/${c.slug}` } } : {};
 }
 export default async function ConcernPage({ params }: { params: { slug: string } }) {
   const [concerns, products, categories] = await Promise.all([getConcerns(), getProducts(), getCategories()]);

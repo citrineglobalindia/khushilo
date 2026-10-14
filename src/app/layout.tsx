@@ -12,7 +12,7 @@ const sans = Instrument_Sans({ subsets: ['latin'], variable: '--f-sans', display
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: 'Khushilo — Pure Spices, Perfect Taste', template: '%s | Khushilo' },
-  description: 'Pure, GC-MS tested essential and carrier oils made in India. Shop lavender, rosemary, tea tree, peppermint and more.',
+  description: 'Khushilo masalas and spice powders from Bengaluru. Shop sambar powder, rasam powder, donne biryani masala, chicken masala, turmeric, chilli and more.',
   openGraph: { siteName: 'Khushilo', type: 'website', locale: 'en_IN' },
   icons: { icon: [{ url: '/favicon.png', sizes: '48x48' }, { url: BRAND.icon, sizes: '512x512' }], apple: '/brand/icon-192.png' },
 };

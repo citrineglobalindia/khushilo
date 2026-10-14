@@ -33,16 +33,16 @@ export function MobileMenu({ open, onClose, nav }: { open: boolean; onClose: () 
       </div>
       <div className="drawer-body" onClick={e => { if ((e.target as HTMLElement).closest('a')) onClose(); }}>
         <div className="mm-quick">
-          <Link href="/shop?sort=best"><LeafIcon size={20} />Best sellers</Link>
-          <Link href="/shop?sort=new"><BoxIcon size={20} />New</Link>
-          <Link href="/shop?offer=1"><TagIcon size={20} />Offers</Link>
+          <Link href="/shop?sort=best"><LeafIcon size={20} />Signature</Link>
+          <Link href="/shop?category=masalas"><BoxIcon size={20} />Masalas</Link>
+          <Link href="/shop?category=spice-powders"><TagIcon size={20} />Powders</Link>
         </div>
         <h4 className="mm-h">Shop</h4>
         <div className="mm-list">
           <Link href="/shop">All products <span aria-hidden>›</span></Link>
           {nav.categories.map(c => <Link key={c.slug} href={`/shop?category=${c.slug}`}>{c.name} <span aria-hidden>›</span></Link>)}
         </div>
-        <h4 className="mm-h">Shop by concern</h4>
+        <h4 className="mm-h">Shop by dish</h4>
         <div className="mm-chips">
           {nav.concerns.map(c => <Link key={c.slug} href={`/concern/${c.slug}`}><i style={{ background: c.color ?? 'var(--leaf)' }} />{c.name}</Link>)}
         </div>
@@ -50,8 +50,7 @@ export function MobileMenu({ open, onClose, nav }: { open: boolean; onClose: () 
         <div className="mm-list">
           <Link href="/wishlist"><span style={{ display: 'flex', gap: 10, alignItems: 'center' }}><HeartIcon size={18} />Wishlist</span><span aria-hidden>›</span></Link>
           <Link href="/account">Track your order <span aria-hidden>›</span></Link>
-          <Link href="/categories">Botanical Encyclopedia <span aria-hidden>›</span></Link>
-          <Link href="/learn">Guides &amp; resources <span aria-hidden>›</span></Link>
+          <Link href="/about">Our story <span aria-hidden>›</span></Link>
           <Link href="/faq">FAQ <span aria-hidden>›</span></Link>
           <Link href="/contact">Contact us <span aria-hidden>›</span></Link>
         </div>
