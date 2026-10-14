@@ -27,32 +27,60 @@ function Track() {
 }
 
 function Auth() {
-  const sp = useSearchParams(); const [mode, setMode] = useState<'code' | 'password' | 'signup'>('code');
+  const sp = useSearchParams();
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [method, setMethod] = useState<'password' | 'code'>('password');
   const [email, setEmail] = useState(''); const [pw, setPw] = useState(''); const [name, setName] = useState(''); const [code, setCode] = useState('');
+  const [show, setShow] = useState(false);
   const [sent, setSent] = useState(false); const [busy, setBusy] = useState(false); const [msg, setMsg] = useState<Msg>(null);
-  const run = async (fn: () => Promise<{ error: { message: string } | null } | void>) => { setBusy(true); setMsg(null); try { const r = await fn(); if (r && r.error) setMsg({ t: 'error', m: r.error.message }); } finally { setBusy(false); } };
+  const run = async (fn: () => Promise<{ error: { message: string } | null } | void>) => { setBusy(true); setMsg(null); try { const r = await fn(); if (r && r.error) setMsg({ t: 'error', m: friendly(r.error.message) }); } finally { setBusy(false); } };
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const go = (m: 'login' | 'signup') => { setMode(m); setMethod('password'); setMsg(null); setSent(false); setCode(''); };
+  const useCode = mode === 'login' && method === 'code';
+  const label = busy ? 'Please wait…' : mode === 'signup' ? 'Create my account' : useCode ? (sent ? 'Verify & login' : 'Email me a login code') : 'Login';
+
   return <div className="panel auth-box">
-    <h2>Sign in or create an account</h2><p className="muted" style={{ fontSize: 14, margin: '4px 0 14px' }}>See all your orders, download invoices, save addresses and collect reward points.</p>
-    <div className="auth-tabs" role="tablist">{([['code', 'Email code'], ['password', 'Password'], ['signup', 'Create account']] as const).map(([k, l]) => <button key={k} role="tab" aria-pressed={mode === k} onClick={() => { setMode(k); setMsg(null); setSent(false); }}>{l}</button>)}</div>
-    {sp.get('next') && <p className="notice" style={{ marginBottom: 10 }}>Sign in to continue.</p>}
+    <div className="auth-switch" role="tablist" aria-label="Login or create account">
+      <button role="tab" aria-selected={mode === 'login'} onClick={() => go('login')}>Login</button>
+      <button role="tab" aria-selected={mode === 'signup'} onClick={() => go('signup')}>Create account</button>
+    </div>
+    <h2>{mode === 'login' ? 'Welcome back' : 'Create your Khushilo account'}</h2>
+    <p className="muted auth-sub">{mode === 'login' ? 'Login to see your orders, invoices, saved addresses and reward points.' : 'Track orders, download invoices, save addresses and earn reward points on every order.'}</p>
+    {sp.get('next') && <p className="notice" style={{ marginBottom: 10 }}>Please login to continue.</p>}
     <form className="form-grid" onSubmit={e => { e.preventDefault();
-      if (mode === 'code' && !sent) run(async () => { const r = await acct().auth.signInWithOtp({ email, options: { shouldCreateUser: true, emailRedirectTo: `${origin}/account` } }); if (!r.error) { setSent(true); setMsg({ t: 'ok', m: `We emailed a 6-digit code to ${email}.` }); } return r; });
-      else if (mode === 'code') run(() => acct().auth.verifyOtp({ email, token: code.trim(), type: 'email' }));
-      else if (mode === 'password') run(() => acct().auth.signInWithPassword({ email, password: pw }));
+      if (useCode && !sent) run(async () => { const r = await acct().auth.signInWithOtp({ email, options: { shouldCreateUser: true, emailRedirectTo: `${origin}/account` } }); if (!r.error) { setSent(true); setMsg({ t: 'ok', m: `We emailed a 6-digit code to ${email}.` }); } return r; });
+      else if (useCode) run(() => acct().auth.verifyOtp({ email, token: code.trim(), type: 'email' }));
+      else if (mode === 'login') run(() => acct().auth.signInWithPassword({ email, password: pw }));
       else run(async () => { if (pw.length < 8) return { error: { message: 'Use at least 8 characters for your password.' } };
         const r = await acct().auth.signUp({ email, password: pw, options: { data: { full_name: name }, emailRedirectTo: `${origin}/account` } });
         if (!r.error && !r.data.session) setMsg({ t: 'ok', m: `Almost done — open the link we sent to ${email} to confirm your account.` }); return r; }); }}>
       {mode === 'signup' && <div className="field"><label htmlFor="a-name">Full name</label><input id="a-name" className="input" value={name} onChange={e => setName(e.target.value)} required autoComplete="name" /></div>}
       <div className="field"><label htmlFor="a-email">Email</label><input id="a-email" type="email" className="input" value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" disabled={sent} /></div>
-      {mode === 'code' && sent && <div className="field"><label htmlFor="a-code">6-digit code</label><input id="a-code" className="input" inputMode="numeric" autoComplete="one-time-code" value={code} onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))} required /></div>}
-      {mode !== 'code' && <div className="field"><label htmlFor="a-pw">Password</label><input id="a-pw" type="password" className="input" value={pw} onChange={e => setPw(e.target.value)} required autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} minLength={mode === 'signup' ? 8 : undefined} /></div>}
+      {useCode && sent && <div className="field"><label htmlFor="a-code">6-digit code</label><input id="a-code" className="input" inputMode="numeric" autoComplete="one-time-code" value={code} onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))} required /></div>}
+      {!useCode && <div className="field">
+        <div className="auth-pwhead"><label htmlFor="a-pw">Password</label>
+          {mode === 'login' && <button type="button" className="link" onClick={() => email ? run(async () => { const r = await acct().auth.resetPasswordForEmail(email, { redirectTo: `${origin}/account?reset=1` }); if (!r.error) setMsg({ t: 'ok', m: `Password reset link sent to ${email}.` }); return r; }) : setMsg({ t: 'error', m: 'Enter your email first, then tap Forgot password.' })}>Forgot password?</button>}</div>
+        <div className="auth-pw"><input id="a-pw" type={show ? 'text' : 'password'} className="input" value={pw} onChange={e => setPw(e.target.value)} required autoComplete={mode === 'signup' ? 'new-password' : 'current-password'} minLength={mode === 'signup' ? 8 : undefined} placeholder={mode === 'signup' ? 'At least 8 characters' : ''} />
+          <button type="button" onClick={() => setShow(v => !v)} aria-label={show ? 'Hide password' : 'Show password'}>{show ? 'Hide' : 'Show'}</button></div>
+      </div>}
       {msg && <p className={`notice ${msg.t}`} role="status">{msg.m}</p>}
-      <button className="btn btn-primary" disabled={busy}>{busy ? 'Please wait…' : mode === 'code' ? (sent ? 'Verify & sign in' : 'Email me a code') : mode === 'password' ? 'Sign in' : 'Create account'}</button>
-      {mode === 'code' && sent && <button type="button" className="link" onClick={() => { setSent(false); setCode(''); setMsg(null); }}>Use a different email</button>}
-      {mode === 'password' && <button type="button" className="link" style={{ justifySelf: 'start' }} onClick={() => email ? run(async () => { const r = await acct().auth.resetPasswordForEmail(email, { redirectTo: `${origin}/account?reset=1` }); if (!r.error) setMsg({ t: 'ok', m: `Password reset link sent to ${email}.` }); return r; }) : setMsg({ t: 'error', m: 'Enter your email first.' })}>Forgot password?</button>}
+      <button className="btn btn-primary btn-block" disabled={busy}>{label}</button>
+      {mode === 'login' && !sent && <div className="auth-or"><span>or</span></div>}
+      {mode === 'login' && !sent && <button type="button" className="btn btn-ghost btn-block" onClick={() => { setMethod(method === 'code' ? 'password' : 'code'); setMsg(null); }}>{method === 'code' ? 'Login with password instead' : 'Login with a code sent to my email'}</button>}
+      {useCode && sent && <button type="button" className="link" onClick={() => { setSent(false); setCode(''); setMsg(null); }}>Use a different email</button>}
     </form>
+    <p className="auth-foot">{mode === 'login' ? <>New to Khushilo? <button type="button" className="link" onClick={() => go('signup')}>Create an account</button></> : <>Already have an account? <button type="button" className="link" onClick={() => go('login')}>Login</button></>}</p>
   </div>;
+}
+
+// Supabase error messages → plain language for shoppers.
+function friendly(m: string) {
+  if (/invalid login credentials/i.test(m)) return 'Email or password is incorrect. Try again, or login with a code sent to your email.';
+  if (/email not confirmed/i.test(m)) return 'Please confirm your email first — open the link we sent you, or login with a code.';
+  if (/already registered|already exists/i.test(m)) return 'An account with this email already exists. Please login instead.';
+  if (/token has expired|invalid.*otp|otp.*invalid/i.test(m)) return 'That code is wrong or has expired. Request a new one.';
+  if (/rate limit|too many/i.test(m)) return 'Too many attempts. Please wait a minute and try again.';
+  return m;
 }
 
 function Dashboard({ user }: { user: User }) {
