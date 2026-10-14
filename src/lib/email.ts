@@ -1,7 +1,7 @@
 import 'server-only';
 import { adminClient } from './server';
 
-const FROM = { name: 'Khushilo', email: process.env.EMAIL_FROM || 'no-reply@khushilo.in' };
+const FROM = { name: 'Khushilo', email: process.env.EMAIL_FROM || 'no-reply@khushilo.com' };
 const inr = (n: number) => '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
