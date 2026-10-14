@@ -6,6 +6,7 @@ import { Gallery, ProductBuy } from '@/components/ProductBuy';
 import { PinCheck } from '@/components/PinCheck';
 import { ProductCard } from '@/components/ProductCard';
 import { SITE_URL } from '@/lib/format';
+import { GUIDES } from '@/lib/guides';
 
 export async function generateStaticParams() { return (await getProducts()).map(p => ({ slug: p.slug })); }
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -20,6 +21,8 @@ export default async function ProductPage({ params }: { params: { slug: string }
   if (!p) notFound();
   const related = all.filter(x => x.id !== p.id && x.concerns.some(c => p.concerns.includes(c))).slice(0, 4);
   const v = p.variants[0];
+  const guide = GUIDES.find(g => g.category === 'Spice Guides' && g.products[0] === p.slug);
+  const recipes = GUIDES.filter(g => g.recipe && g.products.includes(p.slug)).slice(0, 2);
   const ld = { '@context': 'https://schema.org', '@graph': [
     { '@type': 'Product', name: p.name, description: p.description, sku: v?.sku, brand: { '@type': 'Brand', name: 'Khushilo' }, image: p.images.length ? p.images : undefined,
       offers: p.variants.map(x => ({ '@type': 'Offer', sku: x.sku, price: x.price, priceCurrency: 'INR', url: `${SITE_URL}/product/${p.slug}`,
@@ -46,6 +49,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
             {p.uses.length > 0 && <details className="acc"><summary>How to use</summary><div><ul>{p.uses.map(u => <li key={u}>{u}</li>)}</ul></div></details>}
             {p.suggested_blends.length > 0 && <details className="acc"><summary>Pairs well with</summary><div><p>{p.suggested_blends.join(', ')}</p></div></details>}
             {p.purity && <details className="acc"><summary>Quality</summary><div><p>{p.purity}</p></div></details>}
+            {(guide || recipes.length > 0) && <details className="acc" open><summary>Recipes &amp; guides</summary><div><ul>{guide && <li><Link className="link" href={`/guides/${guide.slug}`}>{guide.title}</Link></li>}{recipes.map(r => <li key={r.slug}><Link className="link" href={`/guides/${r.slug}`}>{r.title}</Link> (recipe)</li>)}</ul></div></details>}
             <details className="acc"><summary>Great for</summary><div><p>{p.concerns.map(c => { const x = concerns.find(y => y.slug === c); return x ? <Link key={c} href={`/concern/${c}`} className="chip" style={{ display: 'inline-block', margin: '0 6px 6px 0' }}>{x.name}</Link> : null; })}</p></div></details>
           </div>
         </div>

@@ -8,7 +8,7 @@ const WaIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="curre
 const GROUPS: [string, [string, string][]][] = [
   ['Shop', [['Masala blends', '/shop?category=masalas'], ['Spice powders', '/shop?category=spice-powders'], ['Signature masalas', '/shop?sort=best'], ['All products', '/shop']]],
   ['Help', [['Track order', '/account'], ['FAQ', '/faq'], ['Shipping & returns', '/shipping'], ['Contact', '/contact']]],
-  ['Shop by dish', [['South Indian classics', '/concern/south-indian'], ['Biryani & non-veg', '/concern/biryani-non-veg'], ['Everyday essentials', '/concern/everyday'], ['Our story', '/about']]],
+  ['Shop by dish', [['South Indian classics', '/concern/south-indian'], ['Biryani & non-veg', '/concern/biryani-non-veg'], ['Everyday essentials', '/concern/everyday'], ['Spice Library & recipes', '/categories'], ['Our story', '/about']]],
   ['Policies', [['Privacy', '/privacy'], ['Terms', '/terms'], ['Shipping & returns', '/shipping']]],
 ];
 

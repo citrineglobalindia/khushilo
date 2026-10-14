@@ -74,7 +74,7 @@ export function Header({ index, nav }: { index: SearchItem[]; nav: Nav }) {
               <div className="mega"><div><h4>Shop by dish</h4>{nav.concerns.map(c => <Link key={c.slug} href={`/concern/${c.slug}`}>{c.name}</Link>)}</div>
                 <div><h4>Collections</h4><Link href="/shop?category=masalas">Masala blends</Link><Link href="/shop?category=spice-powders">Spice powders</Link><Link href="/shop">All products</Link></div></div></li>
             {nav.categories.map(c => <li key={c.slug}><Link href={`/shop?category=${c.slug}`}>{c.name}</Link></li>)}
-            <li><Link href="/concern/south-indian">South Indian</Link></li>
+            <li><Link href="/categories">Spice Library</Link></li>
             <li><Link href="/about">Our story</Link></li>
           </ul>
           <div className="header-search"><Search index={index} concerns={nav.concerns} /></div>
