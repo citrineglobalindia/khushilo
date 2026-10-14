@@ -55,17 +55,29 @@ export function OfferPopup() {
     <div className="offer-wrap" onClick={e => e.target === e.currentTarget && setOpen(false)}>
       <div className="offer" role="dialog" aria-modal="true" aria-labelledby="offer-h">
         <button ref={closeBtn} className="icon-btn offer-x" aria-label="Close offer" onClick={() => setOpen(false)}><CloseIcon /></button>
-        <div className="offer-art" aria-hidden><img className="offer-logo" src={BRAND.logo} alt="" /><span className="offer-badge"><b>10%</b>OFF</span></div>
+        <div className="offer-art" aria-hidden>
+          <img className="offer-photo" src="/products/donne-biryani-masala-scene.webp" alt="" />
+          <div className="offer-shade" />
+          <img className="offer-brand" src={BRAND.logo} alt="" />
+          <div className="offer-stamp"><small>First order</small><b>10<i>%</i></b><span>OFF</span></div>
+          <div className="offer-chip">Code <b>{CODE}</b></div>
+        </div>
         <div className="offer-body">
-          <span className="hero-eyebrow">WELCOME OFFER</span>
+          <span className="offer-eyebrow"><i /><i /><i />WELCOME TO KHUSHILO</span>
           <h2 id="offer-h">{cfg.title}</h2>
           {step === 'form' ? <>
             <p className="muted">{cfg.body}</p>
+            <ul className="offer-perks">
+              <li><span>🌶️</span>Bengaluru-style masalas, 100 g packs</li>
+              <li><span>🚚</span>Free delivery above ₹999</li>
+              <li><span>🍛</span>Recipes &amp; festive offers first</li>
+            </ul>
             <form onSubmit={async e => {
               e.preventDefault(); setErr('');
               const f = new FormData(e.currentTarget);
               const email = String(f.get('email') || '').trim(); const phone = String(f.get('phone') || '').replace(/\D/g, '').slice(-10);
               if (!email && !phone) return setErr('Enter your email or WhatsApp number.');
+              if (!consent) return setErr('Tick the box so we can send you the code and offers.');
               if (phone && !/^[6-9]\d{9}$/.test(phone)) return setErr('Enter a valid 10-digit mobile number.');
               setBusy(true);
               try { await submitLead({ source: 'welcome_popup', email: email || undefined, phone: phone || undefined, consent }); setStep('done'); try { localStorage.setItem(CLAIMED, new Date().toISOString()); } catch {} }
@@ -78,13 +90,13 @@ export function OfferPopup() {
               <input id="of-phone" name="phone" type="tel" inputMode="numeric" className="input" placeholder="WhatsApp number (optional)" autoComplete="tel-national" />
               <label className="check"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} />Send me offers by email/WhatsApp. Unsubscribe anytime.</label>
               {err && <p className="err" role="alert">{err}</p>}
-              <button className="btn btn-primary btn-block" disabled={busy || !consent}>{busy ? 'Unlocking…' : 'Unlock my 10% off'}</button>
+              <button className="btn btn-block offer-cta" disabled={busy}>{busy ? 'Unlocking…' : <>Unlock my 10% off <span aria-hidden>→</span></>}</button>
             </form>
-            <button className="link offer-skip" onClick={() => setOpen(false)}>No thanks</button>
+            <button className="offer-skip" onClick={() => setOpen(false)}>No thanks, I’ll pay full price</button>
           </> : <>
             <p>Use this code at checkout:</p>
             <button className="offer-code" onClick={copy} aria-label={`Copy code ${CODE}`}><b>{CODE}</b><span>{copied ? 'Copied ✓' : 'Tap to copy'}</span></button>
-            <a className="btn btn-primary btn-block" href="/shop?sort=best" onClick={() => setOpen(false)}>Shop best sellers</a>
+            <a className="btn btn-block offer-cta" href="/shop?sort=best" onClick={() => setOpen(false)}>Shop best sellers</a>
           </>}
         </div>
       </div>

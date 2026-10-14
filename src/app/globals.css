@@ -899,8 +899,6 @@ tr:last-child td { border-bottom: 0; }
 .adm-noaccess { max-width: 520px; margin: 40px auto; text-align: center; display: grid; gap: 12px; justify-items: center; }
 
 /* ── Khushilo spice-store additions ── */
-.offer-art:has(.offer-logo) { background: radial-gradient(circle at 50% 40%, #f0c36e 0 18%, #e53624 19% 100%); }
-.offer-art img.offer-logo { object-fit: contain; padding: 14%; filter: drop-shadow(0 6px 16px rgba(0,0,0,.18)); }
 .promo-art { display: flex; gap: 10px; align-items: flex-end; justify-content: center; width: clamp(150px, 42%, 300px); align-self: center; }
 .promo-art svg { width: 46%; height: auto; filter: drop-shadow(0 8px 14px rgba(120,30,20,.18)); }
 @media (max-width: 520px) { .promo-art { width: 100%; order: -1; max-height: 170px; } .promo-art svg { width: 34%; } }
@@ -1064,3 +1062,51 @@ tr:last-child td { border-bottom: 0; }
 .guide-list { margin: 4px 0 0; padding-left: 0; list-style: none; display: grid; gap: 8px; }
 .guide-list li { position: relative; padding-left: 24px; font-size: 16px; line-height: 1.6; }
 .guide-list li::before { content: '◆'; position: absolute; left: 0; top: 1px; color: #e0a10b; font-size: 11px; }
+
+/* Welcome offer v2 — photo panel + stamp */
+.offer-wrap { background: rgba(43,14,8,.62); backdrop-filter: blur(3px); }
+.offer { width: min(780px, 100%); border-radius: 22px; grid-template-columns: 1fr 1.05fr; box-shadow: 0 30px 80px rgba(60,10,5,.45); }
+.offer-art { background: #7a1a10; min-height: 440px; }
+.offer-art img.offer-photo { object-position: 72% 60%; transform: scale(1.06); animation: offerZoom 9s ease-out both; }
+@keyframes offerZoom { from { transform: scale(1.16); } to { transform: scale(1.06); } }
+.offer-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(122,20,12,.05) 0%, rgba(122,20,12,0) 35%, rgba(150,24,14,.78) 68%, rgba(110,16,10,.96) 100%); }
+.offer-art img.offer-brand { position: absolute; inset: auto; top: 16px; left: 16px; width: 132px; height: auto; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,.35)); }
+.offer-stamp { position: absolute; left: 22px; bottom: 64px; color: #fff; display: grid; line-height: .9; text-shadow: 0 4px 18px rgba(0,0,0,.25); }
+.offer-stamp small { font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.offer-stamp b { font-family: var(--font-display); font-size: 92px; font-weight: 800; letter-spacing: -.03em; }
+.offer-stamp b i { font-style: normal; font-size: .5em; vertical-align: top; margin-left: 2px; color: var(--gold); }
+.offer-stamp span { font-family: var(--font-display); font-size: 34px; font-weight: 800; letter-spacing: .18em; }
+.offer-chip { position: absolute; left: 22px; bottom: 20px; padding: 7px 12px; border: 1.5px dashed rgba(240,195,110,.9); border-radius: 999px; color: #fff3dc; font-size: 12.5px; letter-spacing: .04em; background: rgba(0,0,0,.18); }
+.offer-chip b { color: var(--gold); letter-spacing: .1em; margin-left: 4px; }
+.offer-body { padding: 34px 30px 24px; background: radial-gradient(120% 80% at 100% 0%, #fff1dc 0%, var(--canvas) 55%); }
+.offer-eyebrow { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 700; letter-spacing: .2em; color: var(--amber); }
+.offer-eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: var(--forest-2); } .offer-eyebrow i:nth-child(2) { background: var(--gold); } .offer-eyebrow i:nth-child(3) { background: var(--leaf); margin-right: 6px; }
+.offer-body h2 { color: var(--forest); font-size: clamp(1.6rem, 3.4vw, 2.15rem); }
+.offer-perks { list-style: none; margin: 2px 0 4px; padding: 0; display: grid; gap: 7px; }
+.offer-perks li { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--ink); }
+.offer-perks li span { width: 28px; height: 28px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--sand); font-size: 14px; }
+.offer-form .input { background: #fff; border-color: var(--line); height: 46px; }
+.offer-form .input:focus { border-color: var(--forest-2); box-shadow: 0 0 0 3px rgba(229,54,36,.14); }
+.offer-form .check input { accent-color: var(--forest-2); }
+.offer-cta { height: 50px; border: 0; color: #fff; font-weight: 700; font-size: 16px; letter-spacing: .01em; background: linear-gradient(135deg, #e53624 0%, #b5261a 100%); box-shadow: 0 8px 20px rgba(181,38,26,.32), inset 0 1px 0 rgba(255,255,255,.2); transition: transform .15s, box-shadow .15s; }
+.offer-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(181,38,26,.38); color: #fff; }
+.offer-cta span { transition: transform .15s; display: inline-block; } .offer-cta:hover span { transform: translateX(3px); }
+.offer-cta:disabled { opacity: .7; transform: none; }
+.offer-skip { justify-self: center; background: none; border: 0; padding: 4px; font-size: 12.5px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.offer-skip:hover { color: var(--ink); }
+.offer-x { background: rgba(255,255,255,.95); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.offer-x:hover { color: var(--forest); }
+.offer-x:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; } .offer-x:focus { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.offer-code { border-color: var(--forest-2); background: #fff8ee; } .offer-code span { color: var(--forest-2); }
+@media (max-width: 639px) {
+  .offer { grid-template-columns: 1fr; border-radius: 22px 22px 0 0; }
+  .offer-art { min-height: 0; height: 200px; }
+  .offer-art img.offer-photo { object-position: 70% 55%; }
+  .offer-art img.offer-brand { display: none; }
+  .offer-shade { background: linear-gradient(90deg, rgba(120,18,10,.95) 0%, rgba(140,22,12,.75) 45%, rgba(122,20,12,0) 80%); }
+  .offer-stamp { left: 18px; bottom: 50px; } .offer-stamp b { font-size: 62px; } .offer-stamp span { font-size: 24px; } .offer-stamp small { font-size: 10.5px; margin-bottom: 4px; }
+  .offer-chip { left: 16px; bottom: 12px; font-size: 11.5px; padding: 5px 10px; }
+  .offer-body { padding: 18px 18px 16px; }
+  .offer-perks { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .offer-art img.offer-photo { animation: none; } }
