@@ -85,7 +85,7 @@ begin
   if new.invoice_no is null and new.status in ('confirmed','packed','shipped','delivered') then
     v_fy := case when extract(month from d) >= 4 then to_char(d,'YY') || '-' || to_char(d + interval '1 year','YY') else to_char(d - interval '1 year','YY') || '-' || to_char(d,'YY') end;
     insert into invoice_counters as c (fy, last) values (v_fy, 1) on conflict (fy) do update set last = c.last + 1 returning c.last into v_n;
-    new.invoice_no := 'EK/' || v_fy || '/' || lpad(v_n::text, 5, '0'); new.invoice_date := now();
+    new.invoice_no := 'KH/' || v_fy || '/' || lpad(v_n::text, 5, '0'); new.invoice_date := now();
   end if;
   return new;
 end $$;
