@@ -63,7 +63,7 @@ begin
   if c is not null then return c; end if;
   select value into s from settings where key = 'loyalty';
   loop
-    c := 'REF-' || upper(substr(regexp_replace(split_part(p_email,'@',1),'[^a-zA-Z]','','g') || 'EK', 1, 4)) || lpad((floor(random()*10000))::int::text, 4, '0');
+    c := 'REF-' || upper(substr(regexp_replace(split_part(p_email,'@',1),'[^a-zA-Z]','','g') || 'KH', 1, 4)) || lpad((floor(random()*10000))::int::text, 4, '0');
     exit when not exists (select 1 from referral_codes where code = c) and not exists (select 1 from coupons where upper(code) = c);
   end loop;
   insert into referral_codes(email, code) values (lower(p_email), c);

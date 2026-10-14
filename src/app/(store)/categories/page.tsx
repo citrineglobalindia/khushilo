@@ -4,8 +4,8 @@ import { wikiIndex, wikiCategories } from '@/lib/wiki';
 import { WikiDirectory } from '@/components/WikiDirectory';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Botanical Encyclopedia & Research Directory | EssenceKraft' },
-  description: 'Browse the EssenceKraft Encyclopedia. Over 1,200 peer-reviewed botanical guides, clinical protocols, safety dilution matrices, and expert research by EssenceKraft Team.',
+  title: { absolute: 'Botanical Encyclopedia & Research Directory | Khushilo' },
+  description: 'Browse the Khushilo Encyclopedia. Over 1,200 peer-reviewed botanical guides, clinical protocols, safety dilution matrices, and expert research by Khushilo Team.',
   alternates: { canonical: '/categories' },
 };
 

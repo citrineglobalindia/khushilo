@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     const u = g?.data?.user;
     if (u && g?.data.properties?.hashed_token) {
       const { data: p } = await db.from('profiles').select('role, full_name').eq('id', u.id).maybeSingle();
-      if (p && p.role !== 'customer') await teamEmail(email, p.full_name ?? '', 'Reset your EssenceKraft admin password', 'Use the button below to choose a new password.', 'Set a new password', setPasswordLink(new URL(req.url).origin, g.data.properties.hashed_token, 'recovery'));
+      if (p && p.role !== 'customer') await teamEmail(email, p.full_name ?? '', 'Reset your Khushilo admin password', 'Use the button below to choose a new password.', 'Set a new password', setPasswordLink(new URL(req.url).origin, g.data.properties.hashed_token, 'recovery'));
     }
   }
   return NextResponse.json({ ok: true });

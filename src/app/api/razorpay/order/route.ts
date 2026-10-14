@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { adminClient } from '@/lib/server';
 
-// Creates (or re-uses, for retries) a Razorpay order for an EssenceKraft order. Amount always comes from the DB.
+// Creates (or re-uses, for retries) a Razorpay order for an Khushilo order. Amount always comes from the DB.
 export async function POST(req: Request) {
   const { order_no, token } = await req.json();
   const id = process.env.RAZORPAY_KEY_ID, secret = process.env.RAZORPAY_KEY_SECRET;

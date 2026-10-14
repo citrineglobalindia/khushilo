@@ -63,7 +63,7 @@ export default function Campaigns() {
       <div style={{ display: 'flex', gap: 8 }}><button className="btn btn-ghost btn-sm" onClick={() => downloadCSV(`${c.name || 'segment'}.csv`, reachable.map(p => ({ name: p.name, email: p.email, phone: p.phone, city: p.city, orders: p.orders, spend: p.spend, message: render(p) })))}>Export</button><button className="btn btn-primary btn-sm" onClick={save}>Save campaign</button></div></div>
       <div className="table-wrap"><table><tbody>{reachable.slice(0, 200).map(p => <tr key={p.key}><td><b>{p.name || '—'}</b><br /><small className="muted">{c.channel === 'whatsapp' ? p.phone : p.email}</small></td><td className="hide-sm">{p.orders} orders · {inr(p.spend)}</td>
         <td style={{ textAlign: 'right' }}>{sent.has(p.key) ? <span className="pill green">sent ✓</span> : <a className="btn btn-ghost btn-sm" target="_blank" rel="noopener" onClick={() => setSent(s => new Set(s).add(p.key))}
-          href={c.channel === 'whatsapp' ? `https://wa.me/91${(p.phone ?? '').slice(-10)}?text=${encodeURIComponent(render(p))}` : `mailto:${p.email}?subject=${encodeURIComponent(c.name || 'From EssenceKraft')}&body=${encodeURIComponent(render(p))}`}>Send</a>}</td></tr>)}
+          href={c.channel === 'whatsapp' ? `https://wa.me/91${(p.phone ?? '').slice(-10)}?text=${encodeURIComponent(render(p))}` : `mailto:${p.email}?subject=${encodeURIComponent(c.name || 'From Khushilo')}&body=${encodeURIComponent(render(p))}`}>Send</a>}</td></tr>)}
         {!reachable.length && <tr><td className="muted">No opted-in contacts match. Loosen the filters or grow your list with the signup popup.</td></tr>}</tbody></table></div>
     </section>
     <section className="adm-card"><div className="adm-card-h"><div><h3>Past campaigns</h3></div></div>

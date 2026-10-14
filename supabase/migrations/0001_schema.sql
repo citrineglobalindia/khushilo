@@ -1,4 +1,4 @@
--- EssenceKraft ecommerce schema: catalogue, inventory, orders, marketing, admin.
+-- Khushilo ecommerce schema: catalogue, inventory, orders, marketing, admin.
 -- gen_random_uuid() is built into Postgres 13+ (Supabase runs 15+).
 
 -- ───────────── Roles ─────────────
@@ -114,7 +114,7 @@ create table coupons (
 create sequence order_no_seq start 10001;
 create table orders (
   id uuid primary key default gen_random_uuid(),
-  order_no text unique not null default ('EK' || nextval('order_no_seq')),
+  order_no text unique not null default ('KH' || nextval('order_no_seq')),
   access_token uuid not null default gen_random_uuid(),   -- secure guest link
   user_id uuid references auth.users,
   email text not null, phone text not null, full_name text not null,

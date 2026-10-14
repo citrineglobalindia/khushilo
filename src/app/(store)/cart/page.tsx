@@ -17,7 +17,7 @@ function Restore() {
     browserClient().rpc('get_cart', { p_token: t }).then(({ data }) => {
       const saved = (data ?? []) as CartLine[];
       saved.filter(s => !lines.some(l => l.variant_id === s.variant_id)).forEach(s => add({ variant_id: s.variant_id, product_slug: s.product_slug, name: s.name, label: s.label, price: s.price, color: s.color }, s.qty));
-      setOpen(false); try { localStorage.setItem('ek_cart_token', t); } catch {}
+      setOpen(false); try { localStorage.setItem('kh_cart_token', t); } catch {}
     });
   }, [sp, done, lines, add, setOpen]);
   return null;

@@ -27,7 +27,7 @@ export function LeadForm() {
           <label className="sr" htmlFor="lead-email">Email</label>
           <input id="lead-email" name="email" type="email" required className="input" placeholder="Your email address" autoComplete="email" />
           <button className="btn btn-primary" disabled={state === 'busy' || !consent}>{state === 'busy' ? 'Subscribing…' : 'Subscribe'}</button>
-          <label className="check"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} /> I agree to receive marketing emails from EssenceKraft. Unsubscribe anytime.</label>
+          <label className="check"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} /> I agree to receive marketing emails from Khushilo. Unsubscribe anytime.</label>
           {state === 'error' && <p className="err">Couldn’t subscribe right now. Check your email and try again.</p>}
         </form>)}
     </section>

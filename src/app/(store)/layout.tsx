@@ -13,8 +13,8 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   const [products, concerns, categories, settings] = await Promise.all([getProducts(), getConcerns(), getCategories(), getSettings()]);
   const index = products.map(p => ({ slug: p.slug, name: p.name, tagline: p.tagline ?? '', botanical: p.botanical_name ?? '', color: p.color, concerns: p.concerns }));
   const org = { '@context': 'https://schema.org', '@graph': [
-    { '@type': 'Organization', name: 'EssenceKraft', url: SITE_URL },
-    { '@type': 'WebSite', name: 'EssenceKraft', url: SITE_URL, potentialAction: { '@type': 'SearchAction', target: `${SITE_URL}/shop?q={q}`, 'query-input': 'required name=q' } },
+    { '@type': 'Organization', name: 'Khushilo', url: SITE_URL },
+    { '@type': 'WebSite', name: 'Khushilo', url: SITE_URL, potentialAction: { '@type': 'SearchAction', target: `${SITE_URL}/shop?q={q}`, 'query-input': 'required name=q' } },
   ] };
   return <>
     <a href="#main" className="sr">Skip to content</a>

@@ -37,7 +37,7 @@ export default function Checkout() {
     const okEmail = /^\S+@\S+\.\S+$/.test(f.email), okPhone = /^[6-9]\d{9}$/.test(f.phone.replace(/^\+?91/, ''));
     if (!okEmail && !okPhone) return;
     const t = setTimeout(() => {
-      let token = ''; try { token = localStorage.getItem('ek_cart_token') || crypto.randomUUID(); localStorage.setItem('ek_cart_token', token); } catch { return; }
+      let token = ''; try { token = localStorage.getItem('kh_cart_token') || crypto.randomUUID(); localStorage.setItem('kh_cart_token', token); } catch { return; }
       browserClient().rpc('save_cart', { p_token: token, p_email: okEmail ? f.email : null, p_phone: okPhone ? f.phone.replace(/^\+?91/, '') : null, p_name: f.full_name || null,
         p_lines: lines.map(l => ({ variant_id: l.variant_id, product_slug: l.product_slug, name: l.name, label: l.label, price: l.price, qty: l.qty, color: l.color })), p_subtotal: subtotal, p_consent: consent }).then(() => {}, () => {});
     }, 1200);
@@ -84,10 +84,10 @@ export default function Checkout() {
     try {
       let order_no: string, token: string;
       if (!hasSupabase) {
-        order_no = 'EK' + String(Date.now()).slice(-6); token = 'demo';
-        const demo = JSON.parse(localStorage.getItem('ek_demo_orders') || '{}');
+        order_no = 'KH' + String(Date.now()).slice(-6); token = 'demo';
+        const demo = JSON.parse(localStorage.getItem('kh_demo_orders') || '{}');
         demo[order_no] = { ...payload, order_no, items: lines, subtotal, ...t, status: 'placed', payment_status: method === 'cod' ? 'pending' : 'paid', created_at: new Date().toISOString() };
-        localStorage.setItem('ek_demo_orders', JSON.stringify(demo));
+        localStorage.setItem('kh_demo_orders', JSON.stringify(demo));
       } else {
         const { data, error } = await browserClient().rpc('place_order', { payload });
         if (error) throw new Error(error.message);
@@ -95,7 +95,7 @@ export default function Checkout() {
         if (user && saveAddr && !saved.some(a => a.line1.trim().toLowerCase() === f.line1.trim().toLowerCase() && a.pincode === f.pincode))
           await browserClient().from('addresses').insert({ label: saved.length ? 'Address' : 'Home', full_name: f.full_name, phone: f.phone.replace(/\D/g, '').slice(-10), line1: f.line1, line2: f.line2 || null, city: f.city, state: f.state, pincode: f.pincode, is_default: !saved.length }).then(() => {}, () => {});
       }
-      clear(); try { localStorage.removeItem('ek_cart_token'); } catch {}
+      clear(); try { localStorage.removeItem('kh_cart_token'); } catch {}
       if (method === 'razorpay' && hasSupabase) {
         const paid = await payOrder(order_no, token).catch(() => false);
         router.push(`/order/${order_no}?t=${token}${paid ? '' : '&retry=1'}`);

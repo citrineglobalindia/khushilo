@@ -21,7 +21,7 @@ function Track() {
     const { data } = await acct().rpc('track_order', { p_no: no, p_email: email });
     if (data) router.push(`/order/${data.order_no}?t=${data.token}`); else { setErr('No order matches that number and email.'); setBusy(false); }
   }}><h2>Track an order</h2><p className="muted" style={{ fontSize: 14 }}>No account needed — use your order number and checkout email.</p>
-    <div className="field"><label htmlFor="no">Order number</label><input id="no" name="no" className="input" placeholder="EK10001" required /></div>
+    <div className="field"><label htmlFor="no">Order number</label><input id="no" name="no" className="input" placeholder="KH10001" required /></div>
     <div className="field"><label htmlFor="em">Email</label><input id="em" name="email" type="email" className="input" required /></div>
     {err && <p className="err" role="alert">{err}</p>}<button className="btn btn-ghost" disabled={busy}>{busy ? 'Looking up…' : 'Find my order'}</button></form>;
 }
@@ -71,7 +71,7 @@ function Dashboard({ user }: { user: User }) {
     c.from('referral_codes').select('code').maybeSingle().then(({ data }) => setRef(data?.code ?? null));
   }, [user.id]);
   useEffect(() => {
-    const c = acct(); const key = `ek_claimed_${user.id}`;
+    const c = acct(); const key = `kh_claimed_${user.id}`;
     (async () => {
       if (hasSupabase && !sessionStorage.getItem(key)) { await c.rpc('claim_my_orders'); sessionStorage.setItem(key, '1'); }
       // Wishlist sync: merge this device's hearts into the account and back
@@ -116,7 +116,7 @@ function Dashboard({ user }: { user: User }) {
         : <div className="acct-card"><p>Tap the heart on any product to save it here. Your wishlist now follows you across devices.</p></div>)}
       {tab === 'rewards' && <>
         <div className="acct-card" style={{ background: 'linear-gradient(120deg,#eef4ec,#f6efe0)' }}><span className="muted">Your points</span><b style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: 'var(--forest)' }}>{balance}</b><span className="muted">Points are added when an order is delivered. Ask us on WhatsApp to turn 100+ points into a discount code.</span></div>
-        {ref && <div className="acct-card referral"><b>Your referral code</b><div className="referral-row" style={{ marginTop: 6 }}><code>{ref}</code><a className="btn btn-primary btn-sm" target="_blank" rel="noopener" href={`https://wa.me/?text=${encodeURIComponent(`I use EssenceKraft's pure essential oils. Use my code ${ref} for a discount on your first order: ${typeof window !== 'undefined' ? window.location.origin : ''}/shop`)}`}>Share on WhatsApp</a></div><small className="muted">Friends save on their order; you get bonus points when it’s delivered.</small></div>}
+        {ref && <div className="acct-card referral"><b>Your referral code</b><div className="referral-row" style={{ marginTop: 6 }}><code>{ref}</code><a className="btn btn-primary btn-sm" target="_blank" rel="noopener" href={`https://wa.me/?text=${encodeURIComponent(`I use Khushilo's pure essential oils. Use my code ${ref} for a discount on your first order: ${typeof window !== 'undefined' ? window.location.origin : ''}/shop`)}`}>Share on WhatsApp</a></div><small className="muted">Friends save on their order; you get bonus points when it’s delivered.</small></div>}
         <div className="acct-card"><b>History</b>{points.length ? <ol className="adm-timeline">{points.map((p, i) => <li key={i}><span>{p.points > 0 ? '＋' : '−'}</span><div><b>{p.points > 0 ? '+' : ''}{p.points}</b> · {p.reason}{p.order_no ? ` · ${p.order_no}` : ''}<small>{new Date(p.created_at).toLocaleDateString('en-IN')}</small></div></li>)}</ol> : <p className="muted">No points yet.</p>}</div></>}
       {tab === 'profile' && <>
         <form className="panel form-grid" onSubmit={async e => { e.preventDefault(); const { error } = await acct().rpc('update_my_profile', { p_name: profile.full_name, p_phone: profile.phone }); setMsg(error ? { t: 'error', m: error.message } : { t: 'ok', m: 'Profile saved.' }); }}>

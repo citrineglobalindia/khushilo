@@ -1,7 +1,7 @@
-// Brand and campaign imagery (from the original essencekraft.in), served from Supabase Storage.
+// Khushilo brand marks live in /public/brand. Campaign imagery (A) is placeholder until the product catalogue is loaded.
 const A = 'https://nauppqeqhnyfluvcxtxw.supabase.co/storage/v1/object/public/product-images/upload-77d43a5f14d071ed5da6acbf/';
 export const BRAND = {
-  logo: `${A}logo-dark.png`, logoLight: `${A}logo-light.png`, mark: `${A}logo-mark-dark.png`, icon: `${A}icon-512.png`,
+  logo: '/brand/logo.png', logoLight: '/brand/logo.png', mark: '/brand/icon-192.png', icon: '/brand/icon-512.png',
   promoGifting: `${A}promo-gifting.webp`, promoWellness: `${A}promo-wellness.webp`, heroCollection: `${A}hero-collection.webp`,
 };
 // Photo used for each "Shop by concern" tile

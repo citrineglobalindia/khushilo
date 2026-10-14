@@ -3,7 +3,7 @@
 type Item = { product_name: string; variant_label: string; sku: string; unit_price: number; qty: number; hsn?: string | null; gst_rate?: number | null };
 export type InvOrder = { order_no: string; invoice_no: string | null; invoice_date: string | null; created_at: string; full_name: string; email: string; phone: string;
   address: Record<string, string>; subtotal: number; discount: number; shipping: number; total: number; payment_method: string; payment_status: string; coupon_code: string | null; items: Item[] };
-export type Seller = { legal_name?: string; gstin?: string; address?: string; support_email?: string; whatsapp?: string };
+export type Seller = { legal_name?: string; gstin?: string; fssai?: string; address?: string; support_email?: string; whatsapp?: string };
 
 const r2 = (n: number) => Math.round(n * 100) / 100;
 const money = (n: number) => '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -44,7 +44,7 @@ export function Invoice({ o, seller }: { o: InvOrder; seller: Seller }) {
   return (
     <article className="invoice">
       <header className="inv-head">
-        <div><b className="inv-brand">{seller.legal_name || 'EssenceKraft'}</b><p>{seller.address || 'Mysuru, Karnataka'}</p>{seller.gstin ? <p>GSTIN: <b>{seller.gstin}</b></p> : <p className="inv-warn">GSTIN not set — add it in Admin → Settings</p>}<p>{seller.support_email}</p></div>
+        <div><b className="inv-brand">{seller.legal_name || 'Khushilo'}</b><p>{seller.address || 'Bengaluru, Karnataka 560079'}</p>{seller.gstin ? <p>GSTIN: <b>{seller.gstin}</b>{seller.fssai ? <> · FSSAI Lic. No.: <b>{seller.fssai}</b></> : null}</p> : <p className="inv-warn">GSTIN not set — add it in Admin → Settings</p>}<p>{seller.support_email}</p></div>
         <div className="inv-title"><h1>{o.invoice_no ? 'Tax Invoice' : 'Order Summary'}</h1><dl>
           {o.invoice_no && <><dt>Invoice no.</dt><dd>{o.invoice_no}</dd></>}<dt>{o.invoice_no ? 'Invoice date' : 'Order date'}</dt><dd>{date}</dd><dt>Order no.</dt><dd>{o.order_no}</dd>
           <dt>Place of supply</dt><dd>{o.address.state}</dd><dt>Payment</dt><dd>{o.payment_method === 'cod' ? 'Cash on delivery' : 'Prepaid (Razorpay)'} · {o.payment_status}</dd></dl></div>
@@ -60,7 +60,7 @@ export function Invoice({ o, seller }: { o: InvOrder; seller: Seller }) {
       <section className="inv-sum"><p className="inv-words"><b>Amount in words:</b> {amountInWords(Number(o.total))}</p>
         <dl><dt>Taxable value</dt><dd>{money(t.taxable)}</dd>{t.intra ? <><dt>CGST</dt><dd>{money(t.cgst)}</dd><dt>SGST</dt><dd>{money(t.sgst)}</dd></> : <><dt>IGST</dt><dd>{money(t.igst)}</dd></>}
           {o.coupon_code && <><dt>Coupon</dt><dd>{o.coupon_code}</dd></>}<dt className="inv-grand">Invoice total</dt><dd className="inv-grand">{money(Number(o.total))}</dd></dl></section>
-      <footer className="inv-foot"><p>Prices are inclusive of GST. This is a computer-generated invoice and does not require a signature.</p><p>Thank you for choosing pure. — {seller.legal_name || 'EssenceKraft'}</p></footer>
+      <footer className="inv-foot"><p>Prices are inclusive of GST. This is a computer-generated invoice and does not require a signature.</p><p>Thank you for choosing pure. — {seller.legal_name || 'Khushilo'}</p></footer>
     </article>
   );
 }

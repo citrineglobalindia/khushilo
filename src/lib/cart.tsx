@@ -19,13 +19,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      setLines(JSON.parse(localStorage.getItem('ek_cart') || '[]'));
-      setWishlist(JSON.parse(localStorage.getItem('ek_wish') || '[]'));
+      setLines(JSON.parse(localStorage.getItem('kh_cart') || '[]'));
+      setWishlist(JSON.parse(localStorage.getItem('kh_wish') || '[]'));
     } catch {}
     setReady(true);
   }, []);
-  useEffect(() => { if (ready) try { localStorage.setItem('ek_cart', JSON.stringify(lines)); } catch {} }, [lines, ready]);
-  useEffect(() => { if (ready) try { localStorage.setItem('ek_wish', JSON.stringify(wishlist)); } catch {} }, [wishlist, ready]);
+  useEffect(() => { if (ready) try { localStorage.setItem('kh_cart', JSON.stringify(lines)); } catch {} }, [lines, ready]);
+  useEffect(() => { if (ready) try { localStorage.setItem('kh_wish', JSON.stringify(wishlist)); } catch {} }, [wishlist, ready]);
 
   const value = useMemo<Ctx>(() => ({
     lines, open, setOpen, wishlist,

@@ -28,7 +28,7 @@ export function WikiDirectory({ entries, categories, counts = {} }: { entries: C
       <div className="ek-hero-media" aria-hidden><img src="/img/wiki/hero-botanical.webp" alt="" width={1000} height={698} fetchPriority="high" /></div>
       <div className="wrap ek-hero-in">
         <div className="ek-hero-copy">
-          <span className="hero-eyebrow">ESSENCEKRAFT BOTANICAL ENCYCLOPEDIA</span>
+          <span className="hero-eyebrow">KHUSHILO BOTANICAL ENCYCLOPEDIA</span>
           <h1>Pure Essential Oils <br />for a Healthier You</h1>
           <p>Discover natural solutions for wellness, beauty and everyday living.</p>
           <Link href="/shop?category=essential-oils" className="btn btn-primary btn-pill ek-cta">Explore Essential Oils →</Link>
@@ -81,7 +81,7 @@ export function WikiDirectory({ entries, categories, counts = {} }: { entries: C
       <div className="ek-team">
         <span className="ek-team-leaf l" aria-hidden><img src="/img/wiki/tile-peppermint.webp" alt="" loading="lazy" /></span>
         <span className="wiki-logo" aria-hidden>ek</span>
-        <div className="ek-team-txt"><h3>EssenceKraft Research Team <span className="pill green">Lead Botanical Researchers</span></h3>
+        <div className="ek-team-txt"><h3>Khushilo Research Team <span className="pill green">Lead Botanical Researchers</span></h3>
           <p>Every article in this encyclopedia contains laboratory protocols, spectrophotometric observation notes, and safety dilution math reviewed for maximum trust and clinical precision.</p></div>
         <Link href="/pages/purity" className="ek-verified"><FlaskIcon size={16} />1,200+ Articles Verified →</Link>
       </div>

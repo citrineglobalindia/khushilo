@@ -13,10 +13,10 @@ export default function Abandoned() {
   const stale = (c: C) => Date.now() - +new Date(c.updated_at) > 60 * 60e3;
   const open = rows.filter(c => !c.recovered_order && stale(c)); const rec = rows.filter(c => c.recovered_order);
   const list = tab === 'open' ? open : tab === 'recovered' ? rec : rows;
-  const msg = (c: C) => `Hi ${c.name?.split(' ')[0] || 'there'}, you left ${c.lines.map(l => l.name.replace(/ (Essential|Carrier) Oil/, '')).join(', ')} in your EssenceKraft cart. It's saved for you here: ${SITE}/cart?restore=${c.token}`;
+  const msg = (c: C) => `Hi ${c.name?.split(' ')[0] || 'there'}, you left ${c.lines.map(l => l.name.replace(/ (Essential|Carrier) Oil/, '')).join(', ')} in your Khushilo cart. It's saved for you here: ${SITE}/cart?restore=${c.token}`;
   const remind = async (c: C, via: 'wa' | 'mail') => {
     if (via === 'wa' && c.phone) window.open(`https://wa.me/91${c.phone.slice(-10)}?text=${encodeURIComponent(msg(c))}`, '_blank');
-    if (via === 'mail' && c.email) window.location.href = `mailto:${c.email}?subject=${encodeURIComponent('Your EssenceKraft cart is waiting')}&body=${encodeURIComponent(msg(c))}`;
+    if (via === 'mail' && c.email) window.location.href = `mailto:${c.email}?subject=${encodeURIComponent('Your Khushilo cart is waiting')}&body=${encodeURIComponent(msg(c))}`;
     await db().from('abandoned_carts').update({ reminded_at: new Date().toISOString(), reminders: (c.reminders ?? 0) + 1 }).eq('token', c.token); load();
   };
   const value = open.reduce((s, c) => s + Number(c.subtotal), 0);

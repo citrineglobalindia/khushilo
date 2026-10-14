@@ -56,8 +56,8 @@ export async function POST(req: Request) {
   if (pe) return NextResponse.json({ error: pe.message }, { status: 500 });
   const r = resend ? (prof?.role ?? 'staff') : role; const who = name || prof?.full_name || '';
   const sent = isNew || (existing && !existing.last_sign_in_at)
-    ? await teamEmail(email, who, 'You’re invited to EssenceKraft admin', `You’ve been added to the EssenceKraft admin as <b>${label(r)}</b>. Set your password to get started.`, 'Set my password', link)
-    : await teamEmail(email, who, 'You now have EssenceKraft admin access', `Your account now has <b>${label(r)}</b> access to the EssenceKraft admin.`, 'Open admin', link);
+    ? await teamEmail(email, who, 'You’re invited to Khushilo admin', `You’ve been added to the Khushilo admin as <b>${label(r)}</b>. Set your password to get started.`, 'Set my password', link)
+    : await teamEmail(email, who, 'You now have Khushilo admin access', `Your account now has <b>${label(r)}</b> access to the Khushilo admin.`, 'Open admin', link);
   return NextResponse.json({ ok: true, invited: isNew, emailed: sent });
 }
 

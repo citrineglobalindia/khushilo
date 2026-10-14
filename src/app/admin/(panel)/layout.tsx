@@ -57,7 +57,7 @@ export default function Panel({ children }: { children: React.ReactNode }) {
   return (
     <div className="adm">
       <aside className="adm-side">
-        <Link href="/admin" className="adm-brand"><span><img src={BRAND.mark.replace('logo-mark-dark', 'logo-mark-light')} alt="" width={18} height={26} style={{ height: 26, width: 'auto' }} /></span><div><b>EssenceKraft</b><small>Admin console</small></div></Link>
+        <Link href="/admin" className="adm-brand"><span><img src={BRAND.icon} alt="" width={26} height={26} style={{ height: 26, width: 26, borderRadius: 6 }} /></span><div><b>Khushilo</b><small>Admin console</small></div></Link>
         <nav aria-label="Admin">
           {groups.map(([g, links]) => <div key={g} className="adm-group"><p>{g}</p>
             {links.map(([href, label, Icon]) => <Link key={href} href={href} aria-current={current(href) ? 'page' : undefined}><Icon size={18} /><span>{label}</span>{badge(href) > 0 && <em>{badge(href)}</em>}</Link>)}

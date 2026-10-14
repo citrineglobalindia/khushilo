@@ -1,4 +1,4 @@
-# EssenceKraft — ecommerce + admin
+# Khushilo — ecommerce + admin
 
 Next.js 14 (App Router) · Supabase (Postgres, Auth, Storage) · Razorpay · Vercel.
 Runs in **demo mode** (seed catalogue, localStorage orders) when Supabase env vars are empty.

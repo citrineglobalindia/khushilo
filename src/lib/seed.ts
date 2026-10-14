@@ -52,10 +52,10 @@ export const products: Product[] = rows.map((r, i) => {
     suggested_blends: carrier ? ['Lavender', 'Tea Tree', 'Rosemary'] : ['Lavender', 'Cedarwood', 'Orange'].filter(b => !name.startsWith(b)),
     safety: carrier ? 'For external use only. Patch-test before first use.' : std,
     purity, color, images: [], is_bestseller: best, is_new: isNew, rating, review_count: reviews,
-    seo_title: `${name} | 100% Pure | EssenceKraft`, seo_description: `${tagline}. Buy pure ${name.toLowerCase()} online in India.`,
+    seo_title: `${name} | 100% Pure | Khushilo`, seo_description: `${tagline}. Buy pure ${name.toLowerCase()} online in India.`,
     created_at: new Date(Date.UTC(2026, 0, 1 + (isNew ? 200 + i : i))).toISOString(),
     variants: (carrier ? [['100 ml', 399, 549], ['200 ml', 699, 899]] : [['15 ml', 499, 699], ['30 ml', 849, 1199]]).map(([label, price, cmp], j) => ({
-      id: `p${i + 1}v${j + 1}`, sku: `EK-${base}-${String(label).replace(/\s/g, '')}`.toUpperCase(),
+      id: `p${i + 1}v${j + 1}`, sku: `KH-${base}-${String(label).replace(/\s/g, '')}`.toUpperCase(),
       label: String(label), price: Number(price), compare_at: Number(cmp),
       stock: (i * 7 + j * 13) % 60, low_stock_threshold: 10, allow_backorder: false,
     })),

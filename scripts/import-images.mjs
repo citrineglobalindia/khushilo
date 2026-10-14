@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// Downloads EssenceKraft's own product & botanical photography from essencekraft.in and
+// Downloads Khushilo's own product & botanical photography from essencekraft.in and
 // writes optimised WebP files to public/img/wiki/.  Usage: node scripts/import-images.mjs
 import fs from 'fs';
 import sharp from 'sharp';
 const P = 'https://essencekraft.in/api/static/product/';
-const W = 'https://www.essencekraft.in/assets/wiki-images/';
-const B = 'https://www.essencekraft.in/assets/banners/';
+const W = 'https://www.khushilo.in/assets/wiki-images/';
+const B = 'https://www.khushilo.in/assets/banners/';
 // key: [tile source, card source]
 const SRC = {
   lavender: [W + 'lavender-essential-oil-hero.webp', W + 'lavender-essential-oil-hero.webp'],

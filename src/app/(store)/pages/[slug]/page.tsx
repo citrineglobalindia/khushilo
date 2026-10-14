@@ -9,7 +9,7 @@ const PAGES: Record<string, { title: string; body: string[] }> = {
   shipping: { title: 'Shipping', body: ['Free shipping on orders above ₹999. Orders below that ship for ₹79. Most metro deliveries arrive in 2–4 working days.'] },
   returns: { title: 'Returns', body: ['Unopened products can be returned within 7 days of delivery. Contact us with your order number to start a return.'] },
   refund: { title: 'Refund policy', body: ['Approved refunds are processed to the original payment method within 5–7 working days.'] },
-  contact: { title: 'Contact', body: ['Email: care@essencekraft.in', 'WhatsApp: available Monday to Saturday, 10am–7pm.'] },
+  contact: { title: 'Contact', body: ['Email: khushiloindia@gmail.com', 'WhatsApp: available Monday to Saturday, 10am–7pm.'] },
   privacy: { title: 'Privacy policy', body: ['Replace with the approved privacy policy before launch.'] },
   terms: { title: 'Terms of service', body: ['Replace with the approved terms before launch.'] },
 };

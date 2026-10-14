@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { db, downloadCSV, fmtDate } from '@/lib/admin';
+import { SITE_URL } from '@/lib/format';
 import { PageHead, Stats, Saved } from '@/components/AdminUI';
 
 type Flag = { severity: 'high' | 'medium' | 'low'; rule: string; term: string; count: number; snippet: string };
@@ -26,7 +27,7 @@ export default function Claims() {
   const count = (k: string, v: string) => rows.filter(r => (r as unknown as Record<string, string>)[k] === v).length;
   return <>
     <PageHead title="Claims review" sub="Every encyclopedia article and content page is scanned for medical or unverifiable claims before you use it in ads (Drugs & Magic Remedies Act, ASCI, Meta/Google health policies). Approve, or send for edits.">
-      <button className="btn btn-ghost btn-sm" onClick={() => downloadCSV('ads-approved-urls.csv', rows.filter(r => r.status === 'approved').map(r => ({ url: `https://www.essencekraft.in${link(r)}`, title: r.title, reviewed: r.reviewed_at, note: r.note })))}>Export ads-approved URLs</button>
+      <button className="btn btn-ghost btn-sm" onClick={() => downloadCSV('ads-approved-urls.csv', rows.filter(r => r.status === 'approved').map(r => ({ url: `${SITE_URL}${link(r)}`, title: r.title, reviewed: r.reviewed_at, note: r.note })))}>Export ads-approved URLs</button>
     </PageHead>
     <Saved msg={msg} />
     <Stats items={[['High risk', count('severity', 'high'), 'amber'], ['Medium', count('severity', 'medium')], ['Low / none', count('severity', 'low') + count('severity', 'none')], ['Approved for ads', count('status', 'approved')], ['Needs changes', count('status', 'needs_changes')]]} />

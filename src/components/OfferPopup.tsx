@@ -6,7 +6,7 @@ import { track } from '@/lib/attribution';
 import { CloseIcon } from './Icons';
 import { BRAND } from '@/lib/brand';
 
-const CLAIMED = 'ek_offer_claimed';
+const CLAIMED = 'kh_offer_claimed';
 const DELAY = 2000;
 const DEFAULT = { title: '10% off your first order', body: 'Join for safe-use guides, blending tips and early access to new oils.', code: 'WELCOME10' };
 const BLOCKED = ['/checkout', '/cart', '/order', '/admin', '/account'];

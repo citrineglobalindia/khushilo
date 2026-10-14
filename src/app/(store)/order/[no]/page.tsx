@@ -18,7 +18,7 @@ export default function OrderPage({ params }: { params: { no: string } }) {
   const [o, setO] = useState<Order | null | undefined>(undefined);
   const [paying, setPaying] = useState(false);
   const load = useCallback(async () => {
-    if (!hasSupabase) { const d = JSON.parse(localStorage.getItem('ek_demo_orders') || '{}'); setO(d[params.no] ?? null); return; }
+    if (!hasSupabase) { const d = JSON.parse(localStorage.getItem('kh_demo_orders') || '{}'); setO(d[params.no] ?? null); return; }
     const { data } = await browserClient().rpc('get_order', { p_no: params.no, p_token: token });
     setO(data ?? null);
   }, [params.no, token]);
@@ -26,7 +26,7 @@ export default function OrderPage({ params }: { params: { no: string } }) {
   useEffect(() => {
     if (!o) return;
     const done = o.payment_status === 'paid' || o.payment_method === 'cod';
-    const key = `ek_purchase_${o.order_no}`;
+    const key = `kh_purchase_${o.order_no}`;
     if (done && !sessionStorage.getItem(key)) {  // fire GA4 purchase once (MKT-002)
       sessionStorage.setItem(key, '1');
       track('purchase', { transaction_id: o.order_no, currency: 'INR', value: Number(o.total), shipping: Number(o.shipping),
@@ -68,10 +68,10 @@ export default function OrderPage({ params }: { params: { no: string } }) {
           </div>
         </section>
         {o.referral_code && o.status !== 'cancelled' && <section className="panel referral">
-          <h2>Share EssenceKraft, earn points</h2>
+          <h2>Share Khushilo, earn points</h2>
           <p>Friends get a discount with your code, and you earn bonus points when their order is delivered.</p>
           <div className="referral-row"><code>{o.referral_code}</code>
-            <a className="btn btn-primary btn-sm" href={`https://wa.me/?text=${encodeURIComponent(`I use EssenceKraft's pure essential oils. Use my code ${o.referral_code} for a discount on your first order: https://essencekraft-platform.vercel.app/shop`)}`} target="_blank" rel="noopener" data-track="referral_share">Share on WhatsApp</a></div>
+            <a className="btn btn-primary btn-sm" href={`https://wa.me/?text=${encodeURIComponent(`I use Khushilo's pure essential oils. Use my code ${o.referral_code} for a discount on your first order: https://essencekraft-platform.vercel.app/shop`)}`} target="_blank" rel="noopener" data-track="referral_share">Share on WhatsApp</a></div>
         </section>}
         <section className="panel"><h2>Delivering to</h2><p>{o.full_name}<br />{o.address.line1}{o.address.line2 ? `, ${o.address.line2}` : ''}<br />{o.address.city}, {o.address.state} {o.address.pincode}</p></section>
       </div>

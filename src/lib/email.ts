@@ -1,7 +1,7 @@
 import 'server-only';
 import { adminClient } from './server';
 
-const FROM = { name: 'EssenceKraft', email: process.env.EMAIL_FROM || 'no-reply@essencekraft.in' };
+const FROM = { name: 'Khushilo', email: process.env.EMAIL_FROM || 'no-reply@khushilo.in' };
 const inr = (n: number) => '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
@@ -40,7 +40,7 @@ export async function sendOrderConfirmation(orderNo: string, origin: string) {
   const line = (l: string, v: string, b = false) => `<tr><td style="padding:3px 0;${b ? 'font-weight:700' : 'color:#555'}">${l}</td><td style="padding:3px 0;text-align:right;${b ? 'font-weight:700' : ''}">${v}</td></tr>`;
   const html = `<!doctype html><html><body style="margin:0;background:#f6f3ee;font-family:Arial,Helvetica,sans-serif;color:#222">
 <div style="max-width:560px;margin:0 auto;padding:24px 16px">
- <div style="background:#2f4a3a;color:#fff;border-radius:12px 12px 0 0;padding:20px 24px"><div style="font-size:20px;font-weight:700">EssenceKraft</div><div style="font-size:12px;opacity:.8;letter-spacing:1px">NATURE IN EVERY DROP</div></div>
+ <div style="background:#e53624;color:#fff;border-radius:12px 12px 0 0;padding:20px 24px"><div style="font-size:20px;font-weight:700">Khushilo</div><div style="font-size:12px;opacity:.8;letter-spacing:1px">NATURE IN EVERY DROP</div></div>
  <div style="background:#fff;border-radius:0 0 12px 12px;padding:24px">
   <h1 style="font-size:20px;margin:0 0 6px">Thank you, ${esc(o.full_name?.split(' ')[0] || 'there')}! Your order is placed.</h1>
   <p style="margin:0 0 16px;color:#555">Order <b>${esc(o.order_no)}</b> · ${new Date(o.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} · ${paid ? 'Paid online' : 'Cash on delivery'}</p>
@@ -50,14 +50,14 @@ export async function sendOrderConfirmation(orderNo: string, origin: string) {
   </table>
   <p style="font-size:13px;color:#555;margin:16px 0 4px"><b>Delivering to</b><br>${esc(o.full_name)}, ${esc(a.line1)}${a.line2 ? ', ' + esc(a.line2) : ''}, ${esc(a.city)}, ${esc(a.state)} ${esc(a.pincode)} · ${esc(o.phone)}</p>
   <div style="margin:22px 0 8px">
-   <a href="${link}" style="display:inline-block;background:#2f4a3a;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;margin:0 8px 8px 0">Track your order</a>
-   <a href="${inv}" style="display:inline-block;border:1px solid #2f4a3a;color:#2f4a3a;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700">${o.invoice_no ? `Download invoice ${esc(o.invoice_no)}` : 'View order summary'}</a>
+   <a href="${link}" style="display:inline-block;background:#e53624;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;margin:0 8px 8px 0">Track your order</a>
+   <a href="${inv}" style="display:inline-block;border:1px solid #e53624;color:#e53624;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700">${o.invoice_no ? `Download invoice ${esc(o.invoice_no)}` : 'View order summary'}</a>
   </div>
   <p style="font-size:12px;color:#888;margin-top:20px">${o.invoice_no ? 'Your GST tax invoice is available at the link above (use Download PDF / Print).' : 'Your GST tax invoice will be available at the same link once the order is confirmed.'} Questions? Just reply to this email.</p>
  </div>
 </div></body></html>`;
   const replyTo = store.support_email || store.email;
-  const ok = await sendEmail([{ email: o.email, name: o.full_name ?? undefined }], `Order ${o.order_no} confirmed — EssenceKraft`, html, replyTo);
+  const ok = await sendEmail([{ email: o.email, name: o.full_name ?? undefined }], `Order ${o.order_no} confirmed — Khushilo`, html, replyTo);
   if (!ok) await db.from('orders').update({ confirmation_sent_at: null }).eq('id', o.id); // allow a retry
   const alertTo = process.env.ORDER_ALERT_EMAIL || store.order_alert_email || store.email;
   if (alertTo) await sendEmail([{ email: alertTo }], `New order ${o.order_no} · ${inr(o.total)} · ${paid ? 'PAID' : 'COD'}`,

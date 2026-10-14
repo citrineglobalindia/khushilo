@@ -9,7 +9,7 @@ type P = { slug: string; name: string };
 const NEW: Record<Block['type'], Block> = {
   hero: { type: 'hero', heading: 'Sleep deeper, naturally', sub: 'Pure lavender & cedarwood, steam-distilled in India.', cta: 'Shop sleep oils', href: '/concern/sleep-calm' },
   products: { type: 'products', title: 'Our picks', slugs: [] },
-  benefits: { type: 'benefits', title: 'Why EssenceKraft', items: [{ title: '100% pure', text: 'No fillers or synthetic fragrance.' }, { title: 'GC-MS tested', text: 'Every batch checked before bottling.' }, { title: 'Made in India', text: 'Bottled in amber glass in Mysuru.' }] },
+  benefits: { type: 'benefits', title: 'Why Khushilo', items: [{ title: '100% pure', text: 'No fillers or synthetic fragrance.' }, { title: 'GC-MS tested', text: 'Every batch checked before bottling.' }, { title: 'Made in India', text: 'Bottled in amber glass in Mysuru.' }] },
   text: { type: 'text', title: 'How to use', body: 'Add 4–6 drops to your diffuser 30 minutes before bed.' },
   faq: { type: 'faq', title: 'Questions', items: [{ q: 'Is it safe on skin?', a: 'Always dilute 2–3 drops in 10 ml of a carrier oil and patch-test first.' }] },
   offer: { type: 'offer', title: '10% off your first order', body: 'Use the code at checkout.', code: 'WELCOME10', cta: 'Shop now', href: '/shop' },

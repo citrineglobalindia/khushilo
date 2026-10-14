@@ -4,10 +4,10 @@ import { LeafIcon, FlaskIcon, DropIcon, BoxIcon } from '@/components/Icons';
 import { Bottle, Sprig } from '@/components/Bottle';
 import { SITE_URL } from '@/lib/format';
 
-// Content migrated verbatim from https://www.essencekraft.in/about (MIG-002: no rewriting).
+// Content migrated verbatim from https://www.khushilo.in/about (MIG-002: no rewriting).
 export const metadata: Metadata = {
-  title: { absolute: 'About Us — Our Story & Pure Promises | EssenceKraft' },
-  description: 'Shop 100% pure, natural, steam-distilled essential oils and carrier oils from EssenceKraft. Premium quality Geranium, Rosemary, Tea Tree, Lavender, Eucalyptus, Jojoba, and more for mental clarity, stress relief, and natural wellness. Free shipping across India.',
+  title: { absolute: 'About Us — Our Story & Pure Promises | Khushilo' },
+  description: 'Shop 100% pure, natural, steam-distilled essential oils and carrier oils from Khushilo. Premium quality Geranium, Rosemary, Tea Tree, Lavender, Eucalyptus, Jojoba, and more for mental clarity, stress relief, and natural wellness. Free shipping across India.',
   alternates: { canonical: '/about' },
 };
 
@@ -39,8 +39,8 @@ export default function About() {
           <div className="about-hero-grid">
             <div className="about-hero-copy">
               <span className="hero-eyebrow">OUR STORY</span>
-              <h1>About essenceKRAFT</h1>
-              <p className="about-lede">We started essenceKRAFT because everyday life needed a gentler edge.</p>
+              <h1>About Khushilo</h1>
+              <p className="about-lede">We started Khushilo because everyday life needed a gentler edge.</p>
               <div className="about-since"><b>Since 2020</b><span>Crafting pure essential oils with intention</span></div>
             </div>
             <div className="about-hero-art" aria-hidden><div className="plinth" /><Bottle color="#7a5a9e" label="Lavender Essential Oil" /><Bottle color="#3f6b3a" label="Rosemary Essential Oil" /><Bottle color="#c2566e" label="Geranium Essential Oil" /></div>
@@ -55,7 +55,7 @@ export default function About() {
         </div>
         <div className="about-prose">
           <p>In a world that moves too fast, we believe in slowing down to appreciate the simple, natural things that bring us back to ourselves.</p>
-          <p>essenceKRAFT was born from the personal experience of our founder, Shilpa — the discovery that pure, thoughtfully sourced aromatics could transform ordinary moments into opportunities for calm, focus, and self-care.</p>
+          <p>Khushilo was born from the personal experience of our founder, Shilpa — the discovery that pure, thoughtfully sourced aromatics could transform ordinary moments into opportunities for calm, focus, and self-care.</p>
           <p>What started as Shilpa&apos;s passion project in a small workshop has grown into a commitment to bring authentic essential oils to homes and studios everywhere, without the fuss or the false promises.</p>
         </div>
       </section>
@@ -107,12 +107,12 @@ export default function About() {
             <ul className="about-badges"><li><FlaskIcon size={18} />Certified pure by laboratory testing</li><li><LeafIcon size={18} />Trusted by thousands</li></ul>
           </div>
           <div className="about-cta-box">
-            <h3>Experience the essenceKRAFT difference</h3>
+            <h3>Experience the Khushilo difference</h3>
             <p>Join thousands who trust our pure, sustainable essential oils</p>
             <div className="about-cta-btns"><Link className="btn btn-primary" href="/shop">Shop Our Collection</Link><Link className="btn btn-ghost" href="/pages/contact">Contact Us</Link></div>
           </div>
         </div>
-        <p className="about-foot muted">Join thousands who trust essenceKRAFT for pure, sustainable essential oils</p>
+        <p className="about-foot muted">Join thousands who trust Khushilo for pure, sustainable essential oils</p>
       </section>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
     </div>

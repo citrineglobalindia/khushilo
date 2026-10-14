@@ -28,7 +28,7 @@ export function MobileMenu({ open, onClose, nav }: { open: boolean; onClose: () 
     <div className="scrim" onClick={onClose} />
     <nav className="drawer left mmenu" aria-label="Main menu" role="dialog" aria-modal="true">
       <div className="drawer-head">
-        <span className="logo logo-left"><img src={BRAND.logo} alt="essenceKRAFT" width={184} height={34} style={{ height: 34 }} /></span>
+        <span className="logo logo-left"><img src={BRAND.logo} alt="Khushilo" width={155} height={44} style={{ height: 44 }} /></span>
         <button className="icon-btn" aria-label="Close menu" onClick={onClose}><CloseIcon /></button>
       </div>
       <div className="drawer-body" onClick={e => { if ((e.target as HTMLElement).closest('a')) onClose(); }}>

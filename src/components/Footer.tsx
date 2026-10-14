@@ -18,11 +18,11 @@ export function Footer() {
       <div className="wrap">
         <div className="footer-top">
           <div className="footer-brand">
-            <span className="logo logo-left"><img src={BRAND.logoLight} alt="essenceKRAFT" width={216} height={40} /></span>
-            <p>Pure essential and carrier oils, bottled in India.</p>
+            <span className="logo logo-left"><img src={BRAND.logoLight} alt="Khushilo" width={141} height={40} /></span>
+            <p>Pure spices, perfect taste.</p>
             <div className="footer-cta">
               <a className="btn btn-pill footer-wa" aria-label="Chat on WhatsApp" href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener" data-track="whatsapp_click"><WaIcon /><span>Chat on WhatsApp</span></a>
-              <a className="footer-mail" href="mailto:hello@essencekraft.in">hello@essencekraft.in</a>
+              <a className="footer-mail" href="mailto:khushiloindia@gmail.com">khushiloindia@gmail.com</a>
             </div>
           </div>
           <nav className="footer-links" aria-label="Footer">
@@ -43,8 +43,8 @@ export function Footer() {
           <li><span aria-hidden>₹</span>UPI · Cards · COD</li>
         </ul>
         <div className="footer-base">
-          <p>© {new Date().getFullYear()} EssenceKraft. All rights reserved.</p>
-          <p className="footer-note">Essential oils are not a substitute for medical advice.</p>
+          <p>© {new Date().getFullYear()} Khushilo. All rights reserved.</p>
+          <p className="footer-note">FSSAI Lic. No. 21225184000998 · GSTIN 29AQYPD3713H1ZJ</p>
           <p className="footer-credit">Designed &amp; developed by <a href="https://stepstones.in" target="_blank" rel="noopener">Stepstones</a></p>
         </div>
       </div>

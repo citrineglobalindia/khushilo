@@ -27,7 +27,7 @@ function SetPassword() {
   }, [sp, type, router]);
 
   if (state === 'checking') return <div className="panel"><p>Checking your link…</p></div>;
-  if (state === 'bad') return <div className="panel"><span className="logo"><img src={BRAND.logo} alt="essenceKRAFT" width={216} height={40} /><small style={{ marginTop: 6 }}>ADMIN</small></span>
+  if (state === 'bad') return <div className="panel"><span className="logo"><img src={BRAND.logo} alt="Khushilo" width={141} height={40} /><small style={{ marginTop: 6 }}>ADMIN</small></span>
     <h1 style={{ fontSize: '1.3rem' }}>Link not valid</h1><p className="muted">{err || 'Open the latest email we sent you, or ask an admin to resend your invite.'}</p>
     <a className="btn btn-primary" href="/admin/login">Go to sign in</a></div>;
   return (
@@ -41,7 +41,7 @@ function SetPassword() {
       if (error) { setBusy(false); return setErr(error.message); }
       router.replace('/admin'); router.refresh();
     }}>
-      <span className="logo"><img src={BRAND.logo} alt="essenceKRAFT" width={216} height={40} /><small style={{ marginTop: 6 }}>ADMIN</small></span>
+      <span className="logo"><img src={BRAND.logo} alt="Khushilo" width={141} height={40} /><small style={{ marginTop: 6 }}>ADMIN</small></span>
       <h1 style={{ fontSize: '1.3rem' }}>{type === 'invite' ? 'Welcome — set your password' : 'Choose a new password'}</h1>
       {email && <p className="muted" style={{ marginTop: -6 }}>{email}</p>}
       <input type="email" name="username" autoComplete="username" value={email} readOnly hidden />

@@ -68,7 +68,7 @@ export function Header({ index, nav }: { index: SearchItem[]; nav: Nav }) {
       <div className="wrap">
         <div className="header-row">
           <button className="icon-btn menu-toggle" aria-label="Open menu" onClick={() => setMenu(true)}><MenuIcon /></button>
-          <Link href="/" className="logo" aria-label="EssenceKraft home"><img src={BRAND.logo} alt="essenceKRAFT" width={216} height={40} /></Link>
+          <Link href="/" className="logo" aria-label="Khushilo home"><img src={BRAND.logo} alt="Khushilo" width={141} height={40} /></Link>
           <ul className="nav">
             <li><Link href="/shop?category=essential-oils">Essential Oils</Link>
               <div className="mega"><div><h4>Shop by concern</h4>{nav.concerns.map(c => <Link key={c.slug} href={`/concern/${c.slug}`}>{c.name}</Link>)}</div>

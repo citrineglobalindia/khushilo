@@ -2,7 +2,7 @@
 // Imports the Botanical Encyclopedia (1,200+ articles) verbatim from the live essencekraft.in app bundle.
 // Usage: node scripts/import-wiki.mjs   → writes data/wiki/{index,content,refs}.json
 import fs from 'fs';
-const SITE = process.env.WIKI_SOURCE || 'https://www.essencekraft.in';
+const SITE = process.env.WIKI_SOURCE || 'https://www.khushilo.in';
 
 function unescapeJs(lit) { // JS single-quoted string literal body → string
   let out = '';

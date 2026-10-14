@@ -22,7 +22,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
   const related = all.filter(x => x.id !== p.id && x.concerns.some(c => p.concerns.includes(c))).slice(0, 4);
   const v = p.variants[0];
   const ld = { '@context': 'https://schema.org', '@graph': [
-    { '@type': 'Product', name: p.name, description: p.description, sku: v?.sku, brand: { '@type': 'Brand', name: 'EssenceKraft' }, image: p.images.length ? p.images : undefined,
+    { '@type': 'Product', name: p.name, description: p.description, sku: v?.sku, brand: { '@type': 'Brand', name: 'Khushilo' }, image: p.images.length ? p.images : undefined,
       offers: p.variants.map(x => ({ '@type': 'Offer', sku: x.sku, price: x.price, priceCurrency: 'INR', url: `${SITE_URL}/product/${p.slug}`,
         availability: x.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock' })),
       ...(p.review_count > 0 ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: p.rating, reviewCount: p.review_count } } : {}) },

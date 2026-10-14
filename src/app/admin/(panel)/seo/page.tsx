@@ -38,7 +38,7 @@ export default function Seo() {
       <div className="adm-card-h"><div><h3>Product search listings</h3><p>Titles ≤ 60 characters, descriptions ≤ 160.</p></div></div>
       <div className="table-wrap"><table><thead><tr><th>Product</th><th>Google preview</th><th>Status</th></tr></thead><tbody>
         {ps.map(p => { const i = issues(p); return <tr key={p.id}><td><Link className="link" href={`/admin/products/${p.id}`}>{p.name}</Link></td>
-          <td><div className="adm-serp"><b>{p.seo_title || p.name}</b><span>essencekraft.in › product › {p.slug}</span><p>{p.seo_description || '—'}</p></div></td>
+          <td><div className="adm-serp"><b>{p.seo_title || p.name}</b><span>khushilo.in › product › {p.slug}</span><p>{p.seo_description || '—'}</p></div></td>
           <td>{i.length ? i.map(x => <span key={x} className="pill amber" style={{ margin: 2 }}>{x}</span>) : <span className="pill green">good</span>}</td></tr>; })}
       </tbody></table></div>
     </section>

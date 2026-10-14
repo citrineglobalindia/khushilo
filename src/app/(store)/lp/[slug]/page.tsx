@@ -8,7 +8,7 @@ import { ProductCard } from '@/components/ProductCard';
 export const revalidate = 60;
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const p = await getLanding(params.slug); if (!p) return {};
-  return { title: { absolute: p.seo_title || `${p.title} | EssenceKraft` }, description: p.seo_description ?? undefined, alternates: { canonical: `/lp/${p.slug}` } };
+  return { title: { absolute: p.seo_title || `${p.title} | Khushilo` }, description: p.seo_description ?? undefined, alternates: { canonical: `/lp/${p.slug}` } };
 }
 export default async function LandingPage({ params }: { params: { slug: string } }) {
   const [page, products] = await Promise.all([getLanding(params.slug), getProducts()]);

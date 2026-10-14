@@ -15,7 +15,7 @@ export function Bottle({ color = '#7a5a9e', label, className = 'bottle', title }
       <rect x="30" y="96" width="60" height="6" fill={color} />
       <rect x="30" y="182" width="60" height="6" fill={color} opacity=".85" />
       <path d="M60 108c-5 3-7 7-6 11 4-1 6-5 6-11zm0 0c5 3 7 7 6 11-4-1-6-5-6-11z" fill="#3e7b4f" />
-      <text x="60" y="130" textAnchor="middle" fontFamily="Georgia, serif" fontSize="7.5" fill="#0f3d2e">EssenceKraft</text>
+      <text x="60" y="130" textAnchor="middle" fontFamily="Georgia, serif" fontSize="7.5" fill="#0f3d2e">Khushilo</text>
       {short && <text x="60" y="150" textAnchor="middle" fontFamily="Georgia, serif" fontSize={short.length > 10 ? 8 : 10} fontWeight="600" fill="#1d2a24">{short}</text>}
       <text x="60" y="162" textAnchor="middle" fontFamily="system-ui, sans-serif" fontSize="5.5" fill="#5f6b64">Pure &amp; Natural</text>
       <text x="60" y="175" textAnchor="middle" fontFamily="system-ui, sans-serif" fontSize="5.5" fill="#5f6b64">15 ml</text>

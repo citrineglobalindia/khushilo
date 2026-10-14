@@ -9,15 +9,15 @@ export function captureAttribution() {
     const t: Record<string, string> = {};
     KEYS.forEach(k => { const v = u.searchParams.get(k); if (v) t[k] = v; });
     const external = document.referrer && !document.referrer.startsWith(window.location.origin);
-    if (!Object.keys(t).length && !external && localStorage.getItem('ek_ft')) return;
+    if (!Object.keys(t).length && !external && localStorage.getItem('kh_ft')) return;
     const touch: Touch = { ...t, landing: u.pathname, referrer: document.referrer, at: new Date().toISOString() } as Touch;
-    if (!localStorage.getItem('ek_ft')) localStorage.setItem('ek_ft', JSON.stringify(touch));
-    localStorage.setItem('ek_lt', JSON.stringify(touch));
+    if (!localStorage.getItem('kh_ft')) localStorage.setItem('kh_ft', JSON.stringify(touch));
+    localStorage.setItem('kh_lt', JSON.stringify(touch));
   } catch { /* storage blocked */ }
 }
 export function getAttribution(): { first_touch: Touch | null; last_touch: Touch | null } {
   try {
-    return { first_touch: JSON.parse(localStorage.getItem('ek_ft') || 'null'), last_touch: JSON.parse(localStorage.getItem('ek_lt') || 'null') };
+    return { first_touch: JSON.parse(localStorage.getItem('kh_ft') || 'null'), last_touch: JSON.parse(localStorage.getItem('kh_lt') || 'null') };
   } catch { return { first_touch: null, last_touch: null }; }
 }
 // GA4 ecommerce events via dataLayer (GTM picks them up) — MKT-002

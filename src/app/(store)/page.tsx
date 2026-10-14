@@ -18,7 +18,7 @@ export default async function Home() {
   const slides = [
     { id: 'hero-pure', heading: settings.hero?.heading || '100% Pure Essential Oils', copy: settings.hero?.subheading || 'Natural care for a calmer mind, healthier skin, stronger hair and a more balanced you.', cta: settings.hero?.cta || 'Shop Essential Oils', href: settings.hero?.href || '/shop?category=essential-oils', ...pick(bySlug('lavender-essential-oil')) },
     { id: 'hero-hair', heading: 'Rosemary for hair routines', copy: 'Steam-distilled rosemary, ready to blend with jojoba for a weekly scalp massage.', cta: 'Shop Hair & Scalp', href: '/concern/hair-scalp', ...pick(bySlug('rosemary-essential-oil')) },
-    { id: 'hero-collection', heading: 'The alchemy of scent', copy: 'Pure, steam-distilled essential oils — crafted in India for mind, body and soul.', cta: 'Shop the collection', href: '/shop', color: '#c27a1a', name: 'EssenceKraft collection', image: BRAND.heroCollection },
+    { id: 'hero-collection', heading: 'The alchemy of scent', copy: 'Pure, steam-distilled essential oils — crafted in India for mind, body and soul.', cta: 'Shop the collection', href: '/shop', color: '#c27a1a', name: 'Khushilo collection', image: BRAND.heroCollection },
     { id: 'hero-focus', heading: 'Bright oils for busy days', copy: 'Peppermint, lemongrass and sweet orange for a fresher-smelling desk.', cta: 'Shop Focus & Energy', href: '/concern/focus-energy', ...pick(bySlug('peppermint-essential-oil')) },
   ];
   return <>

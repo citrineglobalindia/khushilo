@@ -4,8 +4,8 @@ import { db, isDemo } from '@/lib/admin';
 import { PageHead, Saved } from '@/components/AdminUI';
 import { WHATSAPP } from '@/lib/format';
 
-type S = { free_shipping_min: number; shipping_flat: number; cod_fee: number; support_email: string; whatsapp: string; legal_name: string; gstin: string; address: string; [k: string]: unknown };
-const DEF: S = { sr_auto: false, sr_pickup: 'Home-1', sr_pickup_pincode: '570020', sr_weight: 0.2, sr_l: 10, sr_b: 6, sr_h: 6, free_shipping_min: 999, shipping_flat: 79, cod_fee: 49, support_email: '', whatsapp: '', legal_name: 'EssenceKraft', gstin: '', address: '' };
+type S = { free_shipping_min: number; shipping_flat: number; cod_fee: number; support_email: string; whatsapp: string; legal_name: string; gstin: string; fssai: string; address: string; [k: string]: unknown };
+const DEF: S = { sr_auto: false, sr_pickup: 'Home-1', sr_pickup_pincode: '560079', sr_weight: 0.2, sr_l: 10, sr_b: 6, sr_h: 6, free_shipping_min: 999, shipping_flat: 79, cod_fee: 49, support_email: 'khushiloindia@gmail.com', whatsapp: '918431813798', legal_name: 'Khushilo', gstin: '29AQYPD3713H1ZJ', fssai: '21225184000998', address: 'No 403, 12th Cross, 2nd Main, Hollywood Saloon, Kaveripura, Kamakshipalya, Bengaluru, Karnataka 560079' };
 export default function Settings() {
   const [s, setS] = useState<S>(DEF); const [msg, setMsg] = useState<{ t: 'ok' | 'error'; m: string } | null>(null);
   useEffect(() => { db().from('settings').select('value').eq('key', 'store').maybeSingle().then(({ data }) => data && setS({ ...DEF, ...(data.value as S) })); }, []);
@@ -27,7 +27,7 @@ export default function Settings() {
         <label className="check"><input type="checkbox" checked={!!s.sr_auto} onChange={e => setS({ ...s, sr_auto: e.target.checked })} />Send confirmed orders to Shiprocket automatically (paid online or COD)</label>
         <div className="form-grid two">{T('sr_pickup', 'Pickup address nickname', 'Home-1')}{T('sr_pickup_pincode', 'Pickup pincode', '570020')}{N('sr_weight', 'Weight per bottle (kg)', 'e.g. 0.2')}{N('sr_l', 'Box length (cm)')}{N('sr_b', 'Box breadth (cm)')}{N('sr_h', 'Box height (cm)')}</div></section>
       <section className="adm-card form-grid"><div className="adm-card-h"><div><h3>Business details</h3><p>Shown on tax invoices and the contact page.</p></div></div>
-        <div className="form-grid two">{T('legal_name', 'Legal name')}{T('gstin', 'GSTIN', '29ABCDE1234F1Z5')}{T('support_email', 'Support email', 'hello@essencekraft.in')}{T('whatsapp', 'WhatsApp number', '9190000 00000')}</div>{T('address', 'Registered address')}</section>
+        <div className="form-grid two">{T('legal_name', 'Legal name')}{T('gstin', 'GSTIN', '29AQYPD3713H1ZJ')}{T('fssai', 'FSSAI licence number', '21225184000998')}{T('support_email', 'Support email', 'khushiloindia@gmail.com')}{T('whatsapp', 'WhatsApp number', '91 84318 13798')}</div>{T('address', 'Registered address')}</section>
       <section className="adm-card adm-span"><div className="adm-card-h"><div><h3>Integrations</h3><p>Keys are added in Vercel → Settings → Environment Variables, never here.</p></div></div>
         <div className="table-wrap"><table><tbody>
           <tr><td><b>Supabase</b> — database, login, storage</td><td>{ok(!isDemo)}</td></tr>

@@ -17,8 +17,8 @@ export async function payOrder(order_no: string, token: string): Promise<boolean
   if (!r.ok) throw new Error(o.error || 'Payment could not be started');
   return new Promise(resolve => {
     const rz = new window.Razorpay!({
-      key: o.key, order_id: o.razorpay_order_id, amount: o.amount, currency: 'INR', name: 'EssenceKraft', description: `Order ${order_no}`,
-      prefill: { name: o.name, email: o.email, contact: o.phone }, theme: { color: '#0f3d2e' },
+      key: o.key, order_id: o.razorpay_order_id, amount: o.amount, currency: 'INR', name: 'Khushilo', description: `Order ${order_no}`,
+      prefill: { name: o.name, email: o.email, contact: o.phone }, theme: { color: '#b5261a' },
       handler: async (resp: Record<string, string>) => {
         const v = await fetch('/api/razorpay/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ order_no, token, ...resp }) });
         resolve(v.ok);
