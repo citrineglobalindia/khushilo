@@ -7,6 +7,7 @@ import { COD_FEE, SHIPPING_FLAT, inr } from '@/lib/format';
 import { hasSupabase, browserClient } from '@/lib/supabase';
 import { getAttribution, track } from '@/lib/attribution';
 import { payOrder } from '@/lib/pay';
+import { GATEWAY, gatewayName } from '@/lib/gateway';
 import { useUser } from '@/lib/account';
 
 const STATES = ['Andaman and Nicobar Islands','Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chandigarh','Chhattisgarh','Dadra and Nagar Haveli and Daman and Diu','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jammu and Kashmir','Jharkhand','Karnataka','Kerala','Ladakh','Lakshadweep','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Puducherry','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'];
@@ -17,7 +18,7 @@ export default function Checkout() {
   const router = useRouter();
   const [f, setF] = useState({ email: '', phone: '', full_name: '', line1: '', line2: '', landmark: '', city: '', state: 'Karnataka', pincode: '' });
   const [consent, setConsent] = useState(false);
-  const [method, setMethod] = useState<'razorpay' | 'cod'>('razorpay');
+  const [method, setMethod] = useState<'online' | 'cod'>('online');
   const [code, setCode] = useState(''); const [coupon, setCoupon] = useState<Coupon | null>(null); const [couponMsg, setCouponMsg] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false); const [fail, setFail] = useState('');
@@ -77,7 +78,7 @@ export default function Checkout() {
     setBusy(true); setFail('');
     track('add_payment_info', { currency: 'INR', value: t.total, payment_type: method });
     const payload = {
-      email: f.email.trim(), phone: f.phone.replace(/^\+?91/, ''), full_name: f.full_name.trim(), payment_method: method, consent,
+      email: f.email.trim(), phone: f.phone.replace(/^\+?91/, ''), full_name: f.full_name.trim(), payment_method: method === 'online' ? GATEWAY : 'cod', consent,
       coupon: coupon?.code ?? '', address: { line1: f.line1, line2: f.line2, landmark: f.landmark, city: f.city, state: f.state, pincode: f.pincode, country: 'IN' },
       items: lines.map(l => ({ variant_id: l.variant_id, qty: l.qty })), ...getAttribution(),
     };
@@ -96,7 +97,7 @@ export default function Checkout() {
           await browserClient().from('addresses').insert({ label: saved.length ? 'Address' : 'Home', full_name: f.full_name, phone: f.phone.replace(/\D/g, '').slice(-10), line1: f.line1, line2: f.line2 || null, city: f.city, state: f.state, pincode: f.pincode, is_default: !saved.length }).then(() => {}, () => {});
       }
       clear(); try { localStorage.removeItem('kh_cart_token'); } catch {}
-      if (method === 'razorpay' && hasSupabase) {
+      if (method === 'online' && hasSupabase) {
         const paid = await payOrder(order_no, token).catch(() => false);
         router.push(`/order/${order_no}?t=${token}${paid ? '' : '&retry=1'}`);
       } else { if (hasSupabase) await fetch('/api/orders/confirm', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ order_no, token }) }).catch(() => {}); router.push(`/order/${order_no}?t=${token}`); }
@@ -134,7 +135,7 @@ export default function Checkout() {
           </div></section>
         <section className="panel"><h2>Payment</h2>
           <div style={{ display: 'grid', gap: 10 }}>
-            <label className="pay-opt"><input type="radio" name="pm" checked={method === 'razorpay'} onChange={() => setMethod('razorpay')} /><span><b>UPI, cards, net banking, wallets</b><br /><small className="muted">Secured by Razorpay. We never see your card details.</small></span></label>
+            <label className="pay-opt"><input type="radio" name="pm" checked={method === 'online'} onChange={() => setMethod('online')} /><span><b>UPI, cards, net banking, wallets</b><br /><small className="muted">{`Secured by ${gatewayName(GATEWAY)}. We never see your card details.`}</small></span></label>
             <label className="pay-opt"><input type="radio" name="pm" checked={method === 'cod'} onChange={() => setMethod('cod')} /><span><b>Cash on delivery</b><br /><small className="muted">{fees.cod_fee ? `${inr(fees.cod_fee)} handling fee` : 'No extra fee'}</small></span></label>
           </div></section>
       </div>

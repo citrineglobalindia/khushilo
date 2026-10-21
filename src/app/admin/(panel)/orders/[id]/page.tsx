@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { gatewayName } from '@/lib/gateway';
 import { useCallback, useEffect, useState } from 'react';
 import { db, fmtDate, statusTone } from '@/lib/admin';
 import { browserClient, hasSupabase } from '@/lib/supabase';
@@ -94,7 +95,7 @@ export default function OrderDetail({ params }: { params: { id: string } }) {
       <section className="panel"><h2>Customer</h2><p><b>{o.full_name}</b><br />{o.email}<br />{o.phone}<br /><span className="muted">Marketing consent: {o.marketing_consent ? 'yes' : 'no'}</span></p>
         <p style={{ marginTop: 10 }}>{o.address.line1}{o.address.line2 && `, ${o.address.line2}`}{o.address.landmark && ` (near ${o.address.landmark})`}<br />{o.address.city}, {o.address.state} {o.address.pincode}</p></section>
       <section className="panel"><h2>Payment &amp; attribution</h2>
-        <p style={{ fontSize: 14 }}>Method: {o.payment_method === 'cod' ? 'Cash on delivery' : 'Razorpay'}<br />Gateway ref: {o.payment_ref ?? '—'}{o.notes && <><br />{o.notes}</>}</p>
+        <p style={{ fontSize: 14 }}>Method: {gatewayName(o.payment_method)}<br />Gateway ref: {o.payment_ref ?? '—'}{o.notes && <><br />{o.notes}</>}</p>
         <p style={{ fontSize: 13.5, marginTop: 10 }}><b>First touch</b><br /><span className="muted">{touch(o.first_touch)}</span></p>
         <p style={{ fontSize: 13.5, marginTop: 8 }}><b>Last touch</b><br /><span className="muted">{touch(o.last_touch)}</span></p></section>
     </div>

@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { GATEWAY, gatewayName } from '@/lib/gateway';
 import { db, isDemo } from '@/lib/admin';
 import { PageHead, Saved } from '@/components/AdminUI';
 import { WHATSAPP } from '@/lib/format';
@@ -31,7 +32,7 @@ export default function Settings() {
       <section className="adm-card adm-span"><div className="adm-card-h"><div><h3>Integrations</h3><p>Keys are added in Vercel → Settings → Environment Variables, never here.</p></div></div>
         <div className="table-wrap"><table><tbody>
           <tr><td><b>Supabase</b> — database, login, storage</td><td>{ok(!isDemo)}</td></tr>
-          <tr><td><b>Razorpay</b> — UPI, cards, net banking</td><td><span className="pill grey">Check in Vercel</span></td></tr>
+          <tr><td><b>{gatewayName(GATEWAY)}</b> — UPI, cards, net banking (online payments)</td><td><span className="pill grey">Check in Vercel</span></td></tr>
           <tr><td><b>Google Tag Manager</b> — GA4, Ads, Meta Pixel</td><td>{ok(!!process.env.NEXT_PUBLIC_GTM_ID)}</td></tr>
           <tr><td><b>Shiprocket</b> — shipping, labels, tracking</td><td><span className="pill grey">Check in Vercel</span></td></tr>
           <tr><td><b>WhatsApp</b> — chat button & order help</td><td><span className="pill green">+{WHATSAPP.slice(0, 2)} {WHATSAPP.slice(2)}</span></td></tr>

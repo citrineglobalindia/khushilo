@@ -26,7 +26,7 @@ function build() {
   for (let i = 0; i < 140; i++) {
     const age = Math.floor(Math.pow(r(), 1.25) * 90); const created = new Date(now - age * 864e5 - r() * 864e5);
     const status = age < 2 ? pick(['placed', 'confirmed']) : age < 5 ? pick(['confirmed', 'packed', 'shipped']) : pick(statuses);
-    const method = r() < .62 ? 'razorpay' : 'cod'; const name = pick(names); const [city, state, pin] = pick(cities);
+    const method = r() < .62 ? 'cashfree' : 'cod'; const name = pick(names); const [city, state, pin] = pick(cities);
     const lines = 1 + Math.floor(r() * 3); let sub = 0; const id = `o${i}`; const order_no = `EK${10200 + i}`;
     for (let j = 0; j < lines; j++) { const v = pick(variants); const p = products.find(x => x.id === v.product_id)!; const qty = 1 + Math.floor(r() * 2); sub += v.price * qty;
       order_items.push({ id: order_items.length + 1, order_id: id, variant_id: v.id, product_name: p.name, variant_label: v.label, sku: v.sku, unit_price: v.price, qty }); }
@@ -36,7 +36,7 @@ function build() {
       address: { line1: `${1 + Math.floor(r() * 200)}, ${pick(['MG Road', 'Indiranagar 2nd Stage', 'Koramangala 5th Block', 'Banjara Hills', 'Anna Nagar', 'Baner Road'])}`, city, state, pincode: pin },
       subtotal: sub, discount: disc, shipping: ship, total: sub - disc + ship, coupon_code: disc ? 'WELCOME10' : null, payment_method: method,
       payment_status: status === 'cancelled' ? (method === 'cod' ? 'pending' : 'refunded') : method === 'cod' ? (status === 'delivered' ? 'paid' : 'pending') : 'paid',
-      payment_ref: method === 'razorpay' ? `order_demo${i}` : null, status, tracking_url: ['shipped', 'delivered'].includes(status) ? 'https://shiprocket.co/tracking/demo' : null,
+      payment_ref: method === 'cashfree' ? `KH_demo${i}` : null, status, tracking_url: ['shipped', 'delivered'].includes(status) ? 'https://shiprocket.co/tracking/demo' : null,
       marketing_consent: r() < .5, first_touch: touch, last_touch: touch, notes: null, created_at: created.toISOString(), updated_at: created.toISOString() });
   }
   orders.forEach((o, i) => { if (o.full_name === 'Ananya Rao') o.user_id = 'demo'; if (o.status !== 'placed' && o.status !== 'cancelled') { o.invoice_no = `EK/26-27/${String(i + 1).padStart(5, '0')}`; o.invoice_date = o.created_at; } });

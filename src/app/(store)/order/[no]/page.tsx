@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { hasSupabase, browserClient } from '@/lib/supabase';
 import { inr, WHATSAPP } from '@/lib/format';
-import { payOrder } from '@/lib/pay';
+import { payOrder, verifyCashfree } from '@/lib/pay';
 import { track } from '@/lib/attribution';
 
 type Item = { product_name?: string; name?: string; variant_label?: string; label?: string; qty: number; unit_price?: number; price?: number };
@@ -17,12 +17,22 @@ export default function OrderPage({ params }: { params: { no: string } }) {
   const sp = useSearchParams(); const token = sp.get('t') ?? '';
   const [o, setO] = useState<Order | null | undefined>(undefined);
   const [paying, setPaying] = useState(false);
+  const [checking, setChecking] = useState(sp.get('cf') === '1');
   const load = useCallback(async () => {
     if (!hasSupabase) { const d = JSON.parse(localStorage.getItem('kh_demo_orders') || '{}'); setO(d[params.no] ?? null); return; }
     const { data } = await browserClient().rpc('get_order', { p_no: params.no, p_token: token });
     setO(data ?? null);
   }, [params.no, token]);
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    (async () => {
+      // Back from a Cashfree bank/UPI page: confirm with the server first (a few tries, banks can lag).
+      if (sp.get('cf') === '1' && hasSupabase) {
+        for (let i = 0; i < 4; i++) { if (await verifyCashfree(params.no, token).catch(() => false)) break; await new Promise(r => setTimeout(r, 2000)); }
+        setChecking(false);
+      }
+      load();
+    })();
+  }, [load]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!o) return;
     const done = o.payment_status === 'paid' || o.payment_method === 'cod';
@@ -34,10 +44,10 @@ export default function OrderPage({ params }: { params: { no: string } }) {
     }
   }, [o]);
 
-  if (o === undefined) return <div className="wrap section"><p>Loading your order…</p></div>;
+  if (o === undefined || checking) return checking ? <div className="wrap section"><p>Confirming your payment with the bank…</p></div> : <div className="wrap section"><p>Loading your order…</p></div>;
   if (o === null) return <div className="wrap empty" style={{ minHeight: '50vh' }}><h1 style={{ fontSize: '2rem' }}>Order not found</h1><p className="muted">Check the link in your confirmation email, or look it up with your order number.</p><Link href="/account" className="btn btn-primary">Track an order</Link></div>;
 
-  const unpaid = o.payment_method === 'razorpay' && o.payment_status !== 'paid' && o.status !== 'cancelled';
+  const unpaid = o.payment_method !== 'cod' && o.payment_status !== 'paid' && o.status !== 'cancelled';
   const step = STEPS.indexOf(o.status);
   return (
     <div className="wrap checkout">
@@ -47,7 +57,7 @@ export default function OrderPage({ params }: { params: { no: string } }) {
             <h1 style={{ fontSize: '1.8rem' }}>Payment not completed</h1>
             <p style={{ margin: '8px 0 14px' }}>Order <b>{o.order_no}</b> is saved and your items are held for 45 minutes. You won’t be charged twice.</p>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <button className="btn btn-primary" disabled={paying} onClick={async () => { setPaying(true); await payOrder(o.order_no, token).catch(() => false); await load(); setPaying(false); }}>{paying ? 'Opening payment…' : `Retry payment · ${inr(o.total)}`}</button>
+              <button className="btn btn-primary" disabled={paying} onClick={async () => { setPaying(true); await payOrder(o.order_no, token, o.payment_method).catch(() => false); await load(); setPaying(false); }}>{paying ? 'Opening payment…' : `Retry payment · ${inr(o.total)}`}</button>
               <a className="btn btn-ghost" href={`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Help with order ${o.order_no}`)}`} data-track="whatsapp_click">Get help on WhatsApp</a>
             </div>
           </> : <>

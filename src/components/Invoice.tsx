@@ -1,4 +1,5 @@
 'use client';
+import { gatewayName } from '@/lib/gateway';
 // GST tax invoice (prices are GST-inclusive). Intra-state → CGST+SGST, inter-state → IGST.
 type Item = { product_name: string; variant_label: string; sku: string; unit_price: number; qty: number; hsn?: string | null; gst_rate?: number | null };
 export type InvOrder = { order_no: string; invoice_no: string | null; invoice_date: string | null; created_at: string; full_name: string; email: string; phone: string;
@@ -47,7 +48,7 @@ export function Invoice({ o, seller }: { o: InvOrder; seller: Seller }) {
         <div><b className="inv-brand">{seller.legal_name || 'Khushilo'}</b><p>{seller.address || 'Bengaluru, Karnataka 560079'}</p>{seller.gstin ? <p>GSTIN: <b>{seller.gstin}</b>{seller.fssai ? <> · FSSAI Lic. No.: <b>{seller.fssai}</b></> : null}</p> : <p className="inv-warn">GSTIN not set — add it in Admin → Settings</p>}<p>{seller.support_email}</p></div>
         <div className="inv-title"><h1>{o.invoice_no ? 'Tax Invoice' : 'Order Summary'}</h1><dl>
           {o.invoice_no && <><dt>Invoice no.</dt><dd>{o.invoice_no}</dd></>}<dt>{o.invoice_no ? 'Invoice date' : 'Order date'}</dt><dd>{date}</dd><dt>Order no.</dt><dd>{o.order_no}</dd>
-          <dt>Place of supply</dt><dd>{o.address.state}</dd><dt>Payment</dt><dd>{o.payment_method === 'cod' ? 'Cash on delivery' : 'Prepaid (Razorpay)'} · {o.payment_status}</dd></dl></div>
+          <dt>Place of supply</dt><dd>{o.address.state}</dd><dt>Payment</dt><dd>{o.payment_method === 'cod' ? 'Cash on delivery' : `Prepaid (${gatewayName(o.payment_method)})`} · {o.payment_status}</dd></dl></div>
       </header>
       <section className="inv-parties"><div><h3>Bill to / Ship to</h3><p><b>{o.full_name}</b><br />{o.address.line1}{o.address.line2 ? `, ${o.address.line2}` : ''}<br />{o.address.city}, {o.address.state} {o.address.pincode}<br />{o.phone} · {o.email}</p></div></section>
       <div className="inv-table"><table>
