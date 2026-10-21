@@ -43,7 +43,7 @@ function build() {
   order_items.forEach(i => { i.hsn = '3301'; i.gst_rate = 18; });
   const leads: Row[] = Array.from({ length: 46 }, (_, i) => { const n = pick(names); const at = new Date(now - Math.floor(r() * 60) * 864e5).toISOString();
     return { id: `l${i}`, source: pick(['welcome_popup', 'welcome_popup', 'newsletter', 'back_in_stock', 'whatsapp']), name: r() < .4 ? n : null, email: `${n.split(' ')[0].toLowerCase()}${i}@example.com`, phone: r() < .4 ? `97${10000000 + i}` : null,
-      interest: null, landing_page: pick(['/', '/categories', '/product/lavender-essential-oil', '/concern/sleep-calm']), consent: true, status: 'new', created_at: at, first_touch: pick(sources), last_touch: pick(sources) }; });
+      interest: null, landing_page: pick(['/', '/categories', '/product/sambar-powder', '/concern/south-indian']), consent: true, status: 'new', created_at: at, first_touch: pick(sources), last_touch: pick(sources) }; });
   const coupons = [{ id: 'cp1', code: 'WELCOME10', kind: 'percent', value: 10, min_cart: 0, max_uses: null, used: 38, ends_at: null, active: true },
     { id: 'cp2', code: 'DIWALI15', kind: 'percent', value: 15, min_cart: 999, max_uses: 500, used: 0, ends_at: '2026-11-10T23:59:00Z', active: true },
     { id: 'cp3', code: 'FLAT100', kind: 'flat', value: 100, min_cart: 799, max_uses: 200, used: 61, ends_at: null, active: false }];
