@@ -8,8 +8,7 @@ export function GET() {
   return NextResponse.json({
     supabase_service: has('SUPABASE_SERVICE_ROLE_KEY'),
     cashfree: has('CASHFREE_APP_ID') && has('CASHFREE_SECRET_KEY'),
-    cashfree_env: process.env.CASHFREE_ENV?.trim().toLowerCase() === 'sandbox' ? 'sandbox' : 'production',
-    cashfree_key_shape: (process.env.CASHFREE_APP_ID ?? '').trim().startsWith('TEST') ? 'test' : (process.env.CASHFREE_APP_ID ? 'live' : null),
+    cashfree_env: (process.env.CASHFREE_APP_ID ?? '').trim().toUpperCase().startsWith('TEST') ? 'sandbox' : 'production',
     razorpay: has('RAZORPAY_KEY_ID') && has('RAZORPAY_KEY_SECRET'),
     brevo: has('BREVO_API_KEY'),
     shiprocket: has('SHIPROCKET_EMAIL') && has('SHIPROCKET_PASSWORD'),

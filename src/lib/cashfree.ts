@@ -4,9 +4,10 @@ import { sendOrderConfirmation } from '@/lib/email';
 import { autoShip } from '@/lib/shiprocket';
 
 // Cashfree Payment Gateway (PG API). Keys live only in Vercel env:
-//   CASHFREE_APP_ID, CASHFREE_SECRET_KEY, CASHFREE_ENV = production | sandbox (default production)
+//   CASHFREE_APP_ID, CASHFREE_SECRET_KEY (test or live — the mode follows the key)
 const VERSION = '2025-01-01';
-export const cfMode = () => (process.env.CASHFREE_ENV?.trim().toLowerCase() === 'sandbox' ? 'sandbox' : 'production') as 'sandbox' | 'production';
+// Test keys (App ID starting with TEST) always use the sandbox; live keys always use production — CASHFREE_ENV is not needed.
+export const cfMode = () => ((process.env.CASHFREE_APP_ID ?? '').trim().toUpperCase().startsWith('TEST') ? 'sandbox' : 'production') as 'sandbox' | 'production';
 const base = () => (cfMode() === 'sandbox' ? 'https://sandbox.cashfree.com/pg' : 'https://api.cashfree.com/pg');
 export const cfConfigured = () => !!(process.env.CASHFREE_APP_ID && process.env.CASHFREE_SECRET_KEY);
 
