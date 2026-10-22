@@ -9,6 +9,9 @@ type S = { free_shipping_min: number; shipping_flat: number; cod_fee: number; su
 const DEF: S = { sr_auto: false, sr_pickup: 'Home-1', sr_pickup_pincode: '560079', sr_weight: 0.2, sr_l: 10, sr_b: 6, sr_h: 6, free_shipping_min: 999, shipping_flat: 79, cod_fee: 49, support_email: 'khushiloindia@gmail.com', whatsapp: '918431813798', legal_name: 'Khushilo', gstin: '29AQYPD3713H1ZJ', fssai: '21225184000998', address: 'No 403, 12th Cross, 2nd Main, Hollywood Saloon, Kaveripura, Kamakshipalya, Bengaluru, Karnataka 560079' };
 export default function Settings() {
   const [s, setS] = useState<S>(DEF); const [msg, setMsg] = useState<{ t: 'ok' | 'error'; m: string } | null>(null);
+  const [cfg, setCfg] = useState<Record<string, boolean | string | null> | null>(null);
+  useEffect(() => { fetch('/api/health/config').then(r => r.json()).then(setCfg).catch(() => {}); }, []);
+  const live = (k: string) => cfg ? ok(!!cfg[k]) : <span className="pill grey">Checking…</span>;
   useEffect(() => { db().from('settings').select('value').eq('key', 'store').maybeSingle().then(({ data }) => data && setS({ ...DEF, ...(data.value as S) })); }, []);
   const save = async () => { setMsg(null);
     if (s.gstin && !/^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(s.gstin)) return setMsg({ t: 'error', m: 'GSTIN format looks wrong (15 characters, e.g. 29ABCDE1234F1Z5).' });
@@ -32,9 +35,11 @@ export default function Settings() {
       <section className="adm-card adm-span"><div className="adm-card-h"><div><h3>Integrations</h3><p>Keys are added in Vercel → Settings → Environment Variables, never here.</p></div></div>
         <div className="table-wrap"><table><tbody>
           <tr><td><b>Supabase</b> — database, login, storage</td><td>{ok(!isDemo)}</td></tr>
-          <tr><td><b>{gatewayName(GATEWAY)}</b> — UPI, cards, net banking (online payments)</td><td><span className="pill grey">Check in Vercel</span></td></tr>
+          <tr><td><b>{gatewayName(GATEWAY)}</b> — UPI, cards, net banking (online payments){GATEWAY === 'cashfree' && cfg?.cashfree_env === 'sandbox' && <> · <b>test mode</b></>}</td><td>{live(GATEWAY)}</td></tr>
+          <tr><td><b>Server database key</b> — orders, payments, emails</td><td>{live('supabase_service')}</td></tr>
+          <tr><td><b>Brevo</b> — order emails</td><td>{live('brevo')}</td></tr>
           <tr><td><b>Google Tag Manager</b> — GA4, Ads, Meta Pixel</td><td>{ok(!!process.env.NEXT_PUBLIC_GTM_ID)}</td></tr>
-          <tr><td><b>Shiprocket</b> — shipping, labels, tracking</td><td><span className="pill grey">Check in Vercel</span></td></tr>
+          <tr><td><b>Shiprocket</b> — shipping, labels, tracking</td><td>{live('shiprocket')}</td></tr>
           <tr><td><b>WhatsApp</b> — chat button & order help</td><td><span className="pill green">+{WHATSAPP.slice(0, 2)} {WHATSAPP.slice(2)}</span></td></tr>
         </tbody></table></div></section>
     </div>
