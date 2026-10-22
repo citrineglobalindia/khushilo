@@ -6,14 +6,14 @@ import { autoShip } from '@/lib/shiprocket';
 // Cashfree Payment Gateway (PG API). Keys live only in Vercel env:
 //   CASHFREE_APP_ID, CASHFREE_SECRET_KEY, CASHFREE_ENV = production | sandbox (default production)
 const VERSION = '2025-01-01';
-export const cfMode = () => (process.env.CASHFREE_ENV === 'sandbox' ? 'sandbox' : 'production') as 'sandbox' | 'production';
+export const cfMode = () => (process.env.CASHFREE_ENV?.trim().toLowerCase() === 'sandbox' ? 'sandbox' : 'production') as 'sandbox' | 'production';
 const base = () => (cfMode() === 'sandbox' ? 'https://sandbox.cashfree.com/pg' : 'https://api.cashfree.com/pg');
 export const cfConfigured = () => !!(process.env.CASHFREE_APP_ID && process.env.CASHFREE_SECRET_KEY);
 
 async function cf(path: string, init: { method?: string; body?: unknown } = {}) {
   const r = await fetch(base() + path, {
     method: init.method ?? 'GET', cache: 'no-store',
-    headers: { 'Content-Type': 'application/json', 'x-api-version': VERSION, 'x-client-id': process.env.CASHFREE_APP_ID!, 'x-client-secret': process.env.CASHFREE_SECRET_KEY! },
+    headers: { 'Content-Type': 'application/json', 'x-api-version': VERSION, 'x-client-id': process.env.CASHFREE_APP_ID!.trim(), 'x-client-secret': process.env.CASHFREE_SECRET_KEY!.trim() },
     body: init.body ? JSON.stringify(init.body) : undefined,
   });
   const j = await r.json().catch(() => ({}));
@@ -73,7 +73,7 @@ export async function cfSuccessfulPayment(ref: string) {
 
 export function cfSignatureOk(raw: string, ts: string | null, sig: string | null) {
   if (!ts || !sig || !process.env.CASHFREE_SECRET_KEY) return false;
-  const exp = crypto.createHmac('sha256', process.env.CASHFREE_SECRET_KEY).update(ts + raw).digest('base64');
+  const exp = crypto.createHmac('sha256', process.env.CASHFREE_SECRET_KEY.trim()).update(ts + raw).digest('base64');
   return exp.length === sig.length && crypto.timingSafeEqual(Buffer.from(exp), Buffer.from(sig));
 }
 
