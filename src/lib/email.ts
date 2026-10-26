@@ -5,11 +5,23 @@ const FROM = { name: 'Khushilo', email: process.env.EMAIL_FROM || 'no-reply@khus
 const inr = (n: number) => '₹' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const esc = (s: unknown) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
 
+// Brevo works with either key type in BREVO_API_KEY:
+//   xkeysib-…  → HTTP API      xsmtpsib-… → SMTP relay (login BREVO_SMTP_LOGIN, the …@smtp-brevo.com address on Brevo's SMTP tab)
+const SMTP_LOGIN = () => (process.env.BREVO_SMTP_LOGIN || 'b3e721001@smtp-brevo.com').trim();
+
 export async function sendEmail(to: { email: string; name?: string }[], subject: string, html: string, replyTo?: string) {
-  const key = process.env.BREVO_API_KEY;
+  const key = process.env.BREVO_API_KEY?.trim();
   if (!key) { console.warn('[email] BREVO_API_KEY not set — skipped:', subject); return false; }
+  if (key.startsWith('xsmtpsib-')) {
+    try {
+      const nodemailer = (await import('nodemailer')).default;
+      const t = nodemailer.createTransport({ host: 'smtp-relay.brevo.com', port: 587, secure: false, auth: { user: SMTP_LOGIN(), pass: key } });
+      await t.sendMail({ from: { name: FROM.name, address: FROM.email }, to: to.map(x => (x.name ? { name: x.name, address: x.email } : x.email)), subject, html, ...(replyTo ? { replyTo } : {}) });
+      return true;
+    } catch (e) { console.error('[email] Brevo SMTP error', e); return false; }
+  }
   const r = await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST', headers: { 'api-key': key.trim(), 'content-type': 'application/json', accept: 'application/json' },
+    method: 'POST', headers: { 'api-key': key, 'content-type': 'application/json', accept: 'application/json' },
     body: JSON.stringify({ sender: FROM, to, subject, htmlContent: html, ...(replyTo ? { replyTo: { email: replyTo } } : {}) }),
   });
   if (!r.ok) console.error('[email] Brevo error', r.status, await r.text());

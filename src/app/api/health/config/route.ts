@@ -9,10 +9,16 @@ export async function GET(req: Request) {
   let brevo_check: string | undefined;
   if (new URL(req.url).searchParams.get('check') === 'brevo' && process.env.BREVO_API_KEY) {
     const k = process.env.BREVO_API_KEY.trim();
-    const r = await fetch('https://api.brevo.com/v3/account', { headers: { 'api-key': k, accept: 'application/json' }, cache: 'no-store' }).catch(() => null);
-    const j = r ? await r.json().catch(() => ({})) : {};
-    brevo_check = !r ? 'unreachable' : r.ok ? `ok (${(j as { email?: string }).email?.replace(/^(.{2}).*@/, '$1…@') ?? 'account'})` : `rejected ${r.status}: ${(j as { message?: string }).message ?? ''}`;
-    brevo_check += k.startsWith('xsmtpsib-') ? ' — this is an SMTP key, not an API key' : '';
+    if (k.startsWith('xsmtpsib-')) {
+      try {
+        const nodemailer = (await import('nodemailer')).default;
+        await nodemailer.createTransport({ host: 'smtp-relay.brevo.com', port: 587, secure: false, auth: { user: (process.env.BREVO_SMTP_LOGIN || 'b3e721001@smtp-brevo.com').trim(), pass: k } }).verify();
+        brevo_check = 'ok (SMTP key)';
+      } catch (e) { brevo_check = `SMTP login rejected: ${e instanceof Error ? e.message.slice(0, 120) : 'error'}`; }
+    } else {
+      const r = await fetch('https://api.brevo.com/v3/account', { headers: { 'api-key': k, accept: 'application/json' }, cache: 'no-store' }).catch(() => null);
+      brevo_check = !r ? 'unreachable' : r.ok ? 'ok (API key)' : `rejected ${r.status}`;
+    }
   }
   return NextResponse.json({
     supabase_service: has('SUPABASE_SERVICE_ROLE_KEY'),
