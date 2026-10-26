@@ -11,9 +11,9 @@ const DAY = 864e5;
 const RANGES: [number, string][] = [[7, '7 days'], [30, '30 days'], [90, '90 days']];
 const STATUS_COL: Record<string, string> = { placed: '#d6a23c', confirmed: '#5c9dc4', packed: '#7f7bc6', shipped: '#3e9b8a', delivered: '#2f7d4f', cancelled: '#c0473e', returned: '#8a8f8c' };
 const counted = (o: O) => o.status !== 'cancelled' && (o.payment_status === 'paid' || o.payment_method === 'cod');
-const color = (name: string) => ({ Lavender: '#7a5a9e', Rosemary: '#3f6b3a', Peppermint: '#3d8a68', 'Tea Tree': '#4f7a4a', Geranium: '#c2566e', Orange: '#e0802a', Lemongrass: '#9aa53a', Cedarwood: '#8a5d3b', Eucalyptus: '#5f8a7a', Bergamot: '#b3a23a', Jojoba: '#c8a24a' } as Record<string, string>)[Object.keys({ Lavender: 1, Rosemary: 1, Peppermint: 1, 'Tea Tree': 1, Geranium: 1, Orange: 1, Lemongrass: 1, Cedarwood: 1, Eucalyptus: 1, Bergamot: 1, Jojoba: 1 }).find(k => name.includes(k)) ?? ''] ?? '#3e7b4f';
+const color = (name: string) => ({ 'Sambar Powder': '#c0391b', 'Rasam Powder': '#1f6b66', 'Bisi Bele Bath Powder': '#a9701f', 'Chicken Masala': '#5a3a2a', 'Chicken Kabab Powder': '#b3261e', 'Garam Masala': '#6b3f22', 'Coriander Powder': '#6b7d33', 'Red Chilli Powder': '#c21b1b', 'Cumin Powder': '#8a5a34', 'Chaat Masala': '#3a2f2a', 'Turmeric Powder': '#e0a020', 'Donne Biryani Masala': '#6f7d3a' } as Record<string, string>)[name] ?? '#b5261a';
 
-function Spark({ data, stroke = '#2f7d4f' }: { data: number[]; stroke?: string }) {
+function Spark({ data, stroke = '#b5261a' }: { data: number[]; stroke?: string }) {
   const max = Math.max(...data, 1); const pts = data.map((v, i) => `${(i / Math.max(data.length - 1, 1)) * 100},${30 - (v / max) * 26}`).join(' ');
   return <svg viewBox="0 0 100 32" preserveAspectRatio="none" className="adm-spark" aria-hidden><polyline points={pts} fill="none" stroke={stroke} strokeWidth="2" vectorEffect="non-scaling-stroke" /><polygon points={`0,32 ${pts} 100,32`} fill={stroke} opacity=".08" /></svg>;
 }
@@ -60,9 +60,9 @@ export default function Dashboard() {
 
     <section className="adm-kpis">
       <Kpi label="Revenue" value={inr(m.r)} d={m.dR} spark={m.daily} />
-      <Kpi label="Orders" value={String(m.n)} d={m.dN} spark={m.dailyN} tone="#5c7fc4" />
-      <Kpi label="Average order value" value={inr(m.aov)} d={m.dA} spark={m.daily.map((v, i) => (m.dailyN[i] ? v / m.dailyN[i] : 0))} tone="#a8661a" />
-      <Kpi label="New leads" value={String(m.lc)} d={m.dL} spark={m.dailyL} tone="#7a5a9e" />
+      <Kpi label="Orders" value={String(m.n)} d={m.dN} spark={m.dailyN} tone="#d4791c" />
+      <Kpi label="Average order value" value={inr(m.aov)} d={m.dA} spark={m.daily.map((v, i) => (m.dailyN[i] ? v / m.dailyN[i] : 0))} tone="#8a5a10" />
+      <Kpi label="New leads" value={String(m.lc)} d={m.dL} spark={m.dailyL} tone="#8c2f4a" />
     </section>
 
     <div className="adm-row">

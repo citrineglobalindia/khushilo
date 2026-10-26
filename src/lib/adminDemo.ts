@@ -27,7 +27,7 @@ function build() {
     const age = Math.floor(Math.pow(r(), 1.25) * 90); const created = new Date(now - age * 864e5 - r() * 864e5);
     const status = age < 2 ? pick(['placed', 'confirmed']) : age < 5 ? pick(['confirmed', 'packed', 'shipped']) : pick(statuses);
     const method = r() < .62 ? 'cashfree' : 'cod'; const name = pick(names); const [city, state, pin] = pick(cities);
-    const lines = 1 + Math.floor(r() * 3); let sub = 0; const id = `o${i}`; const order_no = `EK${10200 + i}`;
+    const lines = 1 + Math.floor(r() * 3); let sub = 0; const id = `o${i}`; const order_no = `KH${10200 + i}`;
     for (let j = 0; j < lines; j++) { const v = pick(variants); const p = products.find(x => x.id === v.product_id)!; const qty = 1 + Math.floor(r() * 2); sub += v.price * qty;
       order_items.push({ id: order_items.length + 1, order_id: id, variant_id: v.id, product_name: p.name, variant_label: v.label, sku: v.sku, unit_price: v.price, qty }); }
     const disc = r() < .25 ? Math.round(sub * .1) : 0; const ship = (sub - disc >= 999 ? 0 : 79) + (method === 'cod' ? 49 : 0);
@@ -39,7 +39,7 @@ function build() {
       payment_ref: method === 'cashfree' ? `KH_demo${i}` : null, status, tracking_url: ['shipped', 'delivered'].includes(status) ? 'https://shiprocket.co/tracking/demo' : null,
       marketing_consent: r() < .5, first_touch: touch, last_touch: touch, notes: null, created_at: created.toISOString(), updated_at: created.toISOString() });
   }
-  orders.forEach((o, i) => { if (o.full_name === 'Ananya Rao') o.user_id = 'demo'; if (o.status !== 'placed' && o.status !== 'cancelled') { o.invoice_no = `EK/26-27/${String(i + 1).padStart(5, '0')}`; o.invoice_date = o.created_at; } });
+  orders.forEach((o, i) => { if (o.full_name === 'Ananya Rao') o.user_id = 'demo'; if (o.status !== 'placed' && o.status !== 'cancelled') { o.invoice_no = `KH/26-27/${String(i + 1).padStart(5, '0')}`; o.invoice_date = o.created_at; } });
   order_items.forEach(i => { i.hsn = '3301'; i.gst_rate = 18; });
   const leads: Row[] = Array.from({ length: 46 }, (_, i) => { const n = pick(names); const at = new Date(now - Math.floor(r() * 60) * 864e5).toISOString();
     return { id: `l${i}`, source: pick(['welcome_popup', 'welcome_popup', 'newsletter', 'back_in_stock', 'whatsapp']), name: r() < .4 ? n : null, email: `${n.split(' ')[0].toLowerCase()}${i}@example.com`, phone: r() < .4 ? `97${10000000 + i}` : null,

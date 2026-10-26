@@ -1126,3 +1126,32 @@ tr:last-child td { border-bottom: 0; }
 .auth-or::before, .auth-or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 .auth-foot { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); text-align: center; font-size: 14px; color: var(--muted); }
 .auth-foot .link { font-weight: 700; }
+
+/* ───────── Admin: Khushilo palette (maroon + gold, replaces leftover greens) ───────── */
+.adm { background: #f8f4ee; }
+.adm-side { background: linear-gradient(180deg, #7a1a10 0%, #4e0f09 60%, #330905 100%); color: #f3dfd4; }
+.adm-brand > span { background: rgba(240,195,110,.16); color: #f0c36e; }
+.adm-brand small { color: #e2bfae; }
+.adm-group p { color: #e6b77a; opacity: .85; }
+.adm-group a { color: #f6e7df; }
+.adm-group a:hover { background: rgba(255,255,255,.09); }
+.adm-group a[aria-current="page"] { background: #fff8ef; color: #9e1f14; box-shadow: 0 6px 16px rgba(0,0,0,.22); }
+.adm-group a[aria-current="page"] svg { color: #e53624; }
+.adm-group em, .adm-tabs em { background: #f0c36e; color: #4e0f09; }
+.adm-side-foot > a { color: #f0c36e; }
+.adm-me { background: rgba(255,255,255,.08); }
+.adm-me > span { background: #f0c36e; color: #4e0f09; }
+.adm-me small { color: #e2bfae; }
+.adm-search input:focus { border-color: var(--forest-2); box-shadow: 0 0 0 3px rgba(229,54,36,.12); }
+.adm-avatar { background: linear-gradient(135deg, #e53624, #9e1f14); }
+.adm-bar i { background: linear-gradient(180deg, #e53624, #b5261a); }
+.adm-bar:hover i { filter: brightness(1.12); }
+.adm-av { background: #fbe6dc; color: #9e1f14; }
+.adm-src em { background: linear-gradient(90deg, #e53624, #f0c36e); }
+.adm-toggle input:checked { background: var(--forest-2); }
+.adm-block { border-left-color: var(--forest-2); }
+.adm-kpi p.up { color: #2f7d4f; }
+.adm-kpi::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, #e53624, #f0c36e); opacity: .9; }
+.adm-card h3, .adm-hello h2 { color: #9e1f14; }
+.referral { background: linear-gradient(120deg, #fff1e3, #fcefd9) !important; }
+.referral code { border-color: var(--gold); }

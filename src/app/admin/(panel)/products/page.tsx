@@ -32,7 +32,7 @@ export default function Products() {
       <tbody>{list.map(r => { const stock = r.variants.reduce((s, v) => s + v.stock, 0); const min = Math.min(...r.variants.map(v => Number(v.price))); return (
         <tr key={r.id}>
           <td style={{ width: 52 }}>{r.images?.[0] ? <img src={r.images[0]} alt="" width={40} height={40} style={{ borderRadius: 8, objectFit: 'cover', display: 'block' }} /> : <div style={{ width: 28 }}><Bottle color={r.color} /></div>}</td>
-          <td><Link className="link" href={`/admin/products/${r.id}`}>{r.name}</Link>{r.is_bestseller && <span className="pill green" style={{ marginLeft: 6 }}>Best seller</span>}<br /><small className="muted">{r.variants.length} variant{r.variants.length === 1 ? '' : 's'}</small></td>
+          <td><Link className="link" href={`/admin/products/${r.id}`}>{r.name}</Link>{r.is_bestseller && <span className="pill amber" style={{ marginLeft: 6 }}>★ Best seller</span>}<br /><small className="muted">{r.variants.length} variant{r.variants.length === 1 ? '' : 's'}</small></td>
           <td className="hide-sm">{r.category?.name}</td>
           <td>{r.variants.length ? inr(min) : '—'}</td>
           <td><span className={`pill ${stock <= 0 ? 'red' : stock < 20 ? 'amber' : 'green'}`}>{stock}</span></td>
