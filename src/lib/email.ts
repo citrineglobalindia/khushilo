@@ -9,7 +9,7 @@ export async function sendEmail(to: { email: string; name?: string }[], subject:
   const key = process.env.BREVO_API_KEY;
   if (!key) { console.warn('[email] BREVO_API_KEY not set — skipped:', subject); return false; }
   const r = await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST', headers: { 'api-key': key, 'content-type': 'application/json', accept: 'application/json' },
+    method: 'POST', headers: { 'api-key': key.trim(), 'content-type': 'application/json', accept: 'application/json' },
     body: JSON.stringify({ sender: FROM, to, subject, htmlContent: html, ...(replyTo ? { replyTo: { email: replyTo } } : {}) }),
   });
   if (!r.ok) console.error('[email] Brevo error', r.status, await r.text());
