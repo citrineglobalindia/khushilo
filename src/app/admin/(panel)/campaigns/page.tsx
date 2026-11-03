@@ -11,7 +11,7 @@ type Camp = { id: string; name: string; channel: string; message: string; coupon
 const F0 = { who: 'customers', product: '', minSpend: '', inactiveDays: '', city: '', minOrders: '' };
 export default function Campaigns() {
   const [orders, setOrders] = useState<O[]>([]); const [leads, setLeads] = useState<L[]>([]); const [hist, setHist] = useState<Camp[]>([]);
-  const [f, setF] = useState(F0); const [c, setC] = useState({ name: '', channel: 'whatsapp', message: 'Hi {name}, our {product} is back in fresh stock. Use code {code} for 10% off this week: https://essencekraft-platform.vercel.app/shop', code: '' });
+  const [f, setF] = useState(F0); const [c, setC] = useState({ name: '', channel: 'whatsapp', message: 'Hi {name}, our {product} is back in fresh stock. Use code {code} for 10% off this week: https://www.khushilo.com/shop', code: '' });
   const [msg, setMsg] = useState<{ t: 'ok' | 'error'; m: string } | null>(null); const [sent, setSent] = useState<Set<string>>(new Set());
   const load = useCallback(() => {
     db().from('orders').select('email,phone,full_name,total,status,created_at,marketing_consent,address,order_items(product_name)').limit(5000).then(({ data }) => setOrders((data ?? []) as O[]));

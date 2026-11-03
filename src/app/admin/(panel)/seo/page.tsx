@@ -1,5 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
+import { GUIDES } from '@/lib/guides';
 import Link from 'next/link';
 import { db, downloadCSV } from '@/lib/admin';
 import { PageHead, Stats, Saved } from '@/components/AdminUI';
@@ -20,10 +21,10 @@ export default function Seo() {
   const issues = (p: P) => [!p.seo_title && 'no title', p.seo_title && p.seo_title.length > 60 && 'title > 60', !p.seo_description && 'no description', p.seo_description && p.seo_description.length > 160 && 'description > 160'].filter(Boolean) as string[];
   const bad = ps.filter(p => issues(p).length);
   return <>
-    <PageHead title="SEO & redirects" sub="Keep old essencekraft.in links working and every product page well described for Google.">
+    <PageHead title="SEO & redirects" sub="Keep old links working and every product page well described for Google.">
       <a className="btn btn-ghost btn-sm" href="/sitemap.xml" target="_blank">View sitemap</a>
     </PageHead>
-    <Stats items={[['Redirects', rd.length], ['Redirect hits', rd.reduce((s, r) => s + (r.hits ?? 0), 0)], ['Products with SEO issues', bad.length, bad.length ? 'amber' : ''], ['Encyclopedia pages', '1,239']]} />
+    <Stats items={[['Redirects', rd.length], ['Redirect hits', rd.reduce((s, r) => s + (r.hits ?? 0), 0)], ['Products with SEO issues', bad.length, bad.length ? 'amber' : ''], ['Spice Library guides', GUIDES.length]]} />
     <Saved msg={msg} />
     <section className="adm-card">
       <div className="adm-card-h"><div><h3>301 redirects</h3><p>Send old URLs to their new pages. Stored in the database; applied site-wide once Supabase is connected.</p></div>

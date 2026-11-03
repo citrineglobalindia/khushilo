@@ -111,12 +111,11 @@ export default function EditProduct({ params }: { params: { id: string } }) {
         <div className="form-grid two">{T('aroma', 'Taste')}{T('extraction', 'Ingredients (as printed on the pack)')}{T('origin', 'Country of origin')}{T('hsn', 'HSN code (invoice)')}{T('gst_rate', 'GST rate % (invoice)')}
           <div className="field"><label htmlFor="color">Spice colour</label><div style={{ display: 'flex', gap: 10, alignItems: 'center' }}><input id="color" type="color" value={p.color} onChange={set('color')} style={{ width: 48, height: 40, border: 0 }} /><div style={{ width: 26 }}><Bottle color={p.color} /></div></div></div></div>
         {T('uses', 'How to use (one per line)', true)}{T('suggested_blends', 'Pairs well with (comma separated)')}{T('safety', 'Storage instructions', true, 'Always shown on the product page.')}{T('purity', 'Quality note (optional)')}
-        <div className="field"><label htmlFor="claim">Claims review</label><select id="claim" className="select" value={p.claim_status} onChange={set('claim_status')}><option value="pending">Pending review</option><option value="approved">Approved for ads</option><option value="rejected">Rejected</option></select><small className="muted">Only approved copy should be used in paid campaigns (COMP-001).</small></div>
       </section>
       <section className="panel form-grid"><h2>Images</h2>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>{p.images.map(src => <div key={src} style={{ position: 'relative' }}><img src={src} alt="" style={{ width: 88, height: 88, objectFit: 'cover', borderRadius: 8 }} /><button className="btn btn-danger btn-sm" style={{ position: 'absolute', top: 2, right: 2, minHeight: 24, padding: '0 6px' }} aria-label="Remove image" onClick={() => setP(s => ({ ...s, images: s.images.filter(x => x !== src) }))}>×</button></div>)}</div>
         <input type="file" accept="image/webp,image/jpeg,image/png,image/avif" onChange={e => e.target.files?.[0] && upload(e.target.files[0])} />
-        <small className="muted">First image is the main product photo. Use WebP, at least 1200×1200. Without images the store shows the illustrated bottle.</small>
+        <small className="muted">First image is the main product photo. Use WebP, at least 1200×1200. Without images the store shows an illustrated spice box.</small>
       </section>
       <section className="panel form-grid"><h2>SEO</h2>{T('seo_title', 'Page title')}{T('seo_description', 'Meta description', true)}</section>
     </div>

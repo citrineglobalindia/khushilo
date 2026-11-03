@@ -28,7 +28,7 @@ function Pages() {
     </section>
   </>;
   return <>
-    <PageHead title="Site pages" sub="FAQ, contact, policies, shop-by-use pages and guides migrated word-for-word from essencekraft.in. Old URLs keep working." />
+    <PageHead title="Site pages" sub="FAQ, contact and policy pages. Edit the text here; changes go live straight away." />
     <div className="table-wrap"><table><thead><tr><th>Page</th><th>URL</th><th>Type</th><th>Status</th><th>Updated</th></tr></thead><tbody>
       {rows.map(r => <tr key={r.path} onClick={() => setEd(r)} style={{ cursor: 'pointer' }}><td><b>{r.h1}</b></td><td><code>{r.path}</code></td><td>{KIND[r.kind]}</td><td><span className={`pill ${r.status === 'published' ? 'green' : 'grey'}`}>{r.status}</span></td><td>{fmtDate(r.updated_at)}</td></tr>)}
       {!rows.length && <tr><td colSpan={5} className="muted">No pages.</td></tr>}</tbody></table></div>

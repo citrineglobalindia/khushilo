@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { hasSupabase, browserClient } from '@/lib/supabase';
 import { inr, WHATSAPP } from '@/lib/format';
 import { payOrder, verifyCashfree } from '@/lib/pay';
+import { SITE_URL } from '@/lib/format';
 import { track } from '@/lib/attribution';
 
 type Item = { product_name?: string; name?: string; variant_label?: string; label?: string; qty: number; unit_price?: number; price?: number };
@@ -81,7 +82,7 @@ export default function OrderPage({ params }: { params: { no: string } }) {
           <h2>Share Khushilo, earn points</h2>
           <p>Friends get a discount with your code, and you earn bonus points when their order is delivered.</p>
           <div className="referral-row"><code>{o.referral_code}</code>
-            <a className="btn btn-primary btn-sm" href={`https://wa.me/?text=${encodeURIComponent(`I cook with Khushilo masalas. Use my code ${o.referral_code} for a discount on your first order: https://essencekraft-platform.vercel.app/shop`)}`} target="_blank" rel="noopener" data-track="referral_share">Share on WhatsApp</a></div>
+            <a className="btn btn-primary btn-sm" href={`https://wa.me/?text=${encodeURIComponent(`I cook with Khushilo masalas. Use my code ${o.referral_code} for a discount on your first order: ${SITE_URL}/shop`)}`} target="_blank" rel="noopener" data-track="referral_share">Share on WhatsApp</a></div>
         </section>}
         <section className="panel"><h2>Delivering to</h2><p>{o.full_name}<br />{o.address.line1}{o.address.line2 ? `, ${o.address.line2}` : ''}<br />{o.address.city}, {o.address.state} {o.address.pincode}</p></section>
       </div>

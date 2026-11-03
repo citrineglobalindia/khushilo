@@ -13,7 +13,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: 'Khushilo — Pure Spices, Perfect Taste', template: '%s | Khushilo' },
   description: 'Khushilo masalas and spice powders from Bengaluru. Shop sambar powder, rasam powder, donne biryani masala, chicken masala, turmeric, chilli and more.',
-  openGraph: { siteName: 'Khushilo', type: 'website', locale: 'en_IN' },
+  openGraph: { siteName: 'Khushilo', type: 'website', locale: 'en_IN', images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Khushilo — pure spices, perfect taste' }] },
+  twitter: { card: 'summary_large_image', images: ['/og.jpg'] },
   icons: { icon: [{ url: '/favicon.png', sizes: '48x48' }, { url: BRAND.icon, sizes: '512x512' }], apple: '/brand/icon-192.png' },
 };
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', themeColor: '#e53624' };
